@@ -35,7 +35,7 @@ public class Mouse implements MouseListener, MouseWheelListener
         Point point = getMouseCoords();
         mouseX = point.x;
         mouseY = point.y;
-        mouseTile = new Tile(h, -1, -1);
+        mouseTile = new Tile(h, h.getBoard(), -1, -1);
         mouseTile.setValidity(false);
     }
 
@@ -153,6 +153,8 @@ public class Mouse implements MouseListener, MouseWheelListener
     public void leftPressed()
     {
         updateCoords();
+
+        h.getBoard().getTileAt(mouseX, mouseY).createUnit();
     }
 
     /**
@@ -205,7 +207,7 @@ public class Mouse implements MouseListener, MouseWheelListener
         int yDiff = mouseY - prevMouseY;
 
         //move the screen (if either above case triggered, yDiff is zero)
-        Tile anchorTile = h.getAnchorTile();
+        Tile anchorTile = h.getBoard().getAnchorTile();
         anchorTile.getHex().moveCenter(xDiff, yDiff);
 
         h.getBoard().reload();
@@ -222,13 +224,13 @@ public class Mouse implements MouseListener, MouseWheelListener
         updateAnchorTile();
 
         //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
-        if (e.getWheelRotation() > 0 && h.getSideLength() > 30)
+        if (e.getWheelRotation() > 0 && h.getBoard().getSideLength() > 30)
         {
-            h.setSideLength((int) (h.getSideLength() * (.9)));
+            h.getBoard().setSideLength((int) (h.getBoard().getSideLength() * (.9)));
         }
-        if (e.getWheelRotation() < 0 && h.getSideLength() < 130)
+        if (e.getWheelRotation() < 0 && h.getBoard().getSideLength() < 130)
         {
-            h.setSideLength((int) (h.getSideLength() / (.9)));
+            h.getBoard().setSideLength((int) (h.getBoard().getSideLength() / (.9)));
         }
 
         h.getBoard().reload();
@@ -243,7 +245,7 @@ public class Mouse implements MouseListener, MouseWheelListener
      */
     public void updateAnchorTile()
     {
-        Tile anchor = new Tile(h, -1, -1);
+        Tile anchor = new Tile(h, h.getBoard(), -1, -1);
         anchor.setValidity(false); //default to setting an invalid tile
 
         //try to set the anchortile to the tile the mouse is over
@@ -258,7 +260,7 @@ public class Mouse implements MouseListener, MouseWheelListener
             anchor = h.getBoard().getCenterTile();
         }
 
-        h.setAnchorTile(anchor); //if anchor is still invalid setAnchorTile() can handle that
+        h.getBoard().setAnchorTile(anchor); //if anchor is still invalid setAnchorTile() can handle that
     }
 
     /**

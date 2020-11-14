@@ -10,26 +10,38 @@ public class Board
     /**
      * the width of the board (number of tiles)
      */
-    private int width;
+    private int numTilesWide;
 
     /**
      * the height of the board (number of tiles)
      */
-    private int height;
+    private int numTilesHigh;
 
     /**
      * the 2d array representation of the hex grid
      */
     private Tile[][] tiles;
 
+    /**
+     * when zooming or moving the screen around this tile is the tile everything is generated around.
+     * This means when zooming this tile stays in place.
+     */
+    private Tile anchorTile;
+
+    private int sideLength;
+
     public Board(Handler handler, int width, int height)
     {
         h = handler;
 
-        this.width = width;
-        this.height = height;
+        this.numTilesWide = width;
+        this.numTilesHigh = height;
+        this.sideLength = 50;
 
         tiles = new Tile[width][height];
+
+        anchorTile = new Tile(h, this, -1, -1);
+        anchorTile.setValidity(false);
 
         generateTiles();
     }
@@ -41,9 +53,9 @@ public class Board
      */
     public void render(Graphics g)
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < numTilesWide; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < numTilesHigh; y++)
             {
                 tiles[x][y].render(g);
             }
@@ -57,25 +69,25 @@ public class Board
     public void generateTiles()
     {
         //generate the center tile, to be used as the first anchor tile
-        Tile center = new Tile(h, width / 2, height / 2);
+        Tile center = new Tile(h, this, numTilesWide / 2, numTilesHigh / 2);
         center.setXCoord(h.getScreenWidth() / 2);
         center.setYCoord(h.getScreenHeight() / 2);
 
-        tiles[width / 2][height / 2] = center;
+        tiles[numTilesWide / 2][numTilesHigh / 2] = center;
 
-        h.setAnchorTile(center);
+        setAnchorTile(center);
 
         //initialize all the tiles
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < numTilesWide; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < numTilesHigh; y++)
             {
-                tiles[x][y] = new Tile(h, x, y);
+                tiles[x][y] = new Tile(h, this, x, y);
                 tiles[x][y].updateHex();
             }
         }
 
-        h.setAnchorTile(tiles[width / 2][height / 2]);
+        this.setAnchorTile(tiles[numTilesWide / 2][numTilesHigh / 2]);
     }
 
     /**
@@ -86,9 +98,9 @@ public class Board
     public void reload()
     {
         //update all the tiles
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < numTilesWide; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < numTilesHigh; y++)
             {
                 tiles[x][y].updateHex();
             }
@@ -117,9 +129,9 @@ public class Board
      */
     public Tile getTileAt(int x, int y)
     {
-        for (int xIndex = 0; xIndex < width; xIndex++)
+        for (int xIndex = 0; xIndex < numTilesWide; xIndex++)
         {
-            for (int yIndex = 0; yIndex < height; yIndex++)
+            for (int yIndex = 0; yIndex < numTilesHigh; yIndex++)
             {
                 if (tiles[xIndex][yIndex].getHex().contains(x, y))
                 {
@@ -128,7 +140,7 @@ public class Board
             }
         }
 
-        Tile none = new Tile(h, -1, -1);
+        Tile none = new Tile(h, this, -1, -1);
         none.setValidity(false);
 
         return none;
@@ -144,13 +156,36 @@ public class Board
         return tiles[xIndex][yIndex];
     }
 
-    public int getWidth()
+    public int getNumTilesWide()
     {
-        return width;
+        return numTilesWide;
     }
 
-    public int getHeight()
+    public int getNumTilesHigh()
     {
-        return height;
+        return numTilesHigh;
+    }
+
+    public void setAnchorTile(Tile tile)
+    {
+        if (tile.isValid())
+        {
+            anchorTile = tile;
+        }
+    }
+
+    public Tile getAnchorTile()
+    {
+        return anchorTile;
+    }
+
+    public void setSideLength(int sideLength)
+    {
+        this.sideLength = sideLength;
+    }
+
+    public int getSideLength()
+    {
+        return sideLength;
     }
 }

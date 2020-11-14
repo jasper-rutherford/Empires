@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -7,12 +8,14 @@ import java.util.Random;
 public class Tile
 {
     private Handler h;
+    private Board board;
     private Hexagon hex;
     private int xIndex;
     private int yIndex;
     private Color color;
     private Color borderColor;
     private boolean isValid;
+    private ArrayList<Unit> units;
 
     /**
      * Constructor for the Tile class.
@@ -21,16 +24,19 @@ public class Tile
      * @param xIndex the x index of the Tile in the Board
      * @param yIndex the y index of the Tile in the Board
      */
-    public Tile(Handler h, int xIndex, int yIndex)
+    public Tile(Handler h, Board board, int xIndex, int yIndex)
     {
         this.h = h;
+        this.board = board;
         this.xIndex = xIndex;
         this.yIndex = yIndex;
-        color = Color.blue;
-        borderColor = Color.black;
+        color = new Color(17, 82, 24);
+        borderColor = new Color(1, 1, 1);
         isValid = true;
 
-        hex = new Hexagon(h, xIndex, yIndex);
+        hex = new Hexagon(h, board, xIndex, yIndex);
+
+        units = new ArrayList<>();
     }
 
     /**
@@ -45,6 +51,11 @@ public class Tile
 
         g.setColor(borderColor);
         g.drawPolygon(hex);
+
+        for (Unit unit : units)
+        {
+            unit.render(g);
+        }
     }
 
     /**
@@ -130,7 +141,7 @@ public class Tile
 
     public void setColorToDefault()
     {
-        if (yIndex == 0 || yIndex == h.getBoard().getHeight() - 1)
+        if (yIndex == 0 || yIndex == h.getBoard().getNumTilesHigh() - 1)
         {
             color = Color.red;
         }
@@ -138,5 +149,10 @@ public class Tile
         {
             color = Color.blue;
         }
+    }
+
+    public void createUnit()
+    {
+        units.add(new Unit(h, this));
     }
 }
