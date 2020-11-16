@@ -218,10 +218,10 @@ public class Board
     {
         if (selectedTile != null && selectedTile.getSelectedUnit() != null && aTile != null)
         {
-            aTile.addUnit(selectedTile.getSelectedUnit());
+            Unit selectedUnit = selectedTile.getSelectedUnit();
             selectedTile.removeUnit(selectedTile.getSelectedUnit());
 
-            select(aTile);
+            aTile.addUnit(selectedUnit);
         }
     }
 

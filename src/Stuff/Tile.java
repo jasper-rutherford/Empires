@@ -63,9 +63,9 @@ public class Tile
         g.setColor(borderColor);
         g.drawPolygon(hex);
 
-        for (Unit unit : units)
+        for (int lcv = units.size() - 1; lcv >= 0; lcv--)
         {
-            unit.render(g);
+            units.get(lcv).render(g);
         }
 
         if (selectedUnit != null)
@@ -161,11 +161,11 @@ public class Tile
 
         if (units.size() > 0)
         {
-            selectedUnitIndex--;
+            selectedUnitIndex++;
 
-            while (selectedUnitIndex < 0)
+            while (selectedUnitIndex >= units.size())
             {
-                selectedUnitIndex += units.size();
+                selectedUnitIndex -= units.size();
             }
 
             selectedUnit = units.get(selectedUnitIndex);
@@ -187,8 +187,13 @@ public class Tile
 
     public void addUnit(Unit aUnit)
     {
+        board.select(this);
+
         units.add(aUnit);
         aUnit.setLocTile(this);
+
+        selectedUnitIndex = units.size() - 1;
+        selectedUnit = aUnit;
     }
 
     public void removeUnit(Unit aUnit)
