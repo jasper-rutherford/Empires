@@ -25,7 +25,7 @@ public class RightMouse
 
     public void clicked()
     {
-        h.getBoard().moveSelected();
+        h.getBoard().path();
     }
 
     public void held()

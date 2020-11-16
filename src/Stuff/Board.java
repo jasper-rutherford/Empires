@@ -3,6 +3,7 @@ package Stuff;
 import Framework.Handler;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * class used to represent a game board
@@ -208,16 +209,132 @@ public class Board
         }
     }
 
-    public void moveSelected()
+    /**
+     * moves the selected unit to the given tile
+     *
+     * @param aTile
+     */
+    public void moveSelected(Tile aTile)
     {
-        Tile aTile = getTileAt(h.getMouse().getCoords());
-
         if (selectedTile != null && selectedTile.getSelectedUnit() != null && aTile != null)
         {
             aTile.addUnit(selectedTile.getSelectedUnit());
             selectedTile.removeUnit(selectedTile.getSelectedUnit());
 
             select(aTile);
+        }
+    }
+
+    /**
+     * attempts to find a path to the tile the mouse is above
+     * <p>
+     * im not explaining this
+     * https://en.wikipedia.org/wiki/Pathfinding
+     * scroll down to 'sample algorithm'
+     */
+    public void path()
+    {
+        boolean foundPath = false;
+        boolean donePathing = selectedTile.getSelectedUnit() == null;
+
+        //the tile to path to
+        Tile goal = getTileAt(h.getMouse().getCoords());
+
+        ArrayList<Tile> bank = new ArrayList<>();
+        ArrayList<Tile> now = new ArrayList<>();
+        ArrayList<Tile> next = new ArrayList<>();
+        ArrayList<Integer> dists = new ArrayList<>();
+
+        now.add(goal);
+        dists.add(0);
+
+
+        while (!donePathing)
+        {
+            //gives each tile a value that is essentially the distance to the goal
+            for (Tile tile : now)
+            {
+                for (int lcv = 0; lcv < 6; lcv++)
+                {
+                    Tile adjTile = tile.adjTile(lcv);
+
+                    if (adjTile != null && !bank.contains(adjTile) && !now.contains(adjTile) && !next.contains(adjTile) && selectedTile.getSelectedUnit().canStep(adjTile))
+                    {
+                        next.add(adjTile);
+
+                        if (adjTile.equals(selectedTile))
+                        {
+                            foundPath = true;
+                            donePathing = true;
+                        }
+                    }
+                }
+            }
+
+            if (next.size() == 0)
+            {
+                bank.addAll(now);
+                now.clear();
+
+                donePathing = true;
+            }
+            else
+            {
+                int count = dists.get(dists.size() - 1) + 1;
+                for (Tile tile:next)
+                {
+                    dists.add(count);
+                }
+
+                bank.addAll(now);
+                now.clear();
+                now.addAll(next);
+                next.clear();
+            }
+        }
+
+        if (foundPath)
+        {
+            //choose a tile adjacent to the selected tile with the lowest distance (choose randomly between ties)
+
+            //find the lowest distance
+            int lowDist = -1;
+            for (int lcv = 0; lcv < 6; lcv++)
+            {
+                Tile adjTile = selectedTile.adjTile(lcv);
+
+                if (bank.contains(adjTile))
+                {
+                    int adjDist = dists.get(bank.indexOf(adjTile));
+
+                    if (lowDist == -1)
+                    {
+                        lowDist = adjDist;
+                    }
+                    else if (adjDist < lowDist)
+                    {
+                        lowDist = adjDist;
+                    }
+                }
+            }
+
+            //find all the tiles with that distance
+            ArrayList<Tile> ties = new ArrayList<>();
+
+            for (int lcv = 0; lcv < 6; lcv++)
+            {
+                Tile adjTile = selectedTile.adjTile(lcv);
+
+                if (bank.contains(adjTile) && dists.get(bank.indexOf(adjTile)) == lowDist)
+                {
+                    ties.add(adjTile);
+                }
+            }
+
+            //randomly select one of those tiles and move the unit to it
+            int randomIndex = (int) (Math.random() * ties.size());
+
+            moveSelected(ties.get(randomIndex));
         }
     }
 }

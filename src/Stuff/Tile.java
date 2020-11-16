@@ -163,7 +163,7 @@ public class Tile
         {
             selectedUnitIndex--;
 
-            if (selectedUnitIndex == -1)
+            while (selectedUnitIndex < 0)
             {
                 selectedUnitIndex += units.size();
             }
@@ -194,5 +194,43 @@ public class Tile
     public void removeUnit(Unit aUnit)
     {
         units.remove(aUnit);
+    }
+
+    /**
+     * gets the tile adjacent to this one, in the direction of dir
+     *
+     * @param dir the direction to grab an adjacent tile. starts with zero bottom left and goes clockwise to 5.
+     * @return
+     */
+    public Tile adjTile(int dir)
+    {
+        dir %= 6;
+
+        //half of the sidelength, used for calculating the y points
+        double l = board.getSideLength() / 2.0;
+
+        //distance from the center of a tile to the side, used for calculating x points
+        int d = (int) (Math.sqrt(3) * l);
+
+        int xCoord = getXCoord();
+        int yCoord = getYCoord();
+
+        xCoord -= (int) Math.pow(-1, dir / 3) * (((dir + 1) % 3) / 2 + 1) * d;
+        yCoord += ((int) Math.pow(-1, (((dir + 1) % 6) / 3))) * (((((dir + 1) % 3) / 2) - 1) * -1) * 3 * l;
+
+
+        //loop the screen
+        int boardWidth = board.getNumTilesWide() * d * 2;
+
+        if (xCoord < -(2 * d))
+        {
+            xCoord += boardWidth;
+        }
+        else if (xCoord > h.getScreenWidth() + (2 * d))
+        {
+            xCoord -= boardWidth;
+        }
+
+        return board.getTileAt(xCoord, yCoord);
     }
 }

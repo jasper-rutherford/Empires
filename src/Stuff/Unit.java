@@ -32,4 +32,9 @@ public class Unit
     {
         this.locTile = locTile;
     }
+
+    public  boolean canStep(Tile aTile)
+    {
+        return true;
+    }
 }

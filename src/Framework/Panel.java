@@ -26,7 +26,7 @@ public class Panel extends JPanel
         //draw the map
         h.getBoard().render(g);
 
-        drawCrosshair(g);
+//        drawCrosshair(g);
     }
 
     public Handler getHandler()
