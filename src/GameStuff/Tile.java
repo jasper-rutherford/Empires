@@ -153,11 +153,14 @@ public class Tile
         color = defaultColor;
     }
 
-    public void createUnit(int val)
+    public void createUnit(int val, int playerNumber)
     {
-        addUnit(new Unit(h, this, val));
+        addUnit(new Unit(h, this, val, playerNumber));
     }
 
+    /**
+     * selects the tile, selects the next unit in line
+     */
     public void select()
     {
         borderColor = new Color(255, 255, 255);
@@ -172,6 +175,20 @@ public class Tile
             }
 
             selectedUnit = units.get(selectedUnitIndex);
+        }
+    }
+
+    /**
+     * selects the tile, selects the specific unit (if possible)
+     */
+    public void select(Unit aUnit)
+    {
+        if (units.contains(aUnit))
+        {
+            borderColor = new Color(255, 255, 255);
+
+            selectedUnit = aUnit;
+            selectedUnitIndex = units.indexOf(aUnit);
         }
     }
 
@@ -190,7 +207,7 @@ public class Tile
 
     public void addUnit(Unit aUnit)
     {
-        board.select(this);
+//        h.getGame().getBoardManager().selectTile(this);
 
         units.add(aUnit);
         aUnit.setLocTile(this);
@@ -245,5 +262,15 @@ public class Tile
     public int getMoveCost()
     {
         return moveCost;
+    }
+
+    public boolean hasUnits()
+    {
+        return  units.size() > 0;
+    }
+
+    public Unit firstUnit()
+    {
+        return units.get(0);
     }
 }

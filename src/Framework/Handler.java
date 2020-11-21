@@ -2,6 +2,7 @@ package Framework;
 
 import Framework.MouseStuff.Mouse;
 import GameStuff.Board;
+import GameStuff.BoardManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,7 @@ public class Handler
         screenHeight = screenSize.height;
 
         buttonManager = new ButtonManager(this);
-        game = new Game(this);
+        game = new Game(this, 3);
 
         restart = false;
 
@@ -87,11 +88,6 @@ public class Handler
     {
         return screenHeight;
     }
-
-//    public Board getBoard()
-//    {
-//        return board;
-//    }
 
     public void repaint()
     {

@@ -25,7 +25,7 @@ public class RightMouse
 
     public void clicked()
     {
-        h.getGame().getBoard().path();
+        h.getGame().getBoardManager().pathToMouse();
     }
 
     public void held()

@@ -10,14 +10,19 @@ public class Unit
     private Tile locTile;
     private int id;
 
+    private int playerNumber;
+
     private int maxMoveEnergy;
     private int moveEnergy;
 
-    public Unit(Handler h, Tile locTile, int id)
+
+
+    public Unit(Handler h, Tile locTile, int id, int playerNumber)
     {
         this.h = h;
         this.locTile = locTile;
         this.id = id;
+        this.playerNumber = playerNumber;
 
         maxMoveEnergy = 2;
         moveEnergy = maxMoveEnergy;
@@ -30,11 +35,8 @@ public class Unit
         g.setColor(new Color(184, 44, 44));
         g.fillOval(locTile.getXCoord() - radius, locTile.getYCoord() - radius, 2 * radius, 2 * radius);
 
-        g.setColor(new Color(1, 1, 1));
-        g.drawString("" + id, locTile.getXCoord(), locTile.getYCoord() + radius / 2);
-
-
-        g.drawString("" + moveEnergy, locTile.getXCoord(), locTile.getYCoord() - radius / 2);
+        g.setColor(Color.BLACK);
+        g.drawString("" + playerNumber, locTile.getXCoord(), locTile.getYCoord());
     }
 
     public void setLocTile(Tile locTile)

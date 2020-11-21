@@ -1,30 +1,70 @@
 package Framework;
 
 import GameStuff.Board;
+import GameStuff.BoardManager;
+import GameStuff.Player;
 import GameStuff.Unit;
 
 import java.awt.*;
 
+/**
+ * Class that manages the actual game elements
+ */
 public class Game
 {
     private Handler h;
 
     private Board board;
+    private BoardManager boardManager;
 
-    public Game(Handler h)
+    private Player[] players;
+    private Player currentPlayer;
+    private int currentPlayerIndex;
+
+    private int turnCount;
+
+
+    public Game(Handler h, int numPlayers)
     {
         this.h = h;
+
         board = new Board(h, 75, 50);
+        boardManager = new BoardManager(h, board);
+
+        initializePlayers(numPlayers);
+
+        turnCount = 0;
+    }
+
+    private void initializePlayers(int numPlayers)
+    {
+        players = new Player[numPlayers];
+
+        for (int lcv = 0; lcv < players.length; lcv++)
+        {
+            players[lcv] = new Player(h);
+        }
+
+        currentPlayer = players[0];
+
+        currentPlayerIndex = 0;
     }
 
     public void render(Graphics g)
     {
         board.render(g);
 
-        if (board.getSelectedTile() != null && board.getSelectedTile().getSelectedUnit() != null)
+        if (currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedUnit() != null)
         {
             renderSelectedUnitInfo(g);
         }
+
+        int screenWidth = h.getScreenWidth();
+        g.setColor(Color.BLACK);
+        g.drawString("Player: " + (currentPlayerIndex + 1), screenWidth / 2, 300);
+
+        g.setColor(Color.gray);
+        g.drawString(turnCount + "", 50, 50);
     }
 
     public Board getBoard()
@@ -37,7 +77,7 @@ public class Game
         int screenWidth = h.getScreenWidth();
         int screenHeight = h.getScreenHeight();
 
-        Unit selectedUnit = board.getSelectedTile().getSelectedUnit();
+        Unit selectedUnit = currentPlayer.getSelectedUnit();
 
         g.setColor(new Color(91, 238, 74));
         g.fillRect(10, screenHeight - 110, 200, 100);
@@ -47,5 +87,40 @@ public class Game
 
         g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
         g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
+    public void nextPlayer()
+    {
+        if (currentPlayer.getSelectedTile() != null)
+        {
+            currentPlayer.getSelectedTile().deselect();
+        }
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        currentPlayer = players[currentPlayerIndex];
+        if (currentPlayerIndex == 0)
+        {
+            turnCount++;
+        }
+
+        if (currentPlayer.getSelectedTile() != null)
+        {
+            currentPlayer.getSelectedTile().select(currentPlayer.getSelectedUnit());
+        }
+    }
+
+    public BoardManager getBoardManager()
+    {
+        return boardManager;
+    }
+
+    public int getCurrentPlayerIndex()
+    {
+        return currentPlayerIndex;
     }
 }

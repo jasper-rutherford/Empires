@@ -27,9 +27,11 @@ public class LeftMouse
 
     public void clicked()
     {
+        //try to click any buttons on that location
         if (!h.getButtonManager().activateButtons(mouse.getCoords()))
         {
-            h.getGame().getBoard().select(h.getGame().getBoard().getTileAt(mouse.getCoords()));
+            //if there were no buttons to press, select the unit on the board at that location
+            h.getGame().getBoardManager().selectMouseTile();
         }
     }
 

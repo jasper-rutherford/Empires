@@ -19,14 +19,14 @@ public class EndTurnButton extends Button
 
     public void activate()
     {
-        restUnits();
+        h.getGame().getCurrentPlayer().restUnits();
 
-        h.getGame().getBoard().increaseTurnCount();
+        h.getGame().nextPlayer();
     }
 
     private void restUnits()
     {
-        ArrayList<Unit> tiredUnits = h.getGame().getBoard().getTiredUnits();
+        ArrayList<Unit> tiredUnits = h.getGame().getCurrentPlayer().getTiredUnits();
 
         for (Unit unit : tiredUnits)
         {
