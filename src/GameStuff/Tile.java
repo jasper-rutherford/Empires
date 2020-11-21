@@ -1,4 +1,4 @@
-package Stuff;
+package GameStuff;
 
 import Framework.Handler;
 

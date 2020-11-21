@@ -1,7 +1,7 @@
 package Buttons;
 
 import Framework.Handler;
-import Stuff.Unit;
+import GameStuff.Unit;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,12 +21,12 @@ public class EndTurnButton extends Button
     {
         restUnits();
 
-        h.getBoard().increaseTurnCount();
+        h.getGame().getBoard().increaseTurnCount();
     }
 
     private void restUnits()
     {
-        ArrayList<Unit> tiredUnits = h.getBoard().getTiredUnits();
+        ArrayList<Unit> tiredUnits = h.getGame().getBoard().getTiredUnits();
 
         for (Unit unit : tiredUnits)
         {

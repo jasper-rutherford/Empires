@@ -1,12 +1,9 @@
-package Stuff;
+package GameStuff;
 
 import Framework.Handler;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * class used to represent a game board
@@ -372,5 +369,10 @@ public class Board
     public void increaseTurnCount()
     {
         turnCount++;
+    }
+
+    public Tile getSelectedTile()
+    {
+        return selectedTile;
     }
 }

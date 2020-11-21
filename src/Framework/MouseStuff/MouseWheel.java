@@ -2,7 +2,8 @@ package Framework.MouseStuff;
 
 import java.awt.event.MouseWheelEvent;
 import Framework.*;
-import Stuff.Tile;
+import GameStuff.Board;
+import GameStuff.Tile;
 
 public class MouseWheel
 {
@@ -30,17 +31,19 @@ public class MouseWheel
     {
         updateAnchorTile();
 
+        Board board = h.getGame().getBoard();
+
         //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
-        if (e.getWheelRotation() > 0 && h.getBoard().getSideLength() > 30)
+        if (e.getWheelRotation() > 0 && board.getSideLength() > 30)
         {
-            h.getBoard().setSideLength((int) (h.getBoard().getSideLength() * (.9)));
+            board.setSideLength((int) (board.getSideLength() * (.9)));
         }
-        if (e.getWheelRotation() < 0 && h.getBoard().getSideLength() < 130)
+        if (e.getWheelRotation() < 0 && board.getSideLength() < 130)
         {
-            h.getBoard().setSideLength((int) (h.getBoard().getSideLength() / (.9)));
+            board.setSideLength((int) (board.getSideLength() / (.9)));
         }
 
-        h.getBoard().reload();
+        board.reload();
     }
 
     /**
@@ -52,12 +55,13 @@ public class MouseWheel
      */
     public void updateAnchorTile()
     {
-        Tile anchor = h.getBoard().getCenterTile();
+        Board board = h.getGame().getBoard();
+        Tile anchor = board.getCenterTile();
 
         //try to set the anchortile to the tile the mouse is over
         if (mouse.leftHeld())
         {
-            Tile potentialAnchor = h.getBoard().getTileAt(mouse.getCoords());
+            Tile potentialAnchor = board.getTileAt(mouse.getCoords());
 
             if (potentialAnchor != null)
             {
@@ -65,6 +69,6 @@ public class MouseWheel
             }
         }
 
-        h.getBoard().setAnchorTile(anchor);
+        board.setAnchorTile(anchor);
     }
 }

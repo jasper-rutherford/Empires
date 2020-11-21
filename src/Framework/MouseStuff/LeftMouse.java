@@ -1,9 +1,7 @@
 package Framework.MouseStuff;
 
 import Framework.Handler;
-import Stuff.Tile;
-
-import java.awt.*;
+import GameStuff.Tile;
 
 public class LeftMouse
 {
@@ -31,7 +29,7 @@ public class LeftMouse
     {
         if (!h.getButtonManager().activateButtons(mouse.getCoords()))
         {
-            h.getBoard().select(h.getBoard().getTileAt(mouse.getCoords()));
+            h.getGame().getBoard().select(h.getGame().getBoard().getTileAt(mouse.getCoords()));
         }
     }
 
@@ -50,9 +48,9 @@ public class LeftMouse
         int yDiff = mouse.getCoords().y - mouse.getPrevCoords().y;
 
         //move the screen (if either above case triggered, yDiff is zero)
-        Tile anchorTile = h.getBoard().getAnchorTile();
+        Tile anchorTile = h.getGame().getBoard().getAnchorTile();
         anchorTile.getHex().moveCenter(xDiff, yDiff);
 
-        h.getBoard().reload();
+        h.getGame().getBoard().reload();
     }
 }

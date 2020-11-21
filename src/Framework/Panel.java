@@ -24,8 +24,8 @@ public class Panel extends JPanel
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, h.getScreenWidth(), h.getScreenHeight());
 
-        //draw the map
-        h.getBoard().render(g);
+
+        h.getGame().render(g);
 
         h.getButtonManager().render(g);
 //        drawCrosshair(g);

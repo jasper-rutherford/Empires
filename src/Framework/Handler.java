@@ -1,8 +1,7 @@
 package Framework;
 
-import Buttons.Button;
 import Framework.MouseStuff.Mouse;
-import Stuff.Board;
+import GameStuff.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,13 +20,14 @@ public class Handler
     private Panel screen;
     private Frame frame;
     private ButtonManager buttonManager;
+    private Game game;
 
     private boolean restart;
 
     private int screenWidth;
     private int screenHeight;
 
-    private Board board;
+//    private Board board;
 
     /**
      * Constructor for the Framework.Handler class
@@ -59,10 +59,10 @@ public class Handler
         screenHeight = screenSize.height;
 
         buttonManager = new ButtonManager(this);
+        game = new Game(this);
 
         restart = false;
 
-        board = new Board(this, 75, 50);
 
         frame.setVisible(true); //setvisible calls paintcomponent() in panel, make sure this is always last to prevent bugs
     }
@@ -88,10 +88,10 @@ public class Handler
         return screenHeight;
     }
 
-    public Board getBoard()
-    {
-        return board;
-    }
+//    public Board getBoard()
+//    {
+//        return board;
+//    }
 
     public void repaint()
     {
@@ -106,5 +106,10 @@ public class Handler
     public ButtonManager getButtonManager()
     {
         return buttonManager;
+    }
+
+    public Game getGame()
+    {
+        return game;
     }
 }

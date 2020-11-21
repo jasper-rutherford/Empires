@@ -28,6 +28,6 @@ public class ActionSpawn extends AbstractAction
         numSpawns++;
 
         Mouse mouse = h.getMouse();
-        h.getBoard().getTileAt(mouse.getCoords()).createUnit(numSpawns);
+        h.getGame().getBoard().getTileAt(mouse.getCoords()).createUnit(numSpawns);
     }
 }
