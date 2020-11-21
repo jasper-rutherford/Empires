@@ -1,22 +1,22 @@
-package Stuff;
+package Framework;
 
 import Framework.Handler;
 
 /**
- * Stuff.Game is the biggest of boys, the bestest of the bestest, the biggest and baddest, the ultra magnus, the alpha and
+ * Framework.Game is the biggest of boys, the bestest of the bestest, the biggest and baddest, the ultra magnus, the alpha and
  * the omega - its the class that does EVERYTHING
  */
-public class Game
+public class Empires
 {
     private Handler handler;
 
-    public Game()
+    public Empires()
     {
         reset();
     }
 
     /**
-     * resets the Stuff.Game to its default constructor
+     * resets the Framework.Game to its default constructor
      */
     private void reset()
     {

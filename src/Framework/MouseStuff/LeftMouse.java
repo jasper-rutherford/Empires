@@ -29,7 +29,10 @@ public class LeftMouse
 
     public void clicked()
     {
-        h.getBoard().select(h.getBoard().getTileAt(mouse.getCoords()));
+        if (!h.getButtonManager().activateButtons(mouse.getCoords()))
+        {
+            h.getBoard().select(h.getBoard().getTileAt(mouse.getCoords()));
+        }
     }
 
     public void held()

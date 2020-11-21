@@ -1,5 +1,6 @@
 package Framework;
 
+import Buttons.Button;
 import Framework.MouseStuff.Mouse;
 import Stuff.Board;
 
@@ -19,6 +20,7 @@ public class Handler
     private Mouse mouse;
     private Panel screen;
     private Frame frame;
+    private ButtonManager buttonManager;
 
     private boolean restart;
 
@@ -55,6 +57,8 @@ public class Handler
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
+
+        buttonManager = new ButtonManager(this);
 
         restart = false;
 
@@ -96,6 +100,11 @@ public class Handler
 
     public Mouse getMouse()
     {
-        return  mouse;
+        return mouse;
+    }
+
+    public ButtonManager getButtonManager()
+    {
+        return buttonManager;
     }
 }

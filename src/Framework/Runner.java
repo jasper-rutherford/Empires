@@ -1,13 +1,11 @@
 package Framework;
 
-import Stuff.Game;
-
 public class Runner
 {
     public static void main(String[] args)
     {
-        Game game = new Game();
+        Empires empires = new Empires();
 
-        game.run();
+        empires.run();
     }
 }

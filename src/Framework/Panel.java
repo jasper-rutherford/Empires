@@ -19,6 +19,7 @@ public class Panel extends JPanel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+
         //fill a black background
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, h.getScreenWidth(), h.getScreenHeight());
@@ -26,6 +27,7 @@ public class Panel extends JPanel
         //draw the map
         h.getBoard().render(g);
 
+        h.getButtonManager().render(g);
 //        drawCrosshair(g);
     }
 

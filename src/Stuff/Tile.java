@@ -22,11 +22,12 @@ public class Tile
     private ArrayList<Unit> units;
     private int selectedUnitIndex;
     private Unit selectedUnit;
+    private int moveCost;
 
     /**
      * Constructor for the Stuff.Tile class.
      *
-     * @param h      the Stuff.Game's Framework.Handler instance
+     * @param h      the Framework.Game's Framework.Handler instance
      * @param xIndex the x index of the Stuff.Tile in the Stuff.Board
      * @param yIndex the y index of the Stuff.Tile in the Stuff.Board
      */
@@ -48,6 +49,8 @@ public class Tile
 
         selectedUnitIndex = 0;
         selectedUnit = null;
+
+        moveCost = 1;
     }
 
     /**
@@ -237,5 +240,10 @@ public class Tile
         }
 
         return board.getTileAt(xCoord, yCoord);
+    }
+
+    public int getMoveCost()
+    {
+        return moveCost;
     }
 }

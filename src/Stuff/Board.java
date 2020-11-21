@@ -4,6 +4,9 @@ import Framework.Handler;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * class used to represent a game board
@@ -37,6 +40,10 @@ public class Board
 
     private Tile selectedTile;
 
+    private ArrayList<Unit> tiredUnits;
+
+    private int turnCount;
+
     public Board(Handler handler, int width, int height)
     {
         h = handler;
@@ -48,6 +55,10 @@ public class Board
         tiles = new Tile[width][height];
 
         generateTiles();
+
+        tiredUnits = new ArrayList<>();
+
+        turnCount = 0;
     }
 
     /**
@@ -69,6 +80,9 @@ public class Board
         {
             selectedTile.render(g);
         }
+
+        g.setColor(Color.gray);
+        g.drawString(turnCount + "", 50, 50);
     }
 
     /**
@@ -219,9 +233,20 @@ public class Board
         if (selectedTile != null && selectedTile.getSelectedUnit() != null && aTile != null)
         {
             Unit selectedUnit = selectedTile.getSelectedUnit();
-            selectedTile.removeUnit(selectedTile.getSelectedUnit());
 
-            aTile.addUnit(selectedUnit);
+            if (selectedUnit.hasEnergy())
+            {
+                selectedTile.removeUnit(selectedTile.getSelectedUnit());
+
+                aTile.addUnit(selectedUnit);
+
+                selectedUnit.takeEnergy(aTile.getMoveCost());
+
+                if (!tiredUnits.contains(selectedUnit))
+                {
+                    tiredUnits.add(selectedUnit);
+                }
+            }
         }
     }
 
@@ -281,7 +306,7 @@ public class Board
             else
             {
                 int count = dists.get(dists.size() - 1) + 1;
-                for (Tile tile:next)
+                for (Tile tile : next)
                 {
                     dists.add(count);
                 }
@@ -331,10 +356,21 @@ public class Board
                 }
             }
 
-            //randomly select one of those tiles and move the unit to it
+            //randomly select one of those tiles
             int randomIndex = (int) (Math.random() * ties.size());
 
+            //try to move the unit there
             moveSelected(ties.get(randomIndex));
         }
+    }
+
+    public ArrayList<Unit> getTiredUnits()
+    {
+        return tiredUnits;
+    }
+
+    public void increaseTurnCount()
+    {
+        turnCount++;
     }
 }
