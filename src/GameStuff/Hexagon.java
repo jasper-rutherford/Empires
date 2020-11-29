@@ -9,16 +9,19 @@ import java.awt.*;
  */
 public class Hexagon extends Polygon
 {
-    /**
-     * an int array that holds the pattern of addition needed to generate a hexagon's x points
-     */
-    private final int[] xPattern = new int[]{0, 1, 1, 0, -1, -1};
+    private Handler h;
 
+    private Board board;
 
     /**
-     * an int array that holds the pattern of addition needed to generate a hexagon's y points
+     * the tile's x index in the map array
      */
-    private final int[] yPattern = new int[]{-2, -1, 1, 2, 1, -1};
+    private int xIndex;
+
+    /**
+     * the tile's y index in the map array
+     */
+    private int yIndex;
 
     /**
      * the x coordinate of the center of the hexagon
@@ -31,110 +34,112 @@ public class Hexagon extends Polygon
     private int yCoord;
 
     /**
-     * the length of each side of the hexagon
+     * an int array that holds the pattern of addition needed to generate a hexagon's x points
      */
-    private int sideLength;
+    private final int[] xPattern = new int[]{0, 1, 1, 0, -1, -1};
+
 
     /**
-     * constructor for the Hexagon
-     *
-     * @param xCoord     the x coordinate of the center of the hexagon
-     * @param yCoord     the y coordinate of the center of the hexagon
-     * @param sideLength the length of each side of the hexagon
+     * an int array that holds the pattern of addition needed to generate a hexagon's y points
      */
-    public Hexagon(int xCoord, int yCoord, int sideLength)//Board board, int xIndex, int yIndex)
+    private final int[] yPattern = new int[]{-2, -1, 1, 2, 1, -1};
+
+
+    /**
+     * Constructor for the Stuff.Hexagon class
+     *
+     * @param h      the game's Framework.Handler instance
+     * @param xIndex the x index of the Stuff.Hexagon's Stuff.Tile in the Map
+     * @param yIndex the y index of the Stuff.Hexagon's Stuff.Tile in the Map
+     */
+    public Hexagon(Handler h, Board board, int xIndex, int yIndex)
     {
-//        this.board = board;
-//        this.xIndex = xIndex;
-//        this.yIndex = yIndex;
+        this.h = h;
+        this.board = board;
+        this.xIndex = xIndex;
+        this.yIndex = yIndex;
 
         //this stuff exists from extending polygon
         npoints = 6;
         xpoints = new int[npoints];
         ypoints = new int[npoints];
+    }
 
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
-        this.sideLength = sideLength;
-
+    /**
+     * generates the hexagon's center coordinates and creates a hexagon around them
+     * sets bounds to null so that Polygon will recalculate them
+     */
+    public void generateHexagon()
+    {
+        bounds = null;
+        updateCenterCoords();
         updatePoints();
     }
 
-//    /**
-//     * generates the hexagon's center coordinates and creates a hexagon around them
-//     * sets bounds to null so that Polygon will recalculate them
-//     */
-//    public void generateHexagon()
-//    {
-//        bounds = null;
-//        updateCenterCoords();
-//        updatePoints();
-//    }
+    /**
+     * updates the coordinates of the center of the hexagon.
+     * if a hexagon from the top/bottom row's center goes on screen it is made the new anchortile,
+     * its y coord is set to the border of the screen, and everything is reloaded
+     */
+    public void updateCenterCoords()
+    {
+        //the tile to generate around
+        Tile anchorTile = board.getAnchorTile();
 
-//    /**
-//     * updates the coordinates of the center of the hexagon.
-//     * if a hexagon from the top/bottom row's center goes on screen it is made the new anchortile,
-//     * its y coord is set to the border of the screen, and everything is reloaded
-//     */
-//    public void updateCenterCoords()
-//    {
-//        //the tile to generate around
-//        Tile anchorTile = board.getAnchorTile();
-//
-//        //half of the sidelength, used for calculating the y points
-//        double l = board.getSideLength() / 2.0;
-//
-//        //distance from the center of a tile to the side, used for calculating x points
-//        int d = (int)(Math.sqrt(3) * l);
-//
-//        //the distances (index wise) from this hexagon to the anchortile
-//        int dxIndex = xIndex - anchorTile.getXIndex();
-//        int dyIndex = yIndex - anchorTile.getYIndex();
-//
-//        //the distance (coordinate wise) to offset this hexagon from the anchortile
-//        int xOffset = (int) (dxIndex * 2 * d);
-//        int yOffset = (int) (dyIndex * 3 * l);
-//
-//
-//        //keeps every other row of hexagons offset to line up the edges
-//        if (anchorTile.getYIndex() % 2 == 0 && yIndex % 2 == 1) //if anchortile's y index is even, shift odd tiles left
-//        {
-//            xOffset -= d;
-//        }
-//        else if (anchorTile.getYIndex() % 2 == 1 && yIndex % 2 == 0) //if anchortile's y index is odd, shift even tiles right
-//        {
-//            xOffset += d;
-//        }
-//
-//        //calculate the center coords
-//        xCoord = anchorTile.getHex().xCoord + xOffset;
-//        yCoord = anchorTile.getHex().yCoord + yOffset;
-//
-//        //ensure the top and bottom row's centers remain off screen
-//        if (yCoord > 0 && yIndex == 0)
-//        {
-//            yCoord = 0;
-//            board.setAnchorTile(board.getTileAtIndex(xIndex, yIndex));
-//            board.reload();
-//        }
-//        else if (yCoord < h.getScreenHeight() && yIndex == board.getNumTilesHigh() - 1)
-//        {
-//            yCoord = h.getScreenHeight();
-//            board.setAnchorTile(board.getTileAtIndex(xIndex, yIndex));
-//            board.reload();
-//        }
-//
-//        //loop the screen
-//        int boardWidth = (int) (board.getNumTilesWide() * d * 2);
-//        if (xCoord < -(int)(2 * d))
-//        {
-//            xCoord += boardWidth;
-//        }
-//        else if (xCoord > h.getScreenWidth() + (int)(2 * d))
-//        {
-//            xCoord -= boardWidth;
-//        }
-//    }
+        //half of the sidelength, used for calculating the y points
+        double l = board.getSideLength() / 2.0;
+
+        //distance from the center of a tile to the side, used for calculating x points
+        int d = (int)(Math.sqrt(3) * l);
+
+        //the distances (index wise) from this hexagon to the anchortile
+        int dxIndex = xIndex - anchorTile.getXIndex();
+        int dyIndex = yIndex - anchorTile.getYIndex();
+
+        //the distance (coordinate wise) to offset this hexagon from the anchortile
+        int xOffset = (int) (dxIndex * 2 * d);
+        int yOffset = (int) (dyIndex * 3 * l);
+
+
+        //keeps every other row of hexagons offset to line up the edges
+        if (anchorTile.getYIndex() % 2 == 0 && yIndex % 2 == 1) //if anchortile's y index is even, shift odd tiles left
+        {
+            xOffset -= d;
+        }
+        else if (anchorTile.getYIndex() % 2 == 1 && yIndex % 2 == 0) //if anchortile's y index is odd, shift even tiles right
+        {
+            xOffset += d;
+        }
+
+        //calculate the center coords
+        xCoord = anchorTile.getHex().xCoord + xOffset;
+        yCoord = anchorTile.getHex().yCoord + yOffset;
+
+        //ensure the top and bottom row's centers remain off screen
+        if (yCoord > 0 && yIndex == 0)
+        {
+            yCoord = 0;
+            board.setAnchorTile(board.getTileAtIndex(xIndex, yIndex));
+            board.reload();
+        }
+        else if (yCoord < h.getScreenHeight() && yIndex == board.getNumTilesHigh() - 1)
+        {
+            yCoord = h.getScreenHeight();
+            board.setAnchorTile(board.getTileAtIndex(xIndex, yIndex));
+            board.reload();
+        }
+
+        //loop the screen
+        int boardWidth = (int) (board.getNumTilesWide() * d * 2);
+        if (xCoord < -(int)(2 * d))
+        {
+            xCoord += boardWidth;
+        }
+        else if (xCoord > h.getScreenWidth() + (int)(2 * d))
+        {
+            xCoord -= boardWidth;
+        }
+    }
 
     /**
      * generates a new hexagon around the center coordinates
@@ -142,7 +147,7 @@ public class Hexagon extends Polygon
     public void updatePoints()
     {
         //half of the sidelength, used for calculating the y points
-        double l = sideLength / 2.0;
+        double l = board.getSideLength() / 2.0;
 
         //distance from the center of a tile to the side, used for calculating x points
         double d = Math.sqrt(3) * l;
@@ -161,39 +166,19 @@ public class Hexagon extends Polygon
         }
     }
 
-    public void setCenter(Point coords)
+    public void setXCoord(int x)
     {
-        xCoord = coords.x;
-        yCoord = coords.y;
-
-        updatePoints();
+        xCoord = x;
     }
 
-//    public void setYCoord(int yCoord)
-//    {
-//        this.yCoord = yCoord;
-//    }
-
-    public void setSideLength(int sideLength)
+    public void setYCoord(int y)
     {
-        this.sideLength = sideLength;
-
-        updatePoints();
+        yCoord = y;
     }
-
-    public void setInfo(Point point, int sideLength)
-    {
-        xCoord = point.x;
-        yCoord = point.y;
-        this.sideLength = sideLength;
-
-        updatePoints();
-    }
-
 
     public String toString()
     {
-        String out = " [" + xCoord + ", " + yCoord + "]: ";
+        String out = xIndex + ", " + yIndex + " [" + xCoord + ", " + yCoord + "]: ";
 
         for (int lcv = 0; lcv < 6; lcv++)
         {
@@ -213,28 +198,21 @@ public class Hexagon extends Polygon
         return yCoord;
     }
 
-    public int getSideLength()
+    public String spaceString()
     {
-        return sideLength;
-    }
+        String out = "";
 
-//    public String spaceString()
-//    {
-//        String out = "";
-//
-//        for (int lcv = 0; lcv < 6; lcv++)
-//        {
-//            out += "(" + xpoints[lcv] + ", " + ypoints[lcv] + "), ";
-//        }
-//
-//        return out;
-//    }
+        for (int lcv = 0; lcv < 6; lcv++)
+        {
+            out += "(" + xpoints[lcv] + ", " + ypoints[lcv] + "), ";
+        }
+
+        return out;
+    }
 
     public void moveCenter(int deltaX, int deltaY)
     {
         xCoord += deltaX;
         yCoord += deltaY;
-
-        updatePoints();
     }
 }
