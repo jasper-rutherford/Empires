@@ -2,7 +2,9 @@ package GameStuff;
 
 import Framework.Handler;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player
 {
@@ -14,12 +16,17 @@ public class Player
     private Tile selectedTile;
     private Unit selectedUnit;
 
+    private Color teamColor;
+
     public Player(Handler h)
     {
         this.h = h;
 
         units = new ArrayList<>();
         tiredUnits = new ArrayList<>();
+
+        Random rand = new Random();
+        teamColor = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
     }
 
     public void restUnits()
@@ -68,6 +75,7 @@ public class Player
 
     /**
      * returns if the player controls the given unit
+     *
      * @param unit the unit to check ownership of
      * @return if the player controls the given unit
      */
@@ -84,5 +92,10 @@ public class Player
     public void setSelectedTile(Tile aTile)
     {
         selectedTile = aTile;
+    }
+
+    public Color getTeamColor()
+    {
+        return teamColor;
     }
 }

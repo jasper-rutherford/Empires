@@ -1,4 +1,4 @@
-package Actions;
+package Keys;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +12,13 @@ import GameStuff.Unit;
 /**
  * action that spawns a unit at the mouse's location
  */
-public class ActionSpawn extends AbstractAction
+public class SKey extends AbstractAction
 {
     private Handler h;
     private int numSpawns;
 
 
-    public ActionSpawn(Handler h)
+    public SKey(Handler h)
     {
         super();
 

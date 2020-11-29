@@ -2,7 +2,10 @@ package GameStuff;
 
 import Framework.Handler;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Unit
 {
@@ -15,6 +18,9 @@ public class Unit
     private int maxMoveEnergy;
     private int moveEnergy;
 
+    private BufferedImage icon;
+
+    private Color teamColor;
 
 
     public Unit(Handler h, Tile locTile, int id, int playerNumber)
@@ -26,14 +32,23 @@ public class Unit
 
         maxMoveEnergy = 2;
         moveEnergy = maxMoveEnergy;
+
+        try
+        {
+            icon = ImageIO.read(getClass().getResourceAsStream("/unit.png"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        teamColor = h.getGame().getCurrentPlayer().getTeamColor();
     }
 
     public void render(Graphics g)
     {
-        int radius = h.getGame().getBoard().getSideLength() / 2;
+        int width = h.getGame().getBoard().getSideLength() / 2;
 
-        g.setColor(new Color(184, 44, 44));
-        g.fillOval(locTile.getXCoord() - radius, locTile.getYCoord() - radius, 2 * radius, 2 * radius);
+        g.drawImage(icon, locTile.getXCoord() - width, locTile.getYCoord() - width, 2 * width, 2 * width, null);
 
         g.setColor(Color.BLACK);
         g.drawString("" + playerNumber, locTile.getXCoord(), locTile.getYCoord());
@@ -77,5 +92,10 @@ public class Unit
     public int getMaxMoveEnergy()
     {
         return maxMoveEnergy;
+    }
+
+    public Color getTeamColor()
+    {
+        return teamColor;
     }
 }

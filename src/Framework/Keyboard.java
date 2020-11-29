@@ -1,7 +1,7 @@
 package Framework;
 
-import Actions.ActionClose;
-import Actions.ActionSpawn;
+import Keys.EscapeKey;
+import Keys.SKey;
 
 import javax.swing.*;
 
@@ -12,24 +12,24 @@ public class Keyboard
 {
     private Handler h;
     private Panel screen;
-    private ActionClose close;
+    private EscapeKey close;
 
     public Keyboard(Handler h, Panel screen)
     {
         this.h = h;
         this.screen = screen;
 
-        setupActions();
+        setupKeys();
     }
 
-    public void setupActions()
+    public void setupKeys()
     {
-        //adds the close action to the escape button
+        //Escape
         screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke((char)27), "close");
-        screen.getActionMap().put("close", new ActionClose());
+        screen.getActionMap().put("close", new EscapeKey());
 
-        //adds the spawn unit action to the s key
+        //S
         screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "spawn");
-        screen.getActionMap().put("spawn", new ActionSpawn(h));
+        screen.getActionMap().put("spawn", new SKey(h));
     }
 }
