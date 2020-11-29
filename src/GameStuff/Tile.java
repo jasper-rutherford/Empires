@@ -3,7 +3,6 @@ package GameStuff;
 import Framework.Handler;
 
 import java.awt.*;
-import java.awt.geom.Area;
 import java.util.ArrayList;
 
 /**
@@ -24,8 +23,6 @@ public class Tile
     private int selectedUnitIndex;
     private Unit selectedUnit;
     private int moveCost;
-    private Color teamColor;
-
 
     /**
      * Constructor for the Stuff.Tile class.
@@ -54,8 +51,6 @@ public class Tile
         selectedUnit = null;
 
         moveCost = 1;
-
-        teamColor = null;
     }
 
     /**
@@ -67,12 +62,6 @@ public class Tile
     {
         g.setColor(color);
         g.fillPolygon(hex);
-
-        if (teamColor != null)
-        {
-            Area teamIndicator = new Area(hex);
-
-        }
 
         g.setColor(borderColor);
         g.drawPolygon(hex);
@@ -218,10 +207,7 @@ public class Tile
 
     public void addUnit(Unit aUnit)
     {
-        if (units.size() == 0)
-        {
-            teamColor = aUnit.getTeamColor();
-        }
+//        h.getGame().getBoardManager().selectTile(this);
 
         units.add(aUnit);
         aUnit.setLocTile(this);
@@ -233,15 +219,6 @@ public class Tile
     public void removeUnit(Unit aUnit)
     {
         units.remove(aUnit);
-
-        if (units.size() == 0)
-        {
-            teamColor = null;
-        }
-        else
-        {
-            teamColor = units.get(0).getTeamColor();
-        }
     }
 
     /**

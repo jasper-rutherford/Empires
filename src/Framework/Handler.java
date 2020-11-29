@@ -10,7 +10,7 @@ import java.awt.*;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
- * Framework.Handler directs information between classes. Its the hub.
+ * Framework.Handler directs information between classes. Its the hub. Most of the variables are gonna stay in this guy's scope,
  * and other classes will just have a copy of this handler.
  */
 public class Handler

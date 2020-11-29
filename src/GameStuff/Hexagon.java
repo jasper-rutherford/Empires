@@ -48,7 +48,6 @@ public class Hexagon extends Polygon
 //        this.xIndex = xIndex;
 //        this.yIndex = yIndex;
 
-        //this stuff exists from extending polygon
         npoints = 6;
         xpoints = new int[npoints];
         ypoints = new int[npoints];
@@ -151,13 +150,13 @@ public class Hexagon extends Polygon
         //calculate x points
         for (int x = 0; x < 6; x++)
         {
-            xpoints[x] = (int) (xCoord + xPattern[x] * d);
+            xpoints[x] = (int) (xCoord + xPattern[x] * d); //xPattern = {0, 1, 1, 0, -1, -1};
         }
 
         //calculate y points
         for (int y = 0; y < 6; y++)
         {
-            ypoints[y] = (int) (yCoord + yPattern[y] * l);
+            ypoints[y] = (int) (yCoord + yPattern[y] * l); //yPattern = {-2, -1, 1, 2, 1, -1}
         }
     }
 
