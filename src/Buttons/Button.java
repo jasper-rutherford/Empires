@@ -61,4 +61,9 @@ public class Button
     {
 
     }
+
+    public Polygon getSpace()
+    {
+        return space;
+    }
 }

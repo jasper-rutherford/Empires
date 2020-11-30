@@ -108,4 +108,10 @@ public class Handler
     {
         return game;
     }
+
+    //literally just a shorter log method
+    public void log(String out)
+    {
+        System.out.println(out);
+    }
 }

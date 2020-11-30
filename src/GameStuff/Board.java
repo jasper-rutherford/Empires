@@ -130,7 +130,7 @@ public class Board
     /**
      * gets the tile at the given coordinates on screen.
      * <p>
-     * if unable to find a tile with the given coordinates, returns null
+     * if unable to find a tile with the given coordinates, returns the closest tile
      *
      * @param x the x coordinate
      * @param y the y coordinate
@@ -138,6 +138,14 @@ public class Board
      */
     public Tile getTileAt(int x, int y)
     {
+        //invalid coords
+        if (x < 0 || y < 0 || x > h.getScreenWidth() || y > h.getScreenHeight())
+        {
+            h.log(":(");
+            return null;
+        }
+
+        //check for the tile that contains the point
         for (int xIndex = 0; xIndex < numTilesWide; xIndex++)
         {
             for (int yIndex = 0; yIndex < numTilesHigh; yIndex++)
@@ -149,7 +157,27 @@ public class Board
             }
         }
 
-        return null;
+
+        //if the code makes it here then its the rare event that you click between the tiles, and it will check for the nearest tile
+        Tile close = tiles[0][0];
+        Point closePoint = new Point(close.getXCoord(), close.getYCoord());
+        Point goalPoint = new Point(x, y);
+
+        for (int xIndex = 0; xIndex < numTilesWide; xIndex++)
+        {
+            for (int yIndex = 0; yIndex < numTilesHigh; yIndex++)
+            {
+                Point thisPoint = new Point(tiles[xIndex][yIndex].getXCoord(), tiles[xIndex][yIndex].getYCoord());
+
+                if (thisPoint.distance(goalPoint) < closePoint.distance(goalPoint))
+                {
+                    closePoint = thisPoint;
+                    close = tiles[xIndex][yIndex];
+                }
+            }
+        }
+
+        return close;
     }
 
     public Tile getTileAt(Point point)

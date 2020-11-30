@@ -25,6 +25,7 @@ public class Tile
     private Unit selectedUnit;
     private int moveCost;
     private Color teamColor;
+    private Polygon teamIndicator;
 
 
     /**
@@ -56,6 +57,10 @@ public class Tile
         moveCost = 1;
 
         teamColor = null;
+        teamIndicator = new Polygon();
+        teamIndicator.npoints = 14;
+        teamIndicator.xpoints = new int[14];
+        teamIndicator.ypoints = new int[14];
     }
 
     /**
@@ -70,8 +75,8 @@ public class Tile
 
         if (teamColor != null)
         {
-            Area teamIndicator = new Area(hex);
-
+            g.setColor(teamColor);
+            g.fillPolygon(teamIndicator);
         }
 
         g.setColor(borderColor);
@@ -94,6 +99,37 @@ public class Tile
     public void updateHex()
     {
         hex.generateHexagon();
+
+        if (teamColor != null)
+        {
+            updateTeamIndicator();
+        }
+    }
+
+    public void updateTeamIndicator()
+    {
+        Hexagon inner = new Hexagon(hex.getXCoord(), hex.getYCoord(), (int) (board.getSideLength() * .9));
+
+        int[] xPoints = new int[14];
+        int[] yPoints = new int[14];
+
+        for (int lcv = 0; lcv < 7; lcv++)
+        {
+            int index = lcv % 6;
+
+            xPoints[lcv] = hex.xpoints[index];
+            yPoints[lcv] = hex.ypoints[index];
+        }
+        for (int lcv = 6; lcv >= 0; lcv--)
+        {
+            int index = lcv % 6;
+
+            xPoints[13 - lcv] = inner.xpoints[index];
+            yPoints[13 - lcv] = inner.ypoints[index];
+        }
+
+        teamIndicator.xpoints = xPoints;
+        teamIndicator.ypoints = yPoints;
     }
 
     /**
@@ -221,6 +257,7 @@ public class Tile
         if (units.size() == 0)
         {
             teamColor = aUnit.getTeamColor();
+            updateTeamIndicator();
         }
 
         units.add(aUnit);
@@ -289,7 +326,7 @@ public class Tile
 
     public boolean hasUnits()
     {
-        return  units.size() > 0;
+        return units.size() > 0;
     }
 
     public Unit firstUnit()

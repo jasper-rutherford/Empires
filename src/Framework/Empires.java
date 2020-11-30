@@ -1,7 +1,5 @@
 package Framework;
 
-import Framework.Handler;
-
 /**
  * Framework.Game is the biggest of boys, the bestest of the bestest, the biggest and baddest, the ultra magnus, the alpha and
  * the omega - its the class that does EVERYTHING

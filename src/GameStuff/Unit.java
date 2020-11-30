@@ -49,9 +49,6 @@ public class Unit
         int width = h.getGame().getBoard().getSideLength() / 2;
 
         g.drawImage(icon, locTile.getXCoord() - width, locTile.getYCoord() - width, 2 * width, 2 * width, null);
-
-        g.setColor(Color.BLACK);
-        g.drawString("" + playerNumber, locTile.getXCoord(), locTile.getYCoord());
     }
 
     public void setLocTile(Tile locTile)

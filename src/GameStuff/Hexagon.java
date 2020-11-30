@@ -34,6 +34,14 @@ public class Hexagon extends Polygon
     private int yCoord;
 
     /**
+     * the sidelength of the hexagon
+     * <p>
+     * this is only to be used with independent, random hexagons
+     * </p>
+     */
+    private int sidelength;
+
+    /**
      * an int array that holds the pattern of addition needed to generate a hexagon's x points
      */
     private final int[] xPattern = new int[]{0, 1, 1, 0, -1, -1};
@@ -43,6 +51,8 @@ public class Hexagon extends Polygon
      * an int array that holds the pattern of addition needed to generate a hexagon's y points
      */
     private final int[] yPattern = new int[]{-2, -1, 1, 2, 1, -1};
+
+    private boolean independent;
 
 
     /**
@@ -63,6 +73,24 @@ public class Hexagon extends Polygon
         npoints = 6;
         xpoints = new int[npoints];
         ypoints = new int[npoints];
+
+        independent = false;
+    }
+
+    public Hexagon(int xCoord, int yCoord, int sidelength)
+    {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.sidelength = sidelength;
+
+        //this stuff exists from extending polygon
+        npoints = 6;
+        xpoints = new int[npoints];
+        ypoints = new int[npoints];
+
+        independent = true;
+
+        updatePoints();
     }
 
     /**
@@ -86,11 +114,11 @@ public class Hexagon extends Polygon
         //the tile to generate around
         Tile anchorTile = board.getAnchorTile();
 
-        //half of the sidelength, used for calculating the y points
+        //half of the board's sidelength, used for calculating the y points
         double l = board.getSideLength() / 2.0;
 
         //distance from the center of a tile to the side, used for calculating x points
-        int d = (int)(Math.sqrt(3) * l);
+        int d = (int) (Math.sqrt(3) * l);
 
         //the distances (index wise) from this hexagon to the anchortile
         int dxIndex = xIndex - anchorTile.getXIndex();
@@ -131,11 +159,11 @@ public class Hexagon extends Polygon
 
         //loop the screen
         int boardWidth = (int) (board.getNumTilesWide() * d * 2);
-        if (xCoord < -(int)(2 * d))
+        if (xCoord < -(int) (2 * d))
         {
             xCoord += boardWidth;
         }
-        else if (xCoord > h.getScreenWidth() + (int)(2 * d))
+        else if (xCoord > h.getScreenWidth() + (int) (2 * d))
         {
             xCoord -= boardWidth;
         }
@@ -147,7 +175,16 @@ public class Hexagon extends Polygon
     public void updatePoints()
     {
         //half of the sidelength, used for calculating the y points
-        double l = board.getSideLength() / 2.0;
+        double l;
+
+        if (!independent)
+        {
+            l = board.getSideLength() / 2.0;
+        }
+        else
+        {
+            l = sidelength / 2.0;
+        }
 
         //distance from the center of a tile to the side, used for calculating x points
         double d = Math.sqrt(3) * l;
@@ -174,6 +211,30 @@ public class Hexagon extends Polygon
     public void setYCoord(int y)
     {
         yCoord = y;
+    }
+
+    public void setCenter(Point center)
+    {
+        xCoord = center.x;
+        yCoord = center.y;
+
+        updatePoints();
+    }
+
+    public void setSidelength(int sidelength)
+    {
+        this.sidelength = sidelength;
+
+        updatePoints();
+    }
+
+    public void setInfo(Point center, int sidelength)
+    {
+        xCoord = center.x;
+        yCoord = center.y;
+        this.sidelength = sidelength;
+
+        updatePoints();
     }
 
     public String toString()
@@ -214,5 +275,10 @@ public class Hexagon extends Polygon
     {
         xCoord += deltaX;
         yCoord += deltaY;
+
+        if (independent)
+        {
+            updatePoints();
+        }
     }
 }

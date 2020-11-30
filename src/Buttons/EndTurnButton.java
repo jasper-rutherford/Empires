@@ -35,4 +35,15 @@ public class EndTurnButton extends Button
 
         tiredUnits.clear();
     }
+
+    public void render(Graphics g)
+    {
+        Polygon space = getSpace();
+
+        g.setColor(h.getGame().getCurrentPlayer().getTeamColor());
+        g.fillPolygon(space);
+
+        g.setColor(Color.black);
+        g.drawPolygon(space);
+    }
 }
