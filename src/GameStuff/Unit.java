@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Unit
 {
@@ -21,6 +22,11 @@ public class Unit
     private BufferedImage icon;
 
     private Color teamColor;
+
+    private int maxHealth;
+    private int health;
+
+    private int strength;
 
 
     public Unit(Handler h, Tile locTile, int id, int playerNumber)
@@ -42,11 +48,16 @@ public class Unit
         }
 
         teamColor = h.getGame().getCurrentPlayer().getTeamColor();
+
+        maxHealth = 10;
+        health = maxHealth;
+
+        strength = 1;
     }
 
     public void render(Graphics g)
     {
-        int width = h.getGame().getBoard().getSideLength() / 2;
+        int width = h.getGame().getBoard().getSideLength() / 2 * health / maxHealth;
 
         g.drawImage(icon, locTile.getXCoord() - width, locTile.getYCoord() - width, 2 * width, 2 * width, null);
     }
@@ -58,7 +69,7 @@ public class Unit
 
     public boolean canStep(Tile aTile)
     {
-        return true;
+        return aTile.firstUnit() == null || aTile.firstUnit().getPlayerNumber() == playerNumber;
     }
 
     public void refillMoves()
@@ -94,5 +105,54 @@ public class Unit
     public Color getTeamColor()
     {
         return teamColor;
+    }
+
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public int getHealth()
+    {
+        return health;
+    }
+
+    public int getPlayerNumber()
+    {
+        return playerNumber;
+    }
+
+    public void attack(Unit defender, Tile aTile)
+    {
+        if (moveEnergy > 0)
+        {
+            defender.decreaseHealth(strength, aTile);
+            moveEnergy--;
+
+            ArrayList<Unit> tiredUnits = h.getGame().getCurrentPlayer().getTiredUnits();
+            //add to the current player's tired units if not already on the list
+            if (!tiredUnits.contains(this))
+            {
+                tiredUnits.add(this);
+            }
+        }
+    }
+
+    public void decreaseHealth(int damage, Tile aTile)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            die(aTile);
+        }
+    }
+
+    public void die(Tile aTile)
+    {
+        Player defendingPlayer = h.getGame().getPlayer(playerNumber);
+        defendingPlayer.removeUnit(this);
+
+        aTile.removeUnit(this);
     }
 }

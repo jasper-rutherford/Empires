@@ -141,7 +141,6 @@ public class Board
         //invalid coords
         if (x < 0 || y < 0 || x > h.getScreenWidth() || y > h.getScreenHeight())
         {
-            h.log(":(");
             return null;
         }
 

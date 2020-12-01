@@ -1,9 +1,6 @@
 package Framework;
 
-import GameStuff.Board;
-import GameStuff.BoardManager;
-import GameStuff.Player;
-import GameStuff.Unit;
+import GameStuff.*;
 
 import java.awt.*;
 
@@ -42,7 +39,7 @@ public class Game
 
         for (int lcv = 0; lcv < players.length; lcv++)
         {
-            players[lcv] = new Player(h);
+            players[lcv] = new Player(h, lcv + 1);
         }
 
         currentPlayer = players[0];
@@ -87,6 +84,8 @@ public class Game
 
         g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
         g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
+        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
+
     }
 
     public Player getCurrentPlayer()
@@ -96,19 +95,26 @@ public class Game
 
     public void nextPlayer()
     {
+        //deselect the current selected tile
         if (currentPlayer.getSelectedTile() != null)
         {
             currentPlayer.getSelectedTile().deselect();
         }
 
+        //advance to the next player
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
         currentPlayer = players[currentPlayerIndex];
+
+        //if all players have taken their turn then advance the turn count
         if (currentPlayerIndex == 0)
         {
             turnCount++;
         }
 
-        if (currentPlayer.getSelectedTile() != null)
+        //select the new player's selected unit if it still exists
+        Tile selectedTile = currentPlayer.getSelectedTile();
+        Unit selectedUnit = currentPlayer.getSelectedUnit();
+        if (selectedTile != null && selectedTile.hasUnit(selectedUnit))
         {
             currentPlayer.getSelectedTile().select(currentPlayer.getSelectedUnit());
         }
@@ -122,5 +128,10 @@ public class Game
     public int getCurrentPlayerIndex()
     {
         return currentPlayerIndex;
+    }
+
+    public Player getPlayer(int playerNumber)
+    {
+        return players[playerNumber - 1];
     }
 }

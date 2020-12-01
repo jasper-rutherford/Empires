@@ -269,7 +269,10 @@ public class Tile
 
     public void removeUnit(Unit aUnit)
     {
-        units.remove(aUnit);
+        if (units.contains(aUnit))
+        {
+            units.remove(aUnit);
+        }
 
         if (units.size() == 0)
         {
@@ -319,6 +322,19 @@ public class Tile
         return board.getTileAt(xCoord, yCoord);
     }
 
+    public boolean isAdjacent(Tile aTile)
+    {
+        for (int lcv = 0; lcv < 6; lcv++)
+        {
+            if (adjTile(lcv).equals(aTile))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int getMoveCost()
     {
         return moveCost;
@@ -331,6 +347,15 @@ public class Tile
 
     public Unit firstUnit()
     {
-        return units.get(0);
+        if (units.size() > 0)
+        {
+            return units.get(0);
+        }
+        return null;
+    }
+
+    public boolean hasUnit(Unit aUnit)
+    {
+        return units.contains(aUnit);
     }
 }

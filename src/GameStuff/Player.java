@@ -9,6 +9,8 @@ import java.util.Random;
 public class Player
 {
     private Handler h;
+    private int playerNumber;
+
 
     private ArrayList<Unit> units;
     private ArrayList<Unit> tiredUnits;
@@ -18,9 +20,10 @@ public class Player
 
     private Color teamColor;
 
-    public Player(Handler h)
+    public Player(Handler h, int playerNumber)
     {
         this.h = h;
+        this.playerNumber = playerNumber;
 
         units = new ArrayList<>();
         tiredUnits = new ArrayList<>();
@@ -97,5 +100,22 @@ public class Player
     public Color getTeamColor()
     {
         return teamColor;
+    }
+
+    public int getPlayerNumber()
+    {
+        return playerNumber;
+    }
+
+    public void removeUnit(Unit aUnit)
+    {
+        if (units.contains(aUnit))
+        {
+            units.remove(aUnit);
+        }
+        if (tiredUnits.contains(aUnit))
+        {
+            tiredUnits.remove(aUnit);
+        }
     }
 }

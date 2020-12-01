@@ -34,8 +34,8 @@ public class BoardManager
         //if the tile in question isn't null and has a unit controlled by the current player
         if (aTile != null && aTile.hasUnits() && currentPlayer.hasUnit(aTile.firstUnit()))
         {
-            //if the previous selected tile wasn't null
-            if (selectedTile != null)
+            //if the previous selected tile wasn't null and is not the tile being clicked
+            if (selectedTile != null && !selectedTile.equals(aTile))
             {
                 //deselect it
                 selectedTile.deselect();
@@ -276,5 +276,38 @@ public class BoardManager
         Tile mouseTile = board.getTileAt(mouse.getCoords());
 
         pathTo(mouseTile);
+    }
+
+    public void considerMoveToMouse()
+    {
+        Mouse mouse = h.getMouse();
+
+        Tile mouseTile = board.getTileAt(mouse.getCoords());
+
+        considerMoveToTile(mouseTile);
+    }
+
+    public void considerMoveToTile(Tile aTile)
+    {
+        Player currentPlayer = h.getGame().getCurrentPlayer();
+
+        //if there is a selected unit (and tile)
+        if(currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedTile().getSelectedUnit() != null)
+        {
+            Tile selectedTile = currentPlayer.getSelectedTile();
+            Unit selectedUnit = currentPlayer.getSelectedUnit();
+
+            //if the given tile is adjacent and contains an enemy, attack it
+            if (selectedTile.isAdjacent(aTile) && aTile.firstUnit() != null && aTile.firstUnit().getPlayerNumber() != currentPlayer.getPlayerNumber())
+            {
+                Unit defender = aTile.firstUnit();
+                selectedUnit.attack(defender, aTile);
+            }
+            //otherwise move to the tile/move towards it
+            else
+            {
+                pathTo(aTile);
+            }
+        }
     }
 }
