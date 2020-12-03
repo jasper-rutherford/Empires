@@ -1,11 +1,11 @@
-package GameStuff;
+package GameStuff.Units;
 
 import Framework.Handler;
+import GameStuff.Player;
+import GameStuff.Tile;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Unit
@@ -28,24 +28,21 @@ public class Unit
 
     private int strength;
 
+    private String type;
 
-    public Unit(Handler h, Tile locTile, int id, int playerNumber)
+
+    public Unit(Handler h, Tile locTile, int id, int playerNumber, String type)
     {
         this.h = h;
         this.locTile = locTile;
         this.id = id;
         this.playerNumber = playerNumber;
 
-        maxMoveEnergy = 2;
+        maxMoveEnergy = 5;
         moveEnergy = maxMoveEnergy;
 
-        try
-        {
-            icon = ImageIO.read(getClass().getResourceAsStream("/unit.png"));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+
+        icon = h.getGame().getBoard().getTexture("unit");
 
         teamColor = h.getGame().getCurrentPlayer().getTeamColor();
 
@@ -53,6 +50,8 @@ public class Unit
         health = maxHealth;
 
         strength = 1;
+
+        this.type = type;
     }
 
     public void render(Graphics g)
@@ -84,7 +83,14 @@ public class Unit
 
     public void takeEnergy(int take)
     {
-        moveEnergy -= take;
+        if (moveEnergy >= take)
+        {
+            moveEnergy -= take;
+        }
+        else
+        {
+            moveEnergy = 0;
+        }
     }
 
     public int getID()
@@ -154,5 +160,48 @@ public class Unit
         defendingPlayer.removeUnit(this);
 
         aTile.removeUnit(this);
+    }
+
+    public void renderInfo(Graphics g)
+    {
+        int screenWidth = h.getScreenWidth();
+        int screenHeight = h.getScreenHeight();
+
+        Unit selectedUnit = h.getGame().getCurrentPlayer().getSelectedUnit();
+
+        g.setColor(new Color(91, 238, 74));
+        g.fillRect(10, screenHeight - 110, 200, 100);
+
+        g.setColor(Color.black);
+        g.drawRect(10, screenHeight - 110, 200, 100);
+
+        g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
+        g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
+        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
+    }
+
+    public void select()
+    {
+
+    }
+
+    public void deselect()
+    {
+
+    }
+
+    public Tile getLocTile()
+    {
+        return locTile;
+    }
+
+    public int getStrength()
+    {
+        return strength;
+    }
+
+    public void setIcon(BufferedImage icon)
+    {
+        this.icon = icon;
     }
 }

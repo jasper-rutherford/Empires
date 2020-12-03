@@ -6,6 +6,7 @@ import GameStuff.BoardManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -28,6 +29,8 @@ public class Handler
     private int screenWidth;
     private int screenHeight;
 
+    private Random rand;
+
 //    private Board board;
 
     /**
@@ -35,6 +38,7 @@ public class Handler
      */
     public Handler()
     {
+        rand = new Random();
 
         //initializes the frame
         frame = new Frame();
@@ -63,7 +67,6 @@ public class Handler
         game = new Game(this, 3);
 
         restart = false;
-
 
         frame.setVisible(true); //setvisible calls paintcomponent() in panel, make sure this is always last to prevent bugs
     }
@@ -113,5 +116,10 @@ public class Handler
     public void log(String out)
     {
         System.out.println(out);
+    }
+
+    public Random getRandom()
+    {
+        return rand;
     }
 }

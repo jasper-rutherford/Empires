@@ -2,6 +2,7 @@ package Framework;
 
 import Keys.EscapeKey;
 import Keys.SKey;
+import Keys.WKey;
 
 import javax.swing.*;
 
@@ -25,11 +26,15 @@ public class Keyboard
     public void setupKeys()
     {
         //Escape
-        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke((char)27), "close");
-        screen.getActionMap().put("close", new EscapeKey());
+        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke((char)27), "esc");
+        screen.getActionMap().put("esc", new EscapeKey());
 
         //S
-        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "spawn");
-        screen.getActionMap().put("spawn", new SKey(h));
+        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "s");
+        screen.getActionMap().put("s", new SKey(h));
+
+        //W
+        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "w");
+        screen.getActionMap().put("w", new WKey(h));
     }
 }

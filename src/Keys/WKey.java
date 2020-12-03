@@ -8,17 +8,18 @@ import Framework.MouseStuff.Mouse;
 import GameStuff.Player;
 import GameStuff.Tile;
 import GameStuff.Units.Unit;
+import GameStuff.Units.Worker;
 
 /**
  * action that spawns a unit at the mouse's location
  */
-public class SKey extends AbstractAction
+public class WKey extends AbstractAction
 {
     private Handler h;
     private int numSpawns;
 
 
-    public SKey(Handler h)
+    public WKey(Handler h)
     {
         super();
 
@@ -36,8 +37,8 @@ public class SKey extends AbstractAction
         //the tile to spawn the unit on (the tile the mouse is above)
         Tile spawnTile = h.getGame().getBoard().getTileAt(mouse.getCoords());
 
-        //a new unit, tied to the spawnTile
-        Unit newUnit = new Unit(h, spawnTile, numSpawns, h.getGame().getCurrentPlayerIndex() + 1, null);
+        //a new worker, tied to the spawnTile
+        Unit newUnit = new Worker(h, spawnTile, numSpawns, h.getGame().getCurrentPlayerIndex() + 1);
 
         //add the unit to the spawnTile
         spawnTile.addUnit(newUnit);

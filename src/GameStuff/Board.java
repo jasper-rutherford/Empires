@@ -2,8 +2,12 @@ package GameStuff;
 
 import Framework.Handler;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * class used to represent a game board
@@ -35,6 +39,8 @@ public class Board
 
     private int sideLength;
 
+    private HashMap<String, BufferedImage> textures;
+
     public Board(Handler handler, int width, int height)
     {
         h = handler;
@@ -42,6 +48,23 @@ public class Board
         this.numTilesWide = width;
         this.numTilesHigh = height;
         this.sideLength = 50;
+
+        textures = new HashMap<>();
+
+        //read in textures
+        try
+        {
+            textures.put(null, null);
+            textures.put("grass", ImageIO.read(getClass().getResourceAsStream("/grass.png")));
+            textures.put("stone", ImageIO.read(getClass().getResourceAsStream("/stone.png")));
+            textures.put("wood", ImageIO.read(getClass().getResourceAsStream("/wood.png")));
+            textures.put("unit", ImageIO.read(getClass().getResourceAsStream("/unit.png")));
+            textures.put("worker", ImageIO.read(getClass().getResourceAsStream("/worker.png")));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         tiles = new Tile[width][height];
 
@@ -220,5 +243,10 @@ public class Board
     public int getSideLength()
     {
         return sideLength;
+    }
+
+    public BufferedImage getTexture(String texture)
+    {
+        return textures.get(texture);
     }
 }

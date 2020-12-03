@@ -1,7 +1,7 @@
 package Buttons;
 
 import Framework.Handler;
-import GameStuff.Unit;
+import GameStuff.Units.Unit;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -59,4 +59,12 @@ public class ButtonManager
 
         return buttonActivated;
     }
+
+    public void addButton(Button button)
+    {
+        if (!buttons.contains(button))
+        {
+            buttons.add(button);
+        }
+    }
 }

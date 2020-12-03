@@ -1,9 +1,12 @@
 package GameStuff;
 
 import Framework.Handler;
+import GameStuff.Units.Unit;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Player
@@ -20,6 +23,8 @@ public class Player
 
     private Color teamColor;
 
+    private HashMap<String, Integer> resources;
+
     public Player(Handler h, int playerNumber)
     {
         this.h = h;
@@ -30,6 +35,8 @@ public class Player
 
         Random rand = new Random();
         teamColor = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+
+        resources = new HashMap<>();
     }
 
     public void restUnits()
@@ -116,6 +123,42 @@ public class Player
         if (tiredUnits.contains(aUnit))
         {
             tiredUnits.remove(aUnit);
+        }
+    }
+
+    public void addResources(String type, int amount)
+    {
+        if (resources.keySet().contains(type))
+        {
+            resources.put(type, resources.get(type) + amount);
+        }
+        else
+        {
+            resources.put(type, amount);
+        }
+    }
+
+    public void render(Graphics g)
+    {
+        g.setColor(Color.BLACK);
+
+        Iterator<String> types = resources.keySet().iterator();
+        int lcv = 0;
+        while (types.hasNext())
+        {
+            String type = types.next();
+            int amount = resources.get(type);
+
+            g.drawString(type + ": " + amount, 20 + lcv * 50, 20);
+            lcv++;
+        }
+    }
+
+    public void addTiredUnit(Unit aUnit)
+    {
+        if (!tiredUnits.contains(aUnit))
+        {
+            tiredUnits.add(aUnit);
         }
     }
 }

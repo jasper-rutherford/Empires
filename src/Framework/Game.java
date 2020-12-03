@@ -1,6 +1,7 @@
 package Framework;
 
 import GameStuff.*;
+import GameStuff.Units.Unit;
 
 import java.awt.*;
 
@@ -62,6 +63,8 @@ public class Game
 
         g.setColor(Color.gray);
         g.drawString(turnCount + "", 50, 50);
+
+        currentPlayer.render(g);
     }
 
     public Board getBoard()
@@ -71,21 +74,24 @@ public class Game
 
     public void renderSelectedUnitInfo(Graphics g)
     {
-        int screenWidth = h.getScreenWidth();
-        int screenHeight = h.getScreenHeight();
-
-        Unit selectedUnit = currentPlayer.getSelectedUnit();
-
-        g.setColor(new Color(91, 238, 74));
-        g.fillRect(10, screenHeight - 110, 200, 100);
-
-        g.setColor(Color.black);
-        g.drawRect(10, screenHeight - 110, 200, 100);
-
-        g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
-        g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
-        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
-
+//        int screenWidth = h.getScreenWidth();
+//        int screenHeight = h.getScreenHeight();
+//
+//        Unit selectedUnit = currentPlayer.getSelectedUnit();
+//
+//        g.setColor(new Color(91, 238, 74));
+//        g.fillRect(10, screenHeight - 110, 200, 100);
+//
+//        g.setColor(Color.black);
+//        g.drawRect(10, screenHeight - 110, 200, 100);
+//
+//        g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
+//        g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
+//        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
+        if (currentPlayer.getSelectedUnit() != null)
+        {
+            currentPlayer.getSelectedUnit().renderInfo(g);
+        }
     }
 
     public Player getCurrentPlayer()

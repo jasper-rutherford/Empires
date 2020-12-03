@@ -1,9 +1,10 @@
 package GameStuff;
 
 import Framework.Handler;
+import GameStuff.Units.Unit;
 
 import java.awt.*;
-import java.awt.geom.Area;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +27,15 @@ public class Tile
     private int moveCost;
     private Color teamColor;
     private Polygon teamIndicator;
+
+
+    private BufferedImage texture;
+
+    private String resourceType;
+    private BufferedImage resourceIcon;
+
+    private int maxResourceCount;
+    private int resourceCount;
 
 
     /**
@@ -61,6 +71,39 @@ public class Tile
         teamIndicator.npoints = 14;
         teamIndicator.xpoints = new int[14];
         teamIndicator.ypoints = new int[14];
+
+        texture = board.getTexture("grass");
+
+        //be a random resource
+        int num = h.getRandom().nextInt(3);
+        if (num == 0)
+        {
+            resourceType = "wood";
+            moveCost++;
+
+            maxResourceCount = 50;
+        }
+        else if (num == 1)
+        {
+            resourceType = "stone";
+            moveCost++;
+
+            maxResourceCount = 50;
+        }
+        else
+        {
+            resourceType = null;
+            maxResourceCount = 1;
+        }
+
+        resourceCount = maxResourceCount;
+
+        if (resourceType == null)
+        {
+            resourceCount = 0;
+        }
+
+        resourceIcon = board.getTexture(resourceType);
     }
 
     /**
@@ -70,23 +113,35 @@ public class Tile
      */
     public void render(Graphics g)
     {
+        //render solid color for the hex
         g.setColor(color);
         g.fillPolygon(hex);
 
+        //render an image for the hex
+//        drawImageInPolygon((Graphics2D) g, texture, hex, 1, 1);
+
+        //render team indicator
         if (teamColor != null)
         {
             g.setColor(teamColor);
             g.fillPolygon(teamIndicator);
         }
 
+        //draw hex grid
         g.setColor(borderColor);
         g.drawPolygon(hex);
 
+        //render resource icon
+        int width = h.getGame().getBoard().getSideLength() / 2 * resourceCount / maxResourceCount;
+        g.drawImage(resourceIcon, getXCoord() - width, getYCoord() - width, 2 * width, 2 * width, null);
+
+        //render units
         for (int lcv = units.size() - 1; lcv >= 0; lcv--)
         {
             units.get(lcv).render(g);
         }
 
+        //render selected unit last
         if (selectedUnit != null)
         {
             selectedUnit.render(g);
@@ -202,7 +257,7 @@ public class Tile
 
     public void createUnit(int val, int playerNumber)
     {
-        addUnit(new Unit(h, this, val, playerNumber));
+        addUnit(new Unit(h, this, val, playerNumber, null));
     }
 
     /**
@@ -221,7 +276,14 @@ public class Tile
                 selectedUnitIndex -= units.size();
             }
 
+            if (selectedUnit != null)
+            {
+                selectedUnit.deselect();
+            }
+
             selectedUnit = units.get(selectedUnitIndex);
+
+            selectedUnit.select();
         }
     }
 
@@ -234,8 +296,15 @@ public class Tile
         {
             borderColor = new Color(255, 255, 255);
 
+            if (selectedUnit != null)
+            {
+                selectedUnit.deselect();
+            }
+
             selectedUnit = aUnit;
             selectedUnitIndex = units.indexOf(aUnit);
+
+            selectedUnit.select();
         }
     }
 
@@ -244,6 +313,9 @@ public class Tile
         resetBorderColor();
 
         selectedUnitIndex = -1;
+
+        selectedUnit.deselect();
+
         selectedUnit = null;
     }
 
@@ -357,5 +429,93 @@ public class Tile
     public boolean hasUnit(Unit aUnit)
     {
         return units.contains(aUnit);
+    }
+
+    public Rectangle drawImageInPolygon(Graphics g2d, BufferedImage img, Polygon poly, double xfactor,
+                                        double yfactor)
+    {
+        int[] xPts = poly.xpoints, yPts = poly.ypoints;
+        int minXPt = xPts[0], minYPt = yPts[0], maxXPt = xPts[0], maxYPt = yPts[0];
+        // System.out.println("Pt: 0 x: " + xPts[0] + " y: " + yPts[0]);
+        for (int i = 1; i < poly.npoints; i++)
+        {
+            // System.out.println("Pt: " + i + " x: " + xPts[i] + " y: " +
+            // yPts[i]);
+            if (xPts[i] < minXPt)
+                minXPt = xPts[i];/* w w  w. j  a va 2 s.  c o m*/
+            if (yPts[i] < minYPt)
+                minYPt = yPts[i];
+            if (xPts[i] > maxXPt)
+                maxXPt = xPts[i];
+            if (yPts[i] > maxYPt)
+                maxYPt = yPts[i];
+        }
+        int panelWt = maxXPt - minXPt, panelHt = maxYPt - minYPt;
+        // System.out.println("MinXPt: " + minXPt + " MinYPt: " + minYPt);
+        // System.out.println("MaxXPt: " + maxXPt + " MaxYPt: " + maxYPt);
+        // System.out.println("Width: " + panelWt + " Height: " + panelHt);
+
+        Rectangle bounds = poly.getBounds();
+        panelWt = bounds.width;
+        panelHt = bounds.height;
+        // System.out.println("Poly Bounds: " + bounds.toString());
+
+        panelWt = xPts[1] - xPts[0];
+        panelHt = yPts[2] - yPts[1];
+        // System.out.println("New Width: " + panelWt + " Height: " + panelHt);
+
+        int x = xPts[0] + (int) (panelWt * xfactor);
+        int y = yPts[0] + (int) (panelHt * yfactor);
+        // System.out.println("xFact: " + xfactor + " yFact: " + yfactor);
+        // System.out.println("Poly Wt: " + panelWt + " Ht: " + panelHt + " x: "
+        // + x + " y: " + y);
+        g2d.drawImage(img, x, y, null);
+        Rectangle imgRect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+        // System.out.println("Image: " + img.toString());
+        // System.out.println("Image Rect: " + imgRect.toString());
+        return imgRect;
+    }
+
+    public void drawImage(BufferedImage srcImg, BufferedImage img2Draw, int w, int h)
+    {
+        if (w == -1)
+            w = (int) (srcImg.getWidth() / 2);
+        if (h == -1)
+            h = (int) (srcImg.getHeight() / 2);
+        System.out.println("AWT Image Wt: " + w + " And Ht: " + h);
+        Graphics2D g2 = srcImg.createGraphics();
+        g2.drawImage(img2Draw, w, h, null);
+        g2.dispose();
+    }
+
+    public boolean hasResources()
+    {
+        return resourceCount != 0;
+    }
+
+    /**
+     * try to harvest <strength> amount of resources from the tile, if there are less than strength resources on the tile then it returns all of them.
+     *
+     * @param strength the amount of resources to try to take from the tile
+     * @return the amount of resources harvested from the tile
+     */
+    public int harvestResources(int strength)
+    {
+        if (resourceCount >= strength)
+        {
+            resourceCount -= strength;
+            return strength;
+        }
+        else
+        {
+            int out = resourceCount;
+            resourceCount = 0;
+            return out;
+        }
+    }
+
+    public String getResourceType()
+    {
+        return resourceType;
     }
 }
