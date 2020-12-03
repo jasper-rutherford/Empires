@@ -161,4 +161,9 @@ public class Player
             tiredUnits.add(aUnit);
         }
     }
+
+    public void clearSelectedUnit()
+    {
+        selectedUnit = null;
+    }
 }

@@ -1,6 +1,7 @@
 package Framework;
 
 import Keys.EscapeKey;
+import Keys.RKey;
 import Keys.SKey;
 import Keys.WKey;
 
@@ -36,5 +37,9 @@ public class Keyboard
         //W
         screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "w");
         screen.getActionMap().put("w", new WKey(h));
+
+        //R
+        screen.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('r'), "r");
+        screen.getActionMap().put("r", new RKey(h));
     }
 }
