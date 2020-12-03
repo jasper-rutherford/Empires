@@ -1,5 +1,6 @@
-package Framework;
+package GameStuff;
 
+import Framework.Handler;
 import GameStuff.*;
 import GameStuff.Units.Unit;
 
@@ -120,9 +121,9 @@ public class Game
         //select the new player's selected unit if it still exists
         Tile selectedTile = currentPlayer.getSelectedTile();
         Unit selectedUnit = currentPlayer.getSelectedUnit();
-        if (selectedTile != null && selectedTile.hasUnit(selectedUnit))
+        if (selectedTile != null)
         {
-            currentPlayer.getSelectedTile().select(currentPlayer.getSelectedUnit());
+            selectedTile.select();
         }
     }
 

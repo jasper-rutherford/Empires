@@ -41,7 +41,7 @@ public class Tile
     /**
      * Constructor for the Stuff.Tile class.
      *
-     * @param h      the Framework.Game's Framework.Handler instance
+     * @param h      the GameStuff.Game's Framework.Handler instance
      * @param xIndex the x index of the Stuff.Tile in the Stuff.Board
      * @param yIndex the y index of the Stuff.Tile in the Stuff.Board
      */
@@ -265,6 +265,7 @@ public class Tile
      */
     public void select()
     {
+        //set border to white
         borderColor = new Color(255, 255, 255);
 
         if (units.size() > 0)
@@ -292,34 +293,88 @@ public class Tile
      */
     public void select(Unit aUnit)
     {
-        if (units.contains(aUnit))
-        {
+//        if (units.contains(aUnit))
+//        {
             borderColor = new Color(255, 255, 255);
 
-            if (selectedUnit != null)
+//            if (selectedUnit != null)
+//            {
+//                selectedUnit.deselect();
+//            }
+//
+//            selectedUnit = aUnit;
+//            selectedUnitIndex = units.indexOf(aUnit);
+//
+//            selectedUnit.select();
+//        }
+    }
+
+    public boolean selectUnit()
+    {
+        //if there was already a unit selected on this tile, select the next one
+        if (selectedUnit != null)
+        {
+            selectedUnit.deselect();
+            selectedUnitIndex++;
+
+            if (selectedUnitIndex >= units.size())
             {
-                selectedUnit.deselect();
+                selectedUnitIndex = 0;
             }
 
-            selectedUnit = aUnit;
-            selectedUnitIndex = units.indexOf(aUnit);
-
             selectedUnit.select();
+            teamColor = selectedUnit.getTeamColor();
         }
+        //otherwise if there are any units on the tile just select the first
+        else if (units.size() > 0)
+        {
+            selectedUnitIndex = 0;
+            selectedUnit = units.get(selectedUnitIndex);
+            selectedUnit.select();
+            teamColor = selectedUnit.getTeamColor();
+        }
+
+        //return whether or not a unit was selected
+        return selectedUnitIndex != -1;
+    }
+
+    /**
+     * tries to deselect the given unit
+     *
+     * @param aUnit the unit to try to deselect
+     */
+    public void deselectUnit(Unit aUnit)
+    {
+        if (selectedUnit != null && selectedUnit.equals(aUnit))
+        {
+            selectedUnit.deselect();
+            selectedUnit = null;
+            selectedUnitIndex = -1;
+
+            teamColor = null;
+        }
+    }
+
+    /**
+     * deselects the selected unit on this tile (if there is one)
+     */
+    public void deselectUnit()
+    {
+        deselectUnit(selectedUnit);
     }
 
     public void deselect()
     {
         resetBorderColor();
 
-        selectedUnitIndex = -1;
-
-        if (selectedUnit != null)
-        {
-            selectedUnit.deselect();
-        }
-        
-        selectedUnit = null;
+//        selectedUnitIndex = -1;
+//
+//        if (selectedUnit != null)
+//        {
+//            selectedUnit.deselect();
+//        }
+//
+//        selectedUnit = null;
     }
 
     public Unit getSelectedUnit()
@@ -349,25 +404,25 @@ public class Tile
             units.remove(aUnit);
         }
 
-        if (aUnit.equals(selectedUnit))
-        {
-            selectedUnit = null;
-            selectedUnitIndex = -1;
-        }
+//        if (aUnit.equals(selectedUnit))
+//        {
+//            selectedUnit = null;
+//            selectedUnitIndex = -1;
+//        }
 
-        if (h.getGame().getPlayer(aUnit.getPlayerNumber()).getSelectedUnit().equals(aUnit))
-        {
-            h.getGame().getPlayer(aUnit.getPlayerNumber()).clearSelectedUnit();
-        }
-
-        if (units.size() == 0)
-        {
-            teamColor = null;
-        }
-        else
-        {
-            teamColor = units.get(0).getTeamColor();
-        }
+//        if (h.getGame().getPlayer(aUnit.getPlayerNumber()).getSelectedUnit().equals(aUnit))
+//        {
+//            h.getGame().getPlayer(aUnit.getPlayerNumber()).clearSelectedUnit();
+//        }
+//
+//        if (units.size() == 0)
+//        {
+//            teamColor = null;
+//        }
+//        else
+//        {
+//            teamColor = units.get(0).getTeamColor();
+//        }
     }
 
     /**

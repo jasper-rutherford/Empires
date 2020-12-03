@@ -1,8 +1,7 @@
 package Framework;
 
 import Framework.MouseStuff.Mouse;
-import GameStuff.Board;
-import GameStuff.BoardManager;
+import GameStuff.Game;
 
 import javax.swing.*;
 import java.awt.*;

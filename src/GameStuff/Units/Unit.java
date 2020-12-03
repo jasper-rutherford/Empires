@@ -150,7 +150,7 @@ public class Unit
 
         if (health <= 0)
         {
-            die(aTile);
+            h.getGame().getBoardManager().killUnit(this);
         }
     }
 

@@ -166,4 +166,15 @@ public class Player
     {
         selectedUnit = null;
     }
+
+    /**
+     * Clears the selected unit from this player.
+     * <p>
+     * IT DOES NOTHING ELSE
+     * <p>Use this with Tile.deselectUnit();
+     */
+    public void deselectUnit()
+    {
+        selectedUnit = null;
+    }
 }
