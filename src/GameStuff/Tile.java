@@ -314,11 +314,8 @@ public class Tile
 
         selectedUnitIndex = -1;
 
-        if (selectedUnit != null)
-        {
-            selectedUnit.deselect();
-        }
-        
+        selectedUnit.deselect();
+
         selectedUnit = null;
     }
 
@@ -347,17 +344,6 @@ public class Tile
         if (units.contains(aUnit))
         {
             units.remove(aUnit);
-        }
-
-        if (aUnit.equals(selectedUnit))
-        {
-            selectedUnit = null;
-            selectedUnitIndex = -1;
-        }
-
-        if (h.getGame().getPlayer(aUnit.getPlayerNumber()).getSelectedUnit().equals(aUnit))
-        {
-            h.getGame().getPlayer(aUnit.getPlayerNumber()).clearSelectedUnit();
         }
 
         if (units.size() == 0)

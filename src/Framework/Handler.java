@@ -122,9 +122,4 @@ public class Handler
     {
         return rand;
     }
-
-    public void restart()
-    {
-        restart = true;
-    }
 }
