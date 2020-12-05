@@ -1,6 +1,7 @@
 package GameStuff;
 
 import Framework.Handler;
+import GameStuff.*;
 import GameStuff.Units.Unit;
 
 import java.awt.*;
@@ -52,7 +53,7 @@ public class Game
     {
         board.render(g);
 
-        if (currentPlayer.getSelectedTile() != null && currentPlayer.getChosenUnit() != null)
+        if (currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedUnit() != null)
         {
             renderSelectedUnitInfo(g);
         }
@@ -88,9 +89,9 @@ public class Game
 //        g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
 //        g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
 //        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
-        if (currentPlayer.getChosenUnit() != null)
+        if (currentPlayer.getSelectedUnit() != null)
         {
-            currentPlayer.getChosenUnit().renderInfo(g);
+            currentPlayer.getSelectedUnit().renderInfo(g);
         }
     }
 
@@ -104,7 +105,7 @@ public class Game
         //deselect the current selected tile
         if (currentPlayer.getSelectedTile() != null)
         {
-            boardManager.deselectTile(currentPlayer.getSelectedTile());
+            currentPlayer.getSelectedTile().deselect();
         }
 
         //advance to the next player
@@ -118,14 +119,11 @@ public class Game
         }
 
         //select the new player's selected unit if it still exists
-        if (currentPlayer.getSelectedTile().hasUnit(currentPlayer.getChosenUnit()))
+        Tile selectedTile = currentPlayer.getSelectedTile();
+        Unit selectedUnit = currentPlayer.getSelectedUnit();
+        if (selectedTile != null)
         {
-            boardManager.selectTile(currentPlayer.getSelectedTile(), currentPlayer.getChosenUnit());
-        }
-        else
-        {
-            currentPlayer.setSelectedTile(null);
-            currentPlayer.setChosenUnit(null);
+            selectedTile.select();
         }
     }
 
