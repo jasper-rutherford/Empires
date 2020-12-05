@@ -1,7 +1,7 @@
 package Framework;
 
 /**
- * GameStuff.Game is the biggest of boys, the bestest of the bestest, the biggest and baddest, the ultra magnus, the alpha and
+ * Framework.Game is the biggest of boys, the bestest of the bestest, the biggest and baddest, the ultra magnus, the alpha and
  * the omega - its the class that does EVERYTHING
  */
 public class Empires
@@ -14,7 +14,7 @@ public class Empires
     }
 
     /**
-     * resets the GameStuff.Game to its default constructor
+     * resets the Framework.Game to its default constructor
      */
     private void reset()
     {

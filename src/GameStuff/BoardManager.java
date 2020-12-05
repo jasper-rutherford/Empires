@@ -311,23 +311,4 @@ public class BoardManager
             }
         }
     }
-
-    public void killUnit(Unit aUnit)
-    {
-        Player currentPlayer = h.getGame().getPlayer(aUnit.getPlayerNumber());
-        Tile locTile = aUnit.getLocTile();
-
-        locTile.deselectUnit(aUnit);
-        locTile.removeUnit(aUnit);
-
-        currentPlayer.deselectUnit();
-        currentPlayer.removeUnit(aUnit);
-
-        //if it cannot find a new unit to select
-        if (!locTile.selectUnit())
-        {
-            //deselect the tile
-            currentPlayer.setSelectedTile(null);
-        }
-    }
 }
