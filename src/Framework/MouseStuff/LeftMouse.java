@@ -31,7 +31,7 @@ public class LeftMouse
         if (!h.getButtonManager().activateButtons(mouse.getCoords()))
         {
             //if there were no buttons to press, select the unit on the board at that location
-            h.getGame().getBoardManager().selectMouseTile();
+            h.getGame().getBoardManager().considerTile(h.getGame().getBoard().getTileAt(h.getMouse().getCoords()));
         }
     }
 

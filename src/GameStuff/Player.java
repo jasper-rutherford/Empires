@@ -19,7 +19,7 @@ public class Player
     private ArrayList<Unit> tiredUnits;
 
     private Tile selectedTile;
-    private Unit selectedUnit;
+    private Unit chosenUnit;
 
     private Color teamColor;
 
@@ -59,28 +59,28 @@ public class Player
         return selectedTile;
     }
 
-    public void select(Tile aTile)
-    {
-        if (aTile != null)
-        {
-            if (selectedTile != null && !selectedTile.equals(aTile))
-            {
-                selectedTile.deselect();
-            }
+//    public void select(Tile aTile)
+//    {
+//        if (aTile != null)
+//        {
+//            if (selectedTile != null && !selectedTile.equals(aTile))
+//            {
+//                selectedTile.deselect();
+//            }
+//
+//            selectedTile = aTile;
+//            selectedTile.select();
+//        }
+//    }
 
-            selectedTile = aTile;
-            selectedTile.select();
-        }
+    public void setChosenUnit(Unit unit)
+    {
+        chosenUnit = unit;
     }
 
-    public void setSelectedUnit(Unit unit)
+    public Unit getChosenUnit()
     {
-        selectedUnit = unit;
-    }
-
-    public Unit getSelectedUnit()
-    {
-        return selectedUnit;
+        return chosenUnit;
     }
 
     /**
@@ -164,17 +164,17 @@ public class Player
 
     public void clearSelectedUnit()
     {
-        selectedUnit = null;
+        chosenUnit = null;
     }
 
-    /**
-     * Clears the selected unit from this player.
-     * <p>
-     * IT DOES NOTHING ELSE
-     * <p>Use this with Tile.deselectUnit();
-     */
-    public void deselectUnit()
-    {
-        selectedUnit = null;
-    }
+//    /**
+//     * Clears the selected unit from this player.
+//     * <p>
+//     * IT DOES NOTHING ELSE
+//     * <p>Use this with Tile.deselectUnit();
+//     */
+//    public void deselectUnit()
+//    {
+//        selectedUnit = null;
+//    }
 }
