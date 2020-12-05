@@ -167,7 +167,7 @@ public class Unit
         int screenWidth = h.getScreenWidth();
         int screenHeight = h.getScreenHeight();
 
-        Unit selectedUnit = h.getGame().getCurrentPlayer().getChosenUnit();
+        Unit selectedUnit = h.getGame().getCurrentPlayer().getSelectedUnit();
 
         g.setColor(new Color(91, 238, 74));
         g.fillRect(10, screenHeight - 110, 200, 100);
@@ -180,12 +180,12 @@ public class Unit
         g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
     }
 
-    public void enable()
+    public void select()
     {
 
     }
 
-    public void disable()
+    public void deselect()
     {
 
     }
