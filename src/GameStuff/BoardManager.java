@@ -23,95 +23,152 @@ public class BoardManager
     }
 
     /**
-     * tries to select the given tile, selects the next unit in line on the tile
+     * KEEP
      *
-     * @param aTile the tile to try to select
+     * @param aTile
+     */
+    public void considerTile(Tile aTile)
+    {
+        if (aTile != null)
+        {
+            Player player = h.getGame().getCurrentPlayer();
+
+            //tile is already selected
+            if (aTile.equals(player.getSelectedTile()))
+            {
+                //advance to the next unit
+                aTile.chooseUnit();
+
+                //update the player
+                player.setChosenUnit(aTile.getChosenUnit());
+            }
+            //not already selected
+            else
+            {
+                //the tile has a friendly unit
+                if (player.hasUnit(aTile.firstUnit()))
+                {
+                    //deselect the old
+                    deselectTile(player.getSelectedTile());
+
+                    //select the new
+                    selectTile(aTile);
+
+                    //update the player
+                    player.setSelectedTile(aTile);
+                    player.setChosenUnit(aTile.getChosenUnit());
+                }
+                //does not have friendly units
+                else
+                {
+                    //deselect the old
+                    deselectTile(player.getSelectedTile());
+
+                    //update the player
+                    player.setSelectedTile(null);
+                    player.setChosenUnit(null);
+                }
+            }
+        }
+    }
+
+    /**
+     * KEEP
+     *
+     * @param aTile
      */
     public void selectTile(Tile aTile)
     {
-        Player currentPlayer = h.getGame().getCurrentPlayer();
-        Tile selectedTile = currentPlayer.getSelectedTile();
-
-        //if the tile in question isn't null and has a unit controlled by the current player
-        if (aTile != null && aTile.hasUnits() && currentPlayer.hasUnit(aTile.firstUnit()))
+        if (aTile != null)
         {
-            //if the previous selected tile wasn't null and is not the tile being clicked
-            if (selectedTile != null && !selectedTile.equals(aTile))
-            {
-                //deselect it
-                selectedTile.deselect();
-            }
-
-            //set the new selectedtile
-            currentPlayer.setSelectedTile(aTile);
-
-            //select the new selected tile
-            aTile.select();
-
-            //set the current player's selected unit
-            currentPlayer.setSelectedUnit(aTile.getSelectedUnit());
-        }
-        //if the tile in question is not null but has no valid units
-        else if (aTile != null)
-        {
-            //if the old selectedtile is not null
-            if (selectedTile != null)
-            {
-                //deselect it
-                selectedTile.deselect();
-
-                //set the new selected tile to null
-                currentPlayer.setSelectedTile(null);
-            }
+            aTile.glow();
+            aTile.chooseUnit();
         }
     }
 
     /**
-     * tries to select the given tile, and tries to select the specified unit
+     * KEEP
      *
-     * @param aTile the tile to try to select
-     * @param aUnit the unit to select
+     * @param aTile
+     * @param aUnit
      */
     public void selectTile(Tile aTile, Unit aUnit)
     {
-        Player currentPlayer = h.getGame().getCurrentPlayer();
-        Tile selectedTile = currentPlayer.getSelectedTile();
-
-        //if the tile in question isn't null and has the specified unit
-        if (aTile != null && aTile.hasUnits() && currentPlayer.hasUnit(aUnit))
+        if (aTile != null)
         {
-            //if the previous selected tile wasn't null
-            if (selectedTile != null)
-            {
-                //deselect it
-                selectedTile.deselect();
-            }
-
-            //set the new selectedtile
-            currentPlayer.setSelectedTile(aTile);
-
-            //select the new selected tile
-            aTile.select(aUnit);
-
-            //set the current player's selected unit
-            currentPlayer.setSelectedUnit(aTile.getSelectedUnit());
+            aTile.glow();
+            aTile.chooseUnit(aUnit);
         }
     }
 
     /**
-     * tries to select the tile the mouse is above
+     * KEEP
+     *
+     * @param aTile
      */
-    public void selectMouseTile()
+    public void deselectTile(Tile aTile)
     {
-        //the mouse
-        Mouse mouse = h.getMouse();
-
-        //get the tile the mouse is above
-        Tile mouseTile = board.getTileAt(mouse.getCoords());
-
-        //try to select it
-        selectTile(mouseTile);
+        if (aTile != null)
+        {
+            aTile.stopGlowing();
+            aTile.rejectUnit();
+        }
     }
+
+    public void deselectTile(Tile aTile, Unit aUnit)
+    {
+        if (aTile.getChosenUnit() != null && aTile.getChosenUnit().equals(aUnit))
+        {
+            aTile.stopGlowing();
+            aTile.rejectUnit(aUnit);
+        }
+    }
+
+//    /**
+//     * tries to select the given tile, and tries to select the specified unit
+//     *
+//     * @param aTile the tile to try to select
+//     * @param aUnit the unit to select
+//     */
+//    public void selectTile(Tile aTile, Unit aUnit)
+//    {
+//        Player currentPlayer = h.getGame().getCurrentPlayer();
+//        Tile selectedTile = currentPlayer.getSelectedTile();
+//
+//        //if the tile in question isn't null and has the specified unit
+//        if (aTile != null && aTile.hasUnits() && currentPlayer.hasUnit(aUnit))
+//        {
+//            //deselect the old
+//            if (selectedTile != null)
+//            {
+//                selectedTile.deselect();
+//            }
+//
+//            //set the new
+//            currentPlayer.setSelectedTile(aTile);
+//
+//            //select the new
+//            aTile.select(aUnit);
+//
+//            //set the current player's selected unit
+//            currentPlayer.setSelectedUnit(aTile.getSelectedUnit());
+//        }
+//    }
+
+//    /**
+//     * tries to select the tile the mouse is above
+//     */
+//    public void selectMouseTile()
+//    {
+//        //the mouse
+//        Mouse mouse = h.getMouse();
+//
+//        //get the tile the mouse is above
+//        Tile mouseTile = board.getTileAt(mouse.getCoords());
+//
+//        //try to select it
+//        selectTile(mouseTile);
+//    }
 
     /**
      * attempts to find a path to the tile the mouse is above
@@ -125,7 +182,7 @@ public class BoardManager
         Tile selectedTile = h.getGame().getCurrentPlayer().getSelectedTile();
 
         boolean foundPath = false;
-        boolean donePathing = selectedTile.getSelectedUnit() == null;
+        boolean donePathing = selectedTile.getChosenUnit() == null;
 
 
         ArrayList<Tile> bank = new ArrayList<>();
@@ -146,7 +203,7 @@ public class BoardManager
                 {
                     Tile adjTile = tile.adjTile(lcv);
 
-                    if (adjTile != null && !bank.contains(adjTile) && !now.contains(adjTile) && !next.contains(adjTile) && selectedTile.getSelectedUnit().canStep(adjTile))
+                    if (adjTile != null && !bank.contains(adjTile) && !now.contains(adjTile) && !next.contains(adjTile) && selectedTile.getChosenUnit().canStep(adjTile))
                     {
                         next.add(adjTile);
 
@@ -236,34 +293,35 @@ public class BoardManager
     {
         Player currentPlayer = h.getGame().getCurrentPlayer();
         Tile selectedTile = currentPlayer.getSelectedTile();
-        Unit selectedUnit = currentPlayer.getSelectedUnit();
+        Unit chosenUnit = currentPlayer.getChosenUnit();
         ArrayList<Unit> tiredUnits = currentPlayer.getTiredUnits();
 
         //if everything is valid and the selected unit has energy
-        if (selectedTile != null && selectedUnit != null && aTile != null && selectedUnit.hasEnergy())
+        if (selectedTile != null && chosenUnit != null && aTile != null && chosenUnit.hasEnergy())
         {
             //remove the selected unit from its current tile
-            selectedTile.removeUnit(selectedUnit);
+            selectedTile.removeUnit(chosenUnit);
 
             //add the unit to its new tile
-            aTile.addUnit(selectedUnit);
+            aTile.addUnit(chosenUnit);
 
             //take energy from the unit equivalent to the tile's move cost
-            selectedUnit.takeEnergy(aTile.getMoveCost());
+            chosenUnit.takeEnergy(aTile.getMoveCost());
 
             //add the unit to the list of tired units if it wasn't already on there
-            if (!tiredUnits.contains(selectedUnit))
+            if (!tiredUnits.contains(chosenUnit))
             {
-                tiredUnits.add(selectedUnit);
+                tiredUnits.add(chosenUnit);
             }
 
+            //deselect the old
+            deselectTile(selectedTile);
 
-            //update current player's selected tile
+            //update current player
             h.getGame().getCurrentPlayer().setSelectedTile(aTile);
 
-            selectedTile.deselect();
-
-            aTile.select(selectedUnit);
+            //select the new
+            selectTile(aTile, chosenUnit);
         }
     }
 
@@ -293,10 +351,10 @@ public class BoardManager
         Player currentPlayer = h.getGame().getCurrentPlayer();
 
         //if there is a selected unit (and tile)
-        if(currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedTile().getSelectedUnit() != null)
+        if (currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedTile().getChosenUnit() != null)
         {
             Tile selectedTile = currentPlayer.getSelectedTile();
-            Unit selectedUnit = currentPlayer.getSelectedUnit();
+            Unit selectedUnit = currentPlayer.getChosenUnit();
 
             //if the given tile is adjacent and contains an enemy, attack it
             if (selectedTile.isAdjacent(aTile) && aTile.firstUnit() != null && aTile.firstUnit().getPlayerNumber() != currentPlayer.getPlayerNumber())
@@ -314,20 +372,13 @@ public class BoardManager
 
     public void killUnit(Unit aUnit)
     {
-        Player currentPlayer = h.getGame().getPlayer(aUnit.getPlayerNumber());
+        Player player = h.getGame().getPlayer(aUnit.getPlayerNumber());
         Tile locTile = aUnit.getLocTile();
 
-        locTile.deselectUnit(aUnit);
+        deselectTile(locTile, aUnit);
         locTile.removeUnit(aUnit);
 
-        currentPlayer.deselectUnit();
-        currentPlayer.removeUnit(aUnit);
-
-        //if it cannot find a new unit to select
-        if (!locTile.selectUnit())
-        {
-            //deselect the tile
-            currentPlayer.setSelectedTile(null);
-        }
+        player.setChosenUnit(null);
+        player.removeUnit(aUnit);
     }
 }

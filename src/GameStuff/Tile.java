@@ -22,8 +22,8 @@ public class Tile
     private Color color;
     private Color borderColor;
     private ArrayList<Unit> units;
-    private int selectedUnitIndex;
-    private Unit selectedUnit;
+    private int chosenIndex;
+    private Unit chosenUnit;
     private int moveCost;
     private Color teamColor;
     private Polygon teamIndicator;
@@ -61,8 +61,8 @@ public class Tile
 
         units = new ArrayList<>();
 
-        selectedUnitIndex = 0;
-        selectedUnit = null;
+        chosenIndex = 0;
+        chosenUnit = null;
 
         moveCost = 1;
 
@@ -142,9 +142,9 @@ public class Tile
         }
 
         //render selected unit last
-        if (selectedUnit != null)
+        if (chosenUnit != null)
         {
-            selectedUnit.render(g);
+            chosenUnit.render(g);
         }
     }
 
@@ -261,125 +261,245 @@ public class Tile
     }
 
     /**
-     * selects the tile, selects the next unit in line
+     * selects the next unit for this tile
+     *
+     * @return whether or not a unit was selected
      */
-    public void select()
-    {
-        //set border to white
-        borderColor = new Color(255, 255, 255);
-
-        if (units.size() > 0)
-        {
-            selectedUnitIndex++;
-
-            while (selectedUnitIndex >= units.size())
-            {
-                selectedUnitIndex -= units.size();
-            }
-
-            if (selectedUnit != null)
-            {
-                selectedUnit.deselect();
-            }
-
-            selectedUnit = units.get(selectedUnitIndex);
-
-            selectedUnit.select();
-        }
-    }
-
-    /**
-     * selects the tile, selects the specific unit (if possible)
-     */
-    public void select(Unit aUnit)
-    {
-//        if (units.contains(aUnit))
-//        {
-            borderColor = new Color(255, 255, 255);
-
-//            if (selectedUnit != null)
-//            {
-//                selectedUnit.deselect();
-//            }
-//
-//            selectedUnit = aUnit;
-//            selectedUnitIndex = units.indexOf(aUnit);
-//
-//            selectedUnit.select();
-//        }
-    }
-
-    public boolean selectUnit()
+    public boolean chooseUnit()
     {
         //if there was already a unit selected on this tile, select the next one
-        if (selectedUnit != null)
+        if (chosenUnit != null)
         {
-            selectedUnit.deselect();
-            selectedUnitIndex++;
+            //deselect the old
+            chosenUnit.disable();
 
-            if (selectedUnitIndex >= units.size())
+            //shift to the new
+            chosenIndex++;
+
+            if (chosenIndex >= units.size())
             {
-                selectedUnitIndex = 0;
+                chosenIndex = 0;
             }
+            chosenUnit = units.get(chosenIndex);
+            teamColor = chosenUnit.getTeamColor();
 
-            selectedUnit.select();
-            teamColor = selectedUnit.getTeamColor();
+            //select the new
+            chosenUnit.enable();
         }
         //otherwise if there are any units on the tile just select the first
         else if (units.size() > 0)
         {
-            selectedUnitIndex = 0;
-            selectedUnit = units.get(selectedUnitIndex);
-            selectedUnit.select();
-            teamColor = selectedUnit.getTeamColor();
+            //shift to the new
+            chosenIndex = 0;
+            chosenUnit = units.get(chosenIndex);
+            teamColor = chosenUnit.getTeamColor();
+
+            //select the new
+            chosenUnit.enable();
         }
 
         //return whether or not a unit was selected
-        return selectedUnitIndex != -1;
+        return chosenIndex != -1;
     }
 
     /**
-     * tries to deselect the given unit
+     * selects the next unit for this tile
      *
-     * @param aUnit the unit to try to deselect
+     * @return whether or not a unit was selected
      */
-    public void deselectUnit(Unit aUnit)
+    public boolean chooseUnit(Unit aUnit)
     {
-        if (selectedUnit != null && selectedUnit.equals(aUnit))
+        //deselect the old
+        if (chosenUnit != null)
         {
-            selectedUnit.deselect();
-            selectedUnit = null;
-            selectedUnitIndex = -1;
-
-            teamColor = null;
+            chosenUnit.disable();
         }
+
+        //shift to the new
+        if (units.contains(aUnit))
+        {
+            chosenIndex = units.indexOf(aUnit);
+            chosenUnit = aUnit;
+            teamColor = aUnit.getTeamColor();
+        }
+
+        //select the new
+        if (chosenUnit != null)
+        {
+            chosenUnit.enable();
+        }
+
+        //return whether or not a unit was selected
+        return chosenIndex != -1;
     }
 
     /**
-     * deselects the selected unit on this tile (if there is one)
+     * rejects the current chosen unit.
      */
-    public void deselectUnit()
+    public void rejectUnit()
     {
-        deselectUnit(selectedUnit);
+        if (chosenUnit != null)
+        {
+            chosenUnit.disable();
+        }
+
+//        teamColor = null;
+        chosenUnit = null;
+        chosenIndex = -1;
     }
 
-    public void deselect()
+    /**
+     * tries to reject aUnit from this tile
+     *
+     * @param aUnit the unit to reject
+     * @return true if the unit was chosen and now is not, false otherwise
+     */
+    public boolean rejectUnit(Unit aUnit)
     {
-        resetBorderColor();
+        if (units.contains(aUnit) && aUnit.equals(chosenUnit))
+        {
+//            teamColor = null;
+            chosenUnit = null;
+            chosenIndex = -1;
 
-//        selectedUnitIndex = -1;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * selects the tile, selects the next unit in line
+     */
+    public void glow()
+    {
+        //make border white
+        borderColor = new Color(255, 255, 255);
+    }
+
+    public void stopGlowing()
+    {
+        borderColor = defaultBorderColor;
+    }
+
+//    /**
+//     * selects the tile, selects the specific unit (if possible)
+//     */
+//    public void select(Unit aUnit)
+//    {
+//        //make border white
+//        borderColor = new Color(255, 255, 255);
 //
+//        //select the given unit
+//        selectUnit(aUnit);
+//    }
+
+//    /**
+//     * selects the next unit for this tile
+//     *
+//     * @return whether or not a unit was selected
+//     */
+//    public boolean selectUnit()
+//    {
+//        //if there was already a unit selected on this tile, select the next one
+//        if (selectedUnit != null)
+//        {
+//            //deselect the old
+//            selectedUnit.deselect();
+//
+//            //shift to the new
+//            selectedUnitIndex++;
+//
+//            if (selectedUnitIndex >= units.size())
+//            {
+//                selectedUnitIndex = 0;
+//            }
+//            selectedUnit = units.get(selectedUnitIndex);
+//            teamColor = selectedUnit.getTeamColor();
+//
+//            //select the new
+//            selectedUnit.select();
+//        }
+//        //otherwise if there are any units on the tile just select the first
+//        else if (units.size() > 0)
+//        {
+//            //shift to the new
+//            selectedUnitIndex = 0;
+//            selectedUnit = units.get(selectedUnitIndex);
+//            teamColor = selectedUnit.getTeamColor();
+//
+//            //select the new
+//            selectedUnit.select();
+//        }
+//
+//        //return whether or not a unit was selected
+//        return selectedUnitIndex != -1;
+//    }
+
+//    /**
+//     * selects the next unit for this tile
+//     *
+//     * @return whether or not a unit was selected
+//     */
+//    public boolean selectUnit(Unit aUnit)
+//    {
+//        //deselect the old
 //        if (selectedUnit != null)
 //        {
 //            selectedUnit.deselect();
 //        }
 //
-//        selectedUnit = null;
-    }
+//        //shift to the new
+//        if (units.contains(aUnit))
+//        {
+//            selectedUnitIndex = units.indexOf(aUnit);
+//            selectedUnit = aUnit;
+//            teamColor = aUnit.getTeamColor();
+//        }
+//
+//        //select the new
+//        if (selectedUnit != null)
+//        {
+//            selectedUnit.select();
+//        }
+//
+//        //return whether or not a unit was selected
+//        return selectedUnitIndex != -1;
+//    }
 
-    public Unit getSelectedUnit()
+//    /**
+//     * tries to deselect the given unit
+//     *
+//     * @param aUnit the unit to try to deselect
+//     */
+//    public void deselectUnit(Unit aUnit)
+//    {
+//        if (selectedUnit != null && selectedUnit.equals(aUnit))
+//        {
+//            selectedUnit.deselect();
+//            selectedUnit = null;
+//            selectedUnitIndex = -1;
+//        }
+//    }
+//
+//    /**
+//     * deselects the selected unit on this tile (if there is one)
+//     */
+//    public void deselectUnit()
+//    {
+//        deselectUnit(selectedUnit);
+//    }
+//
+//    public void deselect()
+//    {
+//        resetBorderColor();
+//
+//        deselectUnit();
+//    }
+
+    public Unit getChosenUnit()
     {
-        return selectedUnit;
+        return chosenUnit;
     }
 
     public void addUnit(Unit aUnit)
@@ -393,8 +513,8 @@ public class Tile
         units.add(aUnit);
         aUnit.setLocTile(this);
 
-        selectedUnitIndex = units.size() - 1;
-        selectedUnit = aUnit;
+        chosenIndex = units.size() - 1;
+        chosenUnit = aUnit;
     }
 
     public void removeUnit(Unit aUnit)
