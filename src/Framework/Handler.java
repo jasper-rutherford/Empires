@@ -45,6 +45,8 @@ public class Handler
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Jasper\\Desktop\\Empires\\res\\icon.png");
+        frame.setIconImage(icon);
 
         //these are the big bois
         ticker = new Ticker(this);
