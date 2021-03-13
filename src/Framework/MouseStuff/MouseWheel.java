@@ -1,5 +1,6 @@
 package Framework.MouseStuff;
 
+import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import Framework.*;
 import GameStuff.Board;
@@ -36,11 +37,21 @@ public class MouseWheel
         //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
         if (e.getWheelRotation() > 0 && board.getSideLength() > 30)
         {
+            //updates tile sidelengths
             board.setSideLength((int) (board.getSideLength() * (.9)));
+
+            //updates the distance between mouse and anchortile
+            Point deltaPoint = mouse.getLeftMouse().getDeltaPoint();
+            mouse.getLeftMouse().setDeltaPoint(new Point((int)(deltaPoint.x * .9), (int)(deltaPoint.y * .9)));
         }
         if (e.getWheelRotation() < 0 && board.getSideLength() < 130)
         {
+            //updates tile sidelengths
             board.setSideLength((int) (board.getSideLength() / (.9)));
+
+            //updates the distance between mouse and anchortile
+            Point deltaPoint = mouse.getLeftMouse().getDeltaPoint();
+            mouse.getLeftMouse().setDeltaPoint(new Point((int)(deltaPoint.x / .9), (int)(deltaPoint.y / .9)));
         }
 
         board.reload();
@@ -70,5 +81,8 @@ public class MouseWheel
         }
 
         board.setAnchorTile(anchor);
+
+        //update the distance between the anchortile and the mouse (as this likely have changed)
+        mouse.getLeftMouse().updateDelta();
     }
 }

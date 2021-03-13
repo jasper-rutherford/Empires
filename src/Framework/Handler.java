@@ -31,8 +31,6 @@ public class Handler
 
     private Random rand;
 
-//    private Board board;
-
     /**
      * Constructor for the Framework.Handler class
      */

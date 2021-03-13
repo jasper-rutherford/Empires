@@ -3,28 +3,39 @@ package Framework.MouseStuff;
 import Framework.Handler;
 import GameStuff.Tile;
 
+import java.awt.*;
+
 public class LeftMouse
 {
     private Handler h;
     private Mouse mouse;
+
+    //the distance from the mouse coordinates to the anchor tile's coordinates, used for moving the screen
+    private int deltaX;
+    private int deltaY;
 
 
     public LeftMouse(Handler h, Mouse mouse)
     {
         this.h = h;
         this.mouse = mouse;
+        deltaX = -1;
+        deltaY = -1;
     }
 
+    //when the left button is pressed
     public void pressed()
     {
-
+        updateDelta();
     }
 
+    //when the left button is released
     public void released()
     {
 
     }
 
+    //when the left button is pressed and released without moving too much
     public void clicked()
     {
         //try to click any buttons on that location
@@ -35,24 +46,43 @@ public class LeftMouse
         }
     }
 
+    //while the left button is held down
     public void held()
     {
         moveTiles();
     }
 
     /**
-     * moves the tiles the distance from last tick's mouse coordinates to this tick's mouse coordinates
+     * updates the anchortile's position to be the same distance from the mouse as it was when the left button was initially pressed
      */
     public void moveTiles()
     {
-        //the difference between last tick's mouse coordinates and this tick's mouse coordinates
-        int xDiff = mouse.getCoords().x - mouse.getPrevCoords().x;
-        int yDiff = mouse.getCoords().y - mouse.getPrevCoords().y;
+        //calculates the new center
+        Point newCenter = new Point(deltaX + mouse.getCurrentX(), deltaY + mouse.getCurrentY());
 
-        //move the screen (if either above case triggered, yDiff is zero)
+        //updates the center
         Tile anchorTile = h.getGame().getBoard().getAnchorTile();
-        anchorTile.getHex().moveCenter(xDiff, yDiff);
+        anchorTile.getHex().setCenter(newCenter);
 
+        //reloads the board
         h.getGame().getBoard().reload();
+    }
+
+    public Point getDeltaPoint()
+    {
+        return new Point(deltaX, deltaY);
+    }
+
+    public void setDeltaPoint(Point p)
+    {
+        deltaX = p.x;
+        deltaY = p.y;
+    }
+
+    //update the distance from the mouse to the anchortile
+    public  void updateDelta()
+    {
+        deltaX = h.getGame().getBoard().getAnchorTile().getXCoord() - mouse.getCurrentX();
+        deltaY = h.getGame().getBoard().getAnchorTile().getYCoord() - mouse.getCurrentY();
     }
 }

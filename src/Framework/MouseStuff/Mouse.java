@@ -244,4 +244,14 @@ public class Mouse implements MouseListener, MouseWheelListener
     {
         return prevCoords;
     }
+
+    public MouseWheel getMouseWheel()
+    {
+        return mouseWheel;
+    }
+
+    public LeftMouse getLeftMouse()
+    {
+        return leftMouse;
+    }
 }
