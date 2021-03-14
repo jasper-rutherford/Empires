@@ -10,11 +10,20 @@ public class EndTurnButton extends Button
 {
     private Handler h;
 
-    public EndTurnButton(Handler h, Polygon space, boolean enabled, Color color)
+    public EndTurnButton(Handler h, Color color)
     {
-        super(h, space, enabled, color);
+        super(h, new Rectangle(-1, -1, -1, -1), true);
 
         this.h = h;
+
+        int x = h.getScreenWidth() - 100;
+        int y = h.getScreenHeight() - 100;
+        int width = 90;
+        int height = 90;
+        setSpace(new Rectangle(x, y, width, height));
+
+        setColor(color);
+        setBorderColor(Color.BLACK);
     }
 
     public void activate()
@@ -38,12 +47,12 @@ public class EndTurnButton extends Button
 
     public void render(Graphics g)
     {
-        Polygon space = getSpace();
+        setColor(h.getGame().getCurrentPlayer().getTeamColor());
+        super.render(g);
+    }
 
-        g.setColor(h.getGame().getCurrentPlayer().getTeamColor());
-        g.fillPolygon(space);
-
-        g.setColor(Color.black);
-        g.drawPolygon(space);
+    public String toString()
+    {
+        return "End Turn Button";
     }
 }

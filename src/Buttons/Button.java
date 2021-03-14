@@ -1,28 +1,49 @@
 package Buttons;
 
 import Framework.Handler;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
+//The generic Button
 public class Button
 {
+    //the handler
     private Handler h;
 
-    private Polygon space;
+    //the space of the button
+    private Rectangle space;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
 
+    //whether the button is active
     private boolean enabled;
 
+    //color stuff
+    private boolean hasColor;
     private Color color;
 
-    public Button(Handler h, Polygon space, boolean enabled, Color color)
+    //bordercolor stuff
+    private boolean hasBorderColor;
+    private Color borderColor;
+
+    //image stuff
+    private boolean hasImage;
+    private BufferedImage image;
+
+    public Button(Handler h, Rectangle rect, boolean enabled)
     {
         this.h = h;
-
-        this.space = space;
-
+        setSpace(rect);
         this.enabled = enabled;
 
-        this.color = color;
+        //default to no color/bordercolor/image
+        hasColor = false;
+        hasBorderColor = false;
+        hasImage = false;
     }
 
     public void enable()
@@ -42,11 +63,25 @@ public class Button
 
     public void render(Graphics g)
     {
-        g.setColor(color);
-        g.fillPolygon(space);
+        //fill with color if a color is assigned
+        if (hasColor)
+        {
+            g.setColor(color);
+            g.fillRect(x, y, width, height);
+        }
 
-        g.setColor(Color.black);
-        g.drawPolygon(space);
+        //draw a border if a color is assigned
+        if (hasBorderColor)
+        {
+            g.setColor(Color.black);
+            g.drawRect(x, y, width, height);
+        }
+
+        //draw an image if one is assigned
+        if (hasImage)
+        {
+            g.drawImage(image, x, y, width, height, null);
+        }
     }
 
     public boolean isEnabled()
@@ -62,8 +97,35 @@ public class Button
 
     }
 
-    public Polygon getSpace()
+    public Rectangle getSpace()
     {
         return space;
+    }
+
+    public void setColor(Color color)
+    {
+        this.color = color;
+        hasColor = true;
+    }
+
+    public void setBorderColor(Color color)
+    {
+        borderColor = color;
+        hasBorderColor = true;
+    }
+
+    public void setImage(BufferedImage image)
+    {
+        this.image = image;
+        hasImage = true;
+    }
+
+    public void setSpace(Rectangle rect)
+    {
+        space = rect;
+        x = rect.x;
+        y = rect.y;
+        width = rect.width;
+        height = rect.height;
     }
 }

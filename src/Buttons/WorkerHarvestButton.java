@@ -11,9 +11,18 @@ public class WorkerHarvestButton extends Button
     private Handler h;
     private Worker worker;
 
-    public WorkerHarvestButton(Handler h, Polygon space, boolean enabled, Color color, Worker worker)
+    public WorkerHarvestButton(Handler h, Color color, Worker worker)
     {
-        super(h, space, enabled, color);
+        super(h, new Rectangle(-1, -1, -1, -1), true);
+
+        int x = 10;
+        int y = h.getScreenHeight() - 420;
+        int width = 20;
+        int height = 20;
+        setSpace(new Rectangle(x, y, width, height));
+
+        setColor(color);
+        setBorderColor(Color.BLACK);
 
         this.h = h;
         this.worker = worker;
@@ -37,14 +46,8 @@ public class WorkerHarvestButton extends Button
         }
     }
 
-    public void render(Graphics g)
+    public String toString()
     {
-        Polygon space = getSpace();
-
-        g.setColor(h.getGame().getCurrentPlayer().getTeamColor());
-        g.fillPolygon(space);
-
-        g.setColor(Color.black);
-        g.drawPolygon(space);
+        return "Worker Harvest Button";
     }
 }

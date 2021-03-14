@@ -112,8 +112,8 @@ public class Handler
         return game;
     }
 
-    //literally just a shorter log method
-    public void log(String out)
+    //literally just a shorter print method
+    public void println(String out)
     {
         System.out.println(out);
     }

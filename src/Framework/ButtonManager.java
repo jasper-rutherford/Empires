@@ -17,20 +17,7 @@ public class ButtonManager
         this.h = h;
         buttons = new ArrayList<>();
 
-        buildEndTurnButton();
-    }
-
-    public void buildEndTurnButton()
-    {
-        int screenWidth = h.getScreenWidth();
-        int screenHeight = h.getScreenHeight();
-
-        int[] endTurnXPoints = {screenWidth - 100, screenWidth - 10, screenWidth - 10, screenWidth - 100};
-        int[] endTurnYPoints = {screenHeight - 100, screenHeight - 100, screenHeight - 10, screenHeight - 10};
-
-        EndTurnButton endTurnButton = new EndTurnButton(h, new Polygon(endTurnXPoints, endTurnYPoints, 4), true, new Color(99, 28, 215));
-
-        buttons.add(endTurnButton);
+        buttons.add(new EndTurnButton(h, new Color(99, 28, 215)));
     }
 
     public void render(Graphics g)

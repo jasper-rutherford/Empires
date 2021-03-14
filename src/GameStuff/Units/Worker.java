@@ -17,13 +17,10 @@ public class Worker extends Unit
 
         this.h = h;
 
-        int[] xpoints = {10, 30, 30, 10};
-        int[] ypoints = {h.getScreenHeight() - 420, h.getScreenHeight() - 420, h.getScreenHeight() - 400, h.getScreenHeight() - 400};
-        button = new WorkerHarvestButton(h, new Polygon(xpoints, ypoints, 4), true, getTeamColor(), this);
+        button = new WorkerHarvestButton(h, getTeamColor(), this);
         h.getButtonManager().addButton(button);
 
         setIcon(h.getGame().getBoard().getTexture("worker"));
-
     }
 
     public void renderInfo(Graphics g)
