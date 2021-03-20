@@ -1,8 +1,9 @@
-package Buttons;
+package GameStuff.Units.Worker.WorkerMenu;
 
+import Buttons.Button;
 import Framework.Handler;
-import GameStuff.Tile;
-import GameStuff.Units.Worker;
+import GameStuff.Board.Tile;
+import GameStuff.Units.Worker.Worker;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class WorkerHarvestButton extends Button
     private Handler h;
     private Worker worker;
 
-    public WorkerHarvestButton(Handler h, Color color, Worker worker)
+    public WorkerHarvestButton(Handler h, Worker worker)
     {
         super(h, new Rectangle(-1, -1, -1, -1), true);
 
@@ -21,7 +22,7 @@ public class WorkerHarvestButton extends Button
         int height = 20;
         setSpace(new Rectangle(x, y, width, height));
 
-        setColor(color);
+        setColor(worker.getTeamColor());
         setBorderColor(Color.BLACK);
 
         this.h = h;

@@ -1,6 +1,9 @@
 package Framework;
 
 import GameStuff.*;
+import GameStuff.Board.Board;
+import GameStuff.Board.BoardManager;
+import GameStuff.Board.Tile;
 import GameStuff.Units.Unit;
 
 import java.awt.*;

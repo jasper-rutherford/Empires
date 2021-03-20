@@ -1,7 +1,6 @@
 package Buttons;
 
 import Framework.Handler;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -127,5 +126,10 @@ public class Button
         y = rect.y;
         width = rect.width;
         height = rect.height;
+    }
+
+    public Handler getHandler()
+    {
+        return h;
     }
 }

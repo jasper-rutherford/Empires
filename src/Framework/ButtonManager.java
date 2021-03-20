@@ -1,7 +1,7 @@
 package Framework;
 
 import Buttons.Button;
-import Buttons.EndTurnButton;
+import GameStuff.EndTurnButton;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ public class ButtonManager
         this.h = h;
         buttons = new ArrayList<>();
 
-        buttons.add(new EndTurnButton(h, new Color(99, 28, 215)));
     }
 
     public void render(Graphics g)
@@ -31,13 +30,18 @@ public class ButtonManager
         }
     }
 
+    /**
+     * activates every button that is enabled and contains the point p
+     * @param p the point to check
+     * @return whether or not a button was activated
+     */
     public boolean activateButtons(Point p)
     {
         boolean buttonActivated = false;
 
         for (Button button : buttons)
         {
-            if (!buttonActivated && button.isEnabled() && button.contains(p))
+            if (button.isEnabled() && button.contains(p))
             {
                 button.activate();
                 buttonActivated = true;
@@ -52,6 +56,24 @@ public class ButtonManager
         if (!buttons.contains(button))
         {
             buttons.add(button);
+        }
+    }
+
+    //enables all the buttons
+    public void enableAll()
+    {
+        for (Button button : buttons)
+        {
+            button.enable();
+        }
+    }
+
+    //disables all the buttons
+    public void disableAll()
+    {
+        for (Button button : buttons)
+        {
+            button.disable();
         }
     }
 }

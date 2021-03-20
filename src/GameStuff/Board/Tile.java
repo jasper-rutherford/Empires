@@ -1,4 +1,4 @@
-package GameStuff;
+package GameStuff.Board;
 
 import Framework.Handler;
 import GameStuff.Units.Unit;

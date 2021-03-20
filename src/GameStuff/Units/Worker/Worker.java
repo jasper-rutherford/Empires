@@ -1,10 +1,14 @@
-package GameStuff.Units;
+package GameStuff.Units.Worker;
 
-import Buttons.WorkerHarvestButton;
 import Framework.Handler;
-import GameStuff.Tile;
+import GameStuff.Board.Tile;
+import GameStuff.Menus.Menu;
+import GameStuff.Units.Unit;
+import GameStuff.Units.Worker.WorkerMenu.WorkerHarvestButton;
+import GameStuff.Units.Worker.WorkerMenu.WorkerMenu;
 
 import java.awt.*;
+
 
 public class Worker extends Unit
 {
@@ -17,8 +21,9 @@ public class Worker extends Unit
 
         this.h = h;
 
-        button = new WorkerHarvestButton(h, getTeamColor(), this);
-        h.getButtonManager().addButton(button);
+        //creates a menu for the worker and adds it to the menumanager
+        Menu workerMenu = new WorkerMenu(h, true, this);
+        h.getMenuManager().add(workerMenu);
 
         setIcon(h.getGame().getBoard().getTexture("worker"));
     }

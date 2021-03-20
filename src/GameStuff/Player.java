@@ -1,6 +1,7 @@
 package GameStuff;
 
 import Framework.Handler;
+import GameStuff.Board.Tile;
 import GameStuff.Units.Unit;
 
 import java.awt.*;

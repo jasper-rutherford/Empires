@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import Framework.Handler;
 import Framework.MouseStuff.Mouse;
 import GameStuff.Player;
-import GameStuff.Tile;
+import GameStuff.Board.Tile;
 import GameStuff.Units.Unit;
-import GameStuff.Units.Worker;
+import GameStuff.Units.Worker.Worker;
 
 /**
  * action that spawns a unit at the mouse's location

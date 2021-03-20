@@ -1,4 +1,4 @@
-package GameStuff;
+package GameStuff.Board;
 
 import Framework.Handler;
 
@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -227,6 +226,11 @@ public class Board
         if (tile != null)
         {
             anchorTile = tile;
+
+            if (h.getGame() != null)
+            {
+                h.getMouse().getLeftMouse().updateDelta();
+            }
         }
     }
 

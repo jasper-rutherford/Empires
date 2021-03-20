@@ -2,9 +2,10 @@ package Framework.MouseStuff;
 
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
+
 import Framework.*;
-import GameStuff.Board;
-import GameStuff.Tile;
+import GameStuff.Board.Board;
+import GameStuff.Board.Tile;
 
 public class MouseWheel
 {
@@ -30,39 +31,63 @@ public class MouseWheel
      */
     public void zoom(MouseWheelEvent e)
     {
-        updateAnchorTile();
+        updateAnchorTile(); //makes sure that the anchortile is a relevant tile
 
         Board board = h.getGame().getBoard();
 
-        //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
-        if (e.getWheelRotation() > 0 && board.getSideLength() > 30)
+        //if left is held do special stuff to zoom around the mouse THIS DOES NOT WORK FIX IT LATER
+        if (mouse.leftHeld() && false)
         {
-            //updates tile sidelengths
-            board.setSideLength((int) (board.getSideLength() * (.9)));
-
-            //updates the distance between mouse and anchortile
+            //calculate the ratio between the deltapoint vals and sidelength
             Point deltaPoint = mouse.getLeftMouse().getDeltaPoint();
-            mouse.getLeftMouse().setDeltaPoint(new Point((int)(deltaPoint.x * .9), (int)(deltaPoint.y * .9)));
+            double rx = deltaPoint.x / (1.0 * board.getSideLength());
+            double ry = deltaPoint.y / (1.0 * board.getSideLength());
+
+            //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
+            if (e.getWheelRotation() > 0 && board.getSideLength() > 30)
+            {
+                //updates tile sidelengths
+                board.setSideLength((int) (board.getSideLength() * (.9)));
+            }
+            if (e.getWheelRotation() < 0 && board.getSideLength() < 130)
+            {
+                //updates tile sidelengths
+                board.setSideLength((int) (board.getSideLength() / (.9)));
+            }
+
+            //calculates a new deltapoint from the ratio and new sidelength
+            deltaPoint.x = (int)(board.getSideLength() * rx);
+            deltaPoint.y = (int)(board.getSideLength() * ry);
+            mouse.getLeftMouse().setDeltaPoint(deltaPoint);
+
+            //reloads the board with the new sidelength
+            board.reload();
         }
-        if (e.getWheelRotation() < 0 && board.getSideLength() < 130)
+        else
         {
-            //updates tile sidelengths
-            board.setSideLength((int) (board.getSideLength() / (.9)));
+            //increases sidelength by 10% or decreases by 10% based on wheel rotation direction
+            if (e.getWheelRotation() > 0 && board.getSideLength() > 30)
+            {
+                //updates tile sidelengths
+                board.setSideLength((int) (board.getSideLength() * (.9)));
+            }
+            if (e.getWheelRotation() < 0 && board.getSideLength() < 130)
+            {
+                //updates tile sidelengths
+                board.setSideLength((int) (board.getSideLength() / (.9)));
+            }
 
-            //updates the distance between mouse and anchortile
-            Point deltaPoint = mouse.getLeftMouse().getDeltaPoint();
-            mouse.getLeftMouse().setDeltaPoint(new Point((int)(deltaPoint.x / .9), (int)(deltaPoint.y / .9)));
+            //reloads the board with the new sidelength
+            board.reload();
+            mouse.getLeftMouse().updateDelta();
         }
-
-        board.reload();
     }
 
     /**
      * updates the anchortile
-     *
+     * <p>
      * makes the tile at the center of the screen the anchortile
      * then tries to make the anchortile the tile the mouse is over
-     *
      */
     public void updateAnchorTile()
     {

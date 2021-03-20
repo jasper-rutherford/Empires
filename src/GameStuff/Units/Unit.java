@@ -2,7 +2,7 @@ package GameStuff.Units;
 
 import Framework.Handler;
 import GameStuff.Player;
-import GameStuff.Tile;
+import GameStuff.Board.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

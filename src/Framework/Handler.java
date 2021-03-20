@@ -1,8 +1,7 @@
 package Framework;
 
 import Framework.MouseStuff.Mouse;
-import GameStuff.Board;
-import GameStuff.BoardManager;
+import GameStuff.EndTurnButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +21,7 @@ public class Handler
     private Panel screen;
     private Frame frame;
     private ButtonManager buttonManager;
+    private MenuManager menuManager;
     private Game game;
 
     private boolean restart;
@@ -63,7 +63,11 @@ public class Handler
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
 
+        //create button manager and add misc buttons
         buttonManager = new ButtonManager(this);
+        buttonManager.addButton(new EndTurnButton(this, new Color(99, 28, 215))); //end turn button
+
+        menuManager = new MenuManager(this);
         game = new Game(this, 3);
 
         restart = false;
@@ -121,5 +125,10 @@ public class Handler
     public Random getRandom()
     {
         return rand;
+    }
+
+    public MenuManager getMenuManager()
+    {
+        return menuManager;
     }
 }

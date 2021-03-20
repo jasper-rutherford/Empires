@@ -1,7 +1,7 @@
 package Framework.MouseStuff;
 
 import Framework.Handler;
-import GameStuff.Tile;
+import GameStuff.Board.Tile;
 
 import java.awt.*;
 
@@ -38,8 +38,8 @@ public class LeftMouse
     //when the left button is pressed and released without moving too much
     public void clicked()
     {
-        //try to click any buttons on that location
-        if (!h.getButtonManager().activateButtons(mouse.getCoords()))
+        //try to click any buttons on that location (via the menuManager and the generic buttonManager)
+        if (!h.getMenuManager().activateButtons(mouse.getCoords()) && !h.getButtonManager().activateButtons(mouse.getCoords()))
         {
             //if there were no buttons to press, select the unit on the board at that location
             h.getGame().getBoardManager().selectMouseTile();
@@ -82,6 +82,7 @@ public class LeftMouse
     //update the distance from the mouse to the anchortile
     public  void updateDelta()
     {
+//        if (mouse.getCurrentX() != null && mouse.getCurrentY() != null)
         deltaX = h.getGame().getBoard().getAnchorTile().getXCoord() - mouse.getCurrentX();
         deltaY = h.getGame().getBoard().getAnchorTile().getYCoord() - mouse.getCurrentY();
     }

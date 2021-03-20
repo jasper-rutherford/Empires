@@ -1,7 +1,8 @@
-package GameStuff;
+package GameStuff.Board;
 
 import Framework.Handler;
 import Framework.MouseStuff.Mouse;
+import GameStuff.Player;
 import GameStuff.Units.Unit;
 
 import java.util.ArrayList;
