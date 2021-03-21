@@ -7,14 +7,14 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-public class SingleplayerBT extends Button
+public class ExitBT extends Button
 {
-    public SingleplayerBT(Handler h, boolean enabled)
+    public ExitBT(Handler h, boolean enabled)
     {
         super(h, new Rectangle(-1, -1, -1, -1), enabled);
 
         int x = 100;
-        int y = 100;
+        int y = 400;
         int width = 208;
         int height = 28;
         setSpace(new Rectangle(x, y, width, height));
@@ -22,13 +22,13 @@ public class SingleplayerBT extends Button
         //read in texture
         try
         {
-            setImage(ImageIO.read(getClass().getResourceAsStream("/menus/mainmenu/singleplayer.png")));
+            setImage(ImageIO.read(getClass().getResourceAsStream("/menus/mainmenu/exit.png")));
         }
         catch (IOException e)
         {
-            h.println("vvv Singleplayer Button failed to load image vvv");
+            h.println("vvv Exit Button failed to load image vvv");
             e.printStackTrace();
-            h.println("^^^ Singleplayer Button failed to load image ^^^");
+            h.println("^^^ Exit Button failed to load image ^^^");
         }
 
         //set the color
@@ -37,6 +37,6 @@ public class SingleplayerBT extends Button
 
     public void activate()
     {
-        getHandler().println("singleplayer :D");
+        System.exit(0);
     }
 }

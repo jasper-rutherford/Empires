@@ -13,7 +13,8 @@ import java.awt.*;
 public class Worker extends Unit
 {
     private Handler h;
-    private WorkerHarvestButton button;
+
+    private Menu workerMenu;
 
     public Worker(Handler h, Tile locTile, int id, int playerNumber)
     {
@@ -22,7 +23,7 @@ public class Worker extends Unit
         this.h = h;
 
         //creates a menu for the worker and adds it to the menumanager
-        Menu workerMenu = new WorkerMenu(h, true, this);
+        workerMenu = new WorkerMenu(h, true, this);
         h.getMenuManager().add(workerMenu);
 
         setIcon(h.getGame().getBoard().getTexture("worker"));
@@ -48,12 +49,12 @@ public class Worker extends Unit
 
     public void select()
     {
-        button.enable();
+        workerMenu.activate();
     }
 
     public void deselect()
     {
-        button.disable();
+        workerMenu.deactivate();
     }
 
     public void render(Graphics g)
