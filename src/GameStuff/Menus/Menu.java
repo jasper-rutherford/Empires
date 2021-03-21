@@ -1,7 +1,7 @@
 package GameStuff.Menus;
 
-import Buttons.Button;
-import Framework.ButtonManager;
+import GameStuff.Buttons.Button;
+import GameStuff.Buttons.ButtonManager;
 import Framework.Handler;
 
 import java.awt.*;

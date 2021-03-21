@@ -27,8 +27,6 @@ public class Panel extends JPanel
 
         h.getGame().render(g);
 
-        h.getButtonManager().render(g);
-        h.getMenuManager().render(g);
 
 //        drawCrosshair(g);
     }

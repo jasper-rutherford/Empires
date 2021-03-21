@@ -4,6 +4,8 @@ import GameStuff.*;
 import GameStuff.Board.Board;
 import GameStuff.Board.BoardManager;
 import GameStuff.Board.Tile;
+import GameStuff.Buttons.ButtonManager;
+import GameStuff.Menus.MenuManager;
 import GameStuff.Units.Unit;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ public class Game
 {
     private Handler h;
 
+    private boolean hasBoard;
     private Board board;
     private BoardManager boardManager;
 
@@ -24,15 +27,22 @@ public class Game
 
     private int turnCount;
 
+    private ButtonManager buttonManager;
+    private MenuManager menuManager;
 
-    public Game(Handler h, int numPlayers)
+    public Game(Handler h)
     {
         this.h = h;
 
-        board = new Board(h, 75, 50);
-        boardManager = new BoardManager(h, board);
+        //create general button manager and add misc buttons
+        buttonManager = new ButtonManager(h);
+        menuManager = new MenuManager(h);
 
-        initializePlayers(numPlayers);
+        hasBoard = false;
+//        board = new Board(h, 75, 50);
+//        boardManager = new BoardManager(h, board);
+
+//        initializePlayers(numPlayers);
 
         turnCount = 0;
     }
@@ -53,21 +63,27 @@ public class Game
 
     public void render(Graphics g)
     {
-        board.render(g);
-
-        if (currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedUnit() != null)
+        if (hasBoard)
         {
-            renderSelectedUnitInfo(g);
+            board.render(g);
+
+            if (currentPlayer.getSelectedTile() != null && currentPlayer.getSelectedUnit() != null)
+            {
+                renderSelectedUnitInfo(g);
+            }
+
+            int screenWidth = h.getScreenWidth();
+            g.setColor(Color.BLACK);
+            g.drawString("Player: " + (currentPlayerIndex + 1), screenWidth / 2, 300);
+
+            g.setColor(Color.gray);
+            g.drawString(turnCount + "", 50, 50);
+
+            currentPlayer.render(g);
         }
 
-        int screenWidth = h.getScreenWidth();
-        g.setColor(Color.BLACK);
-        g.drawString("Player: " + (currentPlayerIndex + 1), screenWidth / 2, 300);
-
-        g.setColor(Color.gray);
-        g.drawString(turnCount + "", 50, 50);
-
-        currentPlayer.render(g);
+        buttonManager.render(g);
+        menuManager.render(g);
     }
 
     public Board getBoard()
@@ -142,5 +158,30 @@ public class Game
     public Player getPlayer(int playerNumber)
     {
         return players[playerNumber - 1];
+    }
+
+    public MenuManager getMenuManager()
+    {
+        return menuManager;
+    }
+
+    public ButtonManager getButtonManager()
+    {
+        return buttonManager;
+    }
+
+    public void makeBoard(int numPlayers)
+    {
+        board = new Board(h, 75, 50);
+        boardManager = new BoardManager(h, board);
+
+        buttonManager.addButton(new EndTurnButton(h, new Color(99, 28, 215))); //end turn button
+
+        initializePlayers(numPlayers);
+    }
+
+    public boolean hasBoard()
+    {
+        return hasBoard;
     }
 }

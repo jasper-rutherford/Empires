@@ -1,7 +1,7 @@
-package Framework;
+package GameStuff.Buttons;
 
-import Buttons.Button;
-import GameStuff.EndTurnButton;
+import Framework.Handler;
+import GameStuff.Buttons.Button;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
-package Framework;
+package GameStuff.Menus;
 
+import Framework.Handler;
 import GameStuff.Menus.MainMenu.MainMenu;
 import GameStuff.Menus.Menu;
 

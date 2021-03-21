@@ -1,6 +1,6 @@
 package GameStuff;
 
-import Buttons.Button;
+import GameStuff.Buttons.Button;
 import Framework.Handler;
 import GameStuff.Units.Unit;
 

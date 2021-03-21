@@ -26,7 +26,8 @@ public class LeftMouse
     //when the left button is pressed
     public void pressed()
     {
-        updateDelta();
+        if (h.getGame().hasBoard())
+            updateDelta();
     }
 
     //when the left button is released
@@ -41,15 +42,21 @@ public class LeftMouse
         //try to click any buttons on that location (via the menuManager and the generic buttonManager)
         if (!h.getMenuManager().activateButtons(mouse.getCoords()) && !h.getButtonManager().activateButtons(mouse.getCoords()))
         {
-            //if there were no buttons to press, select the unit on the board at that location
-            h.getGame().getBoardManager().selectMouseTile();
+            //if there were no buttons to press and there is a board, select the unit on the board at that location
+            if (h.getGame().hasBoard())
+            {
+                h.getGame().getBoardManager().selectMouseTile();
+            }
         }
     }
 
     //while the left button is held down
     public void held()
     {
-        moveTiles();
+        if (h.getGame().hasBoard())
+        {
+            moveTiles();
+        }
     }
 
     /**
@@ -80,7 +87,7 @@ public class LeftMouse
     }
 
     //update the distance from the mouse to the anchortile
-    public  void updateDelta()
+    public void updateDelta()
     {
 //        if (mouse.getCurrentX() != null && mouse.getCurrentY() != null)
         deltaX = h.getGame().getBoard().getAnchorTile().getXCoord() - mouse.getCurrentX();

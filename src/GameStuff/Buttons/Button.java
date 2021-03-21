@@ -1,4 +1,4 @@
-package Buttons;
+package GameStuff.Buttons;
 
 import Framework.Handler;
 

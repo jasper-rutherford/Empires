@@ -1,7 +1,9 @@
 package Framework;
 
 import Framework.MouseStuff.Mouse;
+import GameStuff.Buttons.ButtonManager;
 import GameStuff.EndTurnButton;
+import GameStuff.Menus.MenuManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +22,8 @@ public class Handler
     private Mouse mouse;
     private Panel screen;
     private Frame frame;
-    private ButtonManager buttonManager;
-    private MenuManager menuManager;
+//    private ButtonManager buttonManager;
+//    private MenuManager menuManager;
     private Game game;
 
     private boolean restart;
@@ -45,7 +47,7 @@ public class Handler
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Jasper\\Desktop\\Empires\\res\\icon.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("/icon.png");
         frame.setIconImage(icon);
 
         //these are the big bois
@@ -63,12 +65,12 @@ public class Handler
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
 
-        //create button manager and add misc buttons
-        buttonManager = new ButtonManager(this);
-        buttonManager.addButton(new EndTurnButton(this, new Color(99, 28, 215))); //end turn button
-
-        menuManager = new MenuManager(this);
-        game = new Game(this, 3);
+//        //create general button manager and add misc buttons
+//        buttonManager = new ButtonManager(this);
+//        buttonManager.addButton(new EndTurnButton(this, new Color(99, 28, 215))); //end turn button
+//
+//        menuManager = new MenuManager(this);
+        game = new Game(this);
 
         restart = false;
 
@@ -108,7 +110,7 @@ public class Handler
 
     public ButtonManager getButtonManager()
     {
-        return buttonManager;
+        return game.getButtonManager();
     }
 
     public Game getGame()
@@ -129,6 +131,6 @@ public class Handler
 
     public MenuManager getMenuManager()
     {
-        return menuManager;
+        return game.getMenuManager();
     }
 }
