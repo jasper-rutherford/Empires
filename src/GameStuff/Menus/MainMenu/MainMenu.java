@@ -16,7 +16,7 @@ public class MainMenu extends Menu
         this.h = h;
 
         //create/add the four buttons
-        Button singleplayerBT = new SingleplayerBT(h, true);
+        Button singleplayerBT = new SingleplayerBT(h, true, this);
         addButton(singleplayerBT);
 
         Button multiplayerBT = new MultiplayerBT(h, true);

@@ -89,8 +89,14 @@ public class LeftMouse
     //update the distance from the mouse to the anchortile
     public void updateDelta()
     {
-//        if (mouse.getCurrentX() != null && mouse.getCurrentY() != null)
         deltaX = h.getGame().getBoard().getAnchorTile().getXCoord() - mouse.getCurrentX();
         deltaY = h.getGame().getBoard().getAnchorTile().getYCoord() - mouse.getCurrentY();
+    }
+
+    //update the distance from the mouse to the anchortile
+    public void updateDelta(Tile anchor)
+    {
+        deltaX = anchor.getXCoord() - mouse.getCurrentX();
+        deltaY = anchor.getYCoord() - mouse.getCurrentY();
     }
 }

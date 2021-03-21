@@ -230,7 +230,7 @@ public class Board
 
             if (h.getGame() != null)
             {
-                h.getMouse().getLeftMouse().updateDelta();
+                h.getMouse().getLeftMouse().updateDelta(anchorTile);
             }
         }
     }

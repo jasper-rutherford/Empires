@@ -2,6 +2,7 @@ package GameStuff.Menus.MainMenu;
 
 import GameStuff.Buttons.Button;
 import Framework.Handler;
+import GameStuff.Menus.Menu;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,7 +10,9 @@ import java.io.IOException;
 
 public class SingleplayerBT extends Button
 {
-    public SingleplayerBT(Handler h, boolean enabled)
+    private Menu mainMenu;
+
+    public SingleplayerBT(Handler h, boolean enabled, GameStuff.Menus.Menu mainMenu)
     {
         super(h, new Rectangle(-1, -1, -1, -1), enabled);
 
@@ -33,10 +36,14 @@ public class SingleplayerBT extends Button
 
         //set the color
         setColor(Color.GREEN);
+
+        //set the Menu
+        this.mainMenu = mainMenu;
     }
 
     public void activate()
     {
-        getHandler().println("singleplayer :D");
+        getHandler().getGame().makeBoard(3);
+        mainMenu.deactivate();
     }
 }

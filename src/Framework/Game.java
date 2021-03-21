@@ -39,10 +39,6 @@ public class Game
         menuManager = new MenuManager(h);
 
         hasBoard = false;
-//        board = new Board(h, 75, 50);
-//        boardManager = new BoardManager(h, board);
-
-//        initializePlayers(numPlayers);
 
         turnCount = 0;
     }
@@ -93,20 +89,6 @@ public class Game
 
     public void renderSelectedUnitInfo(Graphics g)
     {
-//        int screenWidth = h.getScreenWidth();
-//        int screenHeight = h.getScreenHeight();
-//
-//        Unit selectedUnit = currentPlayer.getSelectedUnit();
-//
-//        g.setColor(new Color(91, 238, 74));
-//        g.fillRect(10, screenHeight - 110, 200, 100);
-//
-//        g.setColor(Color.black);
-//        g.drawRect(10, screenHeight - 110, 200, 100);
-//
-//        g.drawString("ID: " + selectedUnit.getID(), 60, screenHeight - 60);
-//        g.drawString("Moves: " + selectedUnit.getMoveEnergy() + "/" + selectedUnit.getMaxMoveEnergy(), 110, screenHeight - 60);
-//        g.drawString("Health: " + selectedUnit.getHealth() + "/" + selectedUnit.getMaxHealth(), 85, screenHeight - 90);
         if (currentPlayer.getSelectedUnit() != null)
         {
             currentPlayer.getSelectedUnit().renderInfo(g);
@@ -174,6 +156,7 @@ public class Game
     {
         board = new Board(h, 75, 50);
         boardManager = new BoardManager(h, board);
+        hasBoard = true;
 
         buttonManager.addButton(new EndTurnButton(h, new Color(99, 28, 215))); //end turn button
 
