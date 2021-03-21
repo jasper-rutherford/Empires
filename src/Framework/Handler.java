@@ -2,11 +2,12 @@ package Framework;
 
 import Framework.MouseStuff.Mouse;
 import GameStuff.Buttons.ButtonManager;
-import GameStuff.EndTurnButton;
 import GameStuff.Menus.MenuManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -22,8 +23,6 @@ public class Handler
     private Mouse mouse;
     private Panel screen;
     private Frame frame;
-//    private ButtonManager buttonManager;
-//    private MenuManager menuManager;
     private Game game;
 
     private boolean restart;
@@ -47,8 +46,18 @@ public class Handler
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        Image icon = Toolkit.getDefaultToolkit().getImage("/icon.png");
-        frame.setIconImage(icon);
+
+        //try to read in the icon
+        try
+        {
+            Image icon = ImageIO.read(getClass().getResourceAsStream("/icon.png"));
+            frame.setIconImage(icon);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("Failed to load textures in Board creation");
+        }
 
         //these are the big bois
         ticker = new Ticker(this);
@@ -65,11 +74,6 @@ public class Handler
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
 
-//        //create general button manager and add misc buttons
-//        buttonManager = new ButtonManager(this);
-//        buttonManager.addButton(new EndTurnButton(this, new Color(99, 28, 215))); //end turn button
-//
-//        menuManager = new MenuManager(this);
         game = new Game(this);
 
         restart = false;

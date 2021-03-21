@@ -63,6 +63,7 @@ public class Board
         catch (IOException e)
         {
             e.printStackTrace();
+            System.out.println("Failed to load textures in Board creation");
         }
 
         tiles = new Tile[width][height];
