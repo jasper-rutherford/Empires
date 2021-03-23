@@ -82,6 +82,7 @@ public class Tile
             moveCost++;
 
             maxResourceCount = 50;
+            resourceCount = h.getRandom().nextInt(maxResourceCount / 2) + maxResourceCount / 2;
         }
         else if (num == 1)
         {
@@ -89,14 +90,15 @@ public class Tile
             moveCost++;
 
             maxResourceCount = 50;
+            resourceCount = h.getRandom().nextInt(maxResourceCount / 2) + maxResourceCount / 2;
         }
         else
         {
             resourceType = null;
             maxResourceCount = 1;
+            resourceCount = 1;
         }
 
-        resourceCount = maxResourceCount;
 
         if (resourceType == null)
         {

@@ -20,7 +20,10 @@ public class MouseWheel
 
     public void wheelMoved(MouseWheelEvent e)
     {
-        zoom(e);
+        if (h.getGame().hasBoard())
+        {
+            zoom(e);
+        }
     }
 
     /**
@@ -56,8 +59,8 @@ public class MouseWheel
             }
 
             //calculates a new deltapoint from the ratio and new sidelength
-            deltaPoint.x = (int)(board.getSideLength() * rx);
-            deltaPoint.y = (int)(board.getSideLength() * ry);
+            deltaPoint.x = (int) (board.getSideLength() * rx);
+            deltaPoint.y = (int) (board.getSideLength() * ry);
             mouse.getLeftMouse().setDeltaPoint(deltaPoint);
 
             //reloads the board with the new sidelength
