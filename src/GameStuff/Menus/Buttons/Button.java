@@ -1,4 +1,4 @@
-package GameStuff.Buttons;
+package GameStuff.Menus.Buttons;
 
 import Framework.Handler;
 
@@ -72,7 +72,7 @@ public class Button
         //draw a border if a color is assigned
         if (hasBorderColor)
         {
-            g.setColor(Color.black);
+            g.setColor(borderColor);
             g.drawRect(x, y, width, height);
         }
 

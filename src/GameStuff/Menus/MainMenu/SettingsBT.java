@@ -1,6 +1,6 @@
 package GameStuff.Menus.MainMenu;
 
-import GameStuff.Buttons.Button;
+import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
 
 import javax.imageio.ImageIO;
@@ -9,15 +9,9 @@ import java.io.IOException;
 
 public class SettingsBT extends Button
 {
-    public SettingsBT(Handler h, boolean enabled)
+    public SettingsBT(Handler h, Rectangle space, boolean enabled)
     {
-        super(h, new Rectangle(-1, -1, -1, -1), enabled);
-
-        int x = 100;
-        int y = 300;
-        int width = 208;
-        int height = 28;
-        setSpace(new Rectangle(x, y, width, height));
+        super(h, space, enabled);
 
         //read in texture
         try
@@ -32,7 +26,8 @@ public class SettingsBT extends Button
         }
 
         //set the color
-        setColor(Color.GREEN);
+        setColor(new Color(23, 143, 176));
+        setBorderColor(new Color(8, 49, 174));
     }
 
     public void activate()

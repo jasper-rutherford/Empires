@@ -1,6 +1,6 @@
 package GameStuff.Units.Worker.WorkerMenu;
 
-import GameStuff.Buttons.Button;
+import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
 import GameStuff.Menus.Menu;
 import GameStuff.Units.Worker.Worker;

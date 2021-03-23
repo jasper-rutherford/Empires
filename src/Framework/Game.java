@@ -4,7 +4,7 @@ import GameStuff.*;
 import GameStuff.Board.Board;
 import GameStuff.Board.BoardManager;
 import GameStuff.Board.Tile;
-import GameStuff.Buttons.ButtonManager;
+import GameStuff.Menus.Menu;
 import GameStuff.Menus.MenuManager;
 import GameStuff.Units.Unit;
 
@@ -27,7 +27,7 @@ public class Game
 
     private int turnCount;
 
-    private ButtonManager buttonManager;
+    private Menu generalMenu;
     private MenuManager menuManager;
 
     public Game(Handler h)
@@ -35,8 +35,10 @@ public class Game
         this.h = h;
 
         //create general button manager and add misc buttons
-        buttonManager = new ButtonManager(h);
+        generalMenu = new Menu(h, false);
         menuManager = new MenuManager(h);
+
+        menuManager.add(generalMenu);
 
         hasBoard = false;
 
@@ -78,7 +80,7 @@ public class Game
             currentPlayer.render(g);
         }
 
-        buttonManager.render(g);
+        generalMenu.render(g);
         menuManager.render(g);
     }
 
@@ -147,9 +149,9 @@ public class Game
         return menuManager;
     }
 
-    public ButtonManager getButtonManager()
+    public Menu getGeneralMenu()
     {
-        return buttonManager;
+        return generalMenu;
     }
 
     public void makeBoard(int numPlayers)
@@ -158,7 +160,8 @@ public class Game
         boardManager = new BoardManager(h, board);
         hasBoard = true;
 
-        buttonManager.addButton(new EndTurnButton(h, new Color(99, 28, 215))); //end turn button
+        generalMenu.addButton(new EndTurnButton(h, new Color(99, 28, 215))); //end turn button
+        generalMenu.activate();
 
         initializePlayers(numPlayers);
     }

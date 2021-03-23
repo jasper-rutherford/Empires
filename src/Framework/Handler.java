@@ -1,7 +1,6 @@
 package Framework;
 
 import Framework.MouseStuff.Mouse;
-import GameStuff.Buttons.ButtonManager;
 import GameStuff.Menus.MenuManager;
 
 import javax.imageio.ImageIO;
@@ -112,10 +111,10 @@ public class Handler
         return mouse;
     }
 
-    public ButtonManager getButtonManager()
-    {
-        return game.getButtonManager();
-    }
+//    public Menu getButtonManager()
+//    {
+//        return game.getGeneralMenu();
+//    }
 
     public Game getGame()
     {

@@ -1,48 +1,64 @@
 package GameStuff.Menus;
 
-import GameStuff.Buttons.Button;
-import GameStuff.Buttons.ButtonManager;
+import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 //generic menu class
 public class Menu
 {
     private Handler h;
 
+    private ArrayList<Button> buttons;
+
     //represents if the menu is active
     private boolean isActive;
-
-    //buttonmanager to do all the button things
-    private ButtonManager buttonManager;
 
     public Menu(Handler h, boolean isActive)
     {
         this.h = h;
-        this.isActive = isActive;
 
-        buttonManager = new ButtonManager(h);
+        buttons = new ArrayList<>();
+
+        this.isActive = isActive;
     }
 
     //activates the menu
     public void activate()
     {
-        buttonManager.enableAll();
+        for (Button button : buttons)
+        {
+            button.enable();
+        }
+
         isActive = true;
     }
 
     //deactivates the menu
     public void deactivate()
     {
-        buttonManager.disableAll();
+        for (Button button : buttons)
+        {
+            button.disable();
+        }
         isActive = false;
     }
 
     //render the stuff
     public void render(Graphics g)
     {
-        buttonManager.render(g);
+        if (isActive)
+        {
+            for (Button button : buttons)
+            {
+                if (button.isEnabled())
+                {
+                    button.render(g);
+                }
+            }
+        }
     }
 
     //returns whether the menu is active
@@ -53,7 +69,10 @@ public class Menu
 
     public void addButton(Button button)
     {
-        buttonManager.addButton(button);
+        if (!buttons.contains(button))
+        {
+            buttons.add(button);
+        }
     }
 
     /**
@@ -63,6 +82,17 @@ public class Menu
      */
     public boolean activateButtons(Point p)
     {
-        return buttonManager.activateButtons(p);
+        boolean buttonActivated = false;
+
+        for (Button button : buttons)
+        {
+            if (button.isEnabled() && button.contains(p))
+            {
+                button.activate();
+                buttonActivated = true;
+            }
+        }
+
+        return buttonActivated;
     }
 }

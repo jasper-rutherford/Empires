@@ -40,7 +40,7 @@ public class LeftMouse
     public void clicked()
     {
         //try to click any buttons on that location (via the menuManager and the generic buttonManager)
-        if (!h.getMenuManager().activateButtons(mouse.getCoords()) && !h.getButtonManager().activateButtons(mouse.getCoords()))
+        if (!h.getMenuManager().activateButtons(mouse.getCoords()))
         {
             //if there were no buttons to press and there is a board, select the unit on the board at that location
             if (h.getGame().hasBoard())

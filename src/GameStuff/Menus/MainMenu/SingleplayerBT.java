@@ -1,6 +1,6 @@
 package GameStuff.Menus.MainMenu;
 
-import GameStuff.Buttons.Button;
+import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
 import GameStuff.Menus.Menu;
 
@@ -12,15 +12,15 @@ public class SingleplayerBT extends Button
 {
     private Menu mainMenu;
 
-    public SingleplayerBT(Handler h, boolean enabled, GameStuff.Menus.Menu mainMenu)
+    public SingleplayerBT(Handler h, Rectangle space, boolean enabled, GameStuff.Menus.Menu mainMenu)
     {
-        super(h, new Rectangle(-1, -1, -1, -1), enabled);
+        super(h, space, enabled);
 
-        int x = 100;
-        int y = 100;
-        int width = 208;
-        int height = 28;
-        setSpace(new Rectangle(x, y, width, height));
+//        int x = 100;
+//        int y = 100;
+//        int width = 208;
+//        int height = 28;
+//        setSpace(new Rectangle(x, y, width, height));
 
         //read in texture
         try
@@ -35,7 +35,8 @@ public class SingleplayerBT extends Button
         }
 
         //set the color
-        setColor(Color.GREEN);
+        setColor(new Color(23, 143, 176));
+        setBorderColor(new Color(8, 49, 174));
 
         //set the Menu
         this.mainMenu = mainMenu;
