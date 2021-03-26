@@ -38,7 +38,7 @@ public class Unit
         this.id = id;
         this.playerNumber = playerNumber;
 
-        maxMoveEnergy = 5;
+        maxMoveEnergy = 555;
         moveEnergy = maxMoveEnergy;
 
 

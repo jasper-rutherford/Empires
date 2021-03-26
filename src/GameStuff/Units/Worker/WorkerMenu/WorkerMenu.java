@@ -16,8 +16,11 @@ public class WorkerMenu extends Menu
 
         this.h = h;
 
-        //create/add the worker button
+        //create/add the worker buttons
         Button workerHarvestButton = new WorkerHarvestButton(h, worker);
         addButton(workerHarvestButton);
+
+        Button workerBuildButton = new WorkerBuildButton(h, worker);
+        addButton(workerBuildButton);
     }
 }

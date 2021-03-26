@@ -139,6 +139,18 @@ public class Player
         }
     }
 
+    public void takeResources(String type, int amount)
+    {
+        if (resources.keySet().contains(type))
+        {
+            resources.put(type, resources.get(type) - amount);
+        }
+        else
+        {
+            resources.put(type, -amount);
+        }
+    }
+
     public void render(Graphics g)
     {
         g.setColor(Color.BLACK);
@@ -160,6 +172,18 @@ public class Player
         if (!tiredUnits.contains(aUnit))
         {
             tiredUnits.add(aUnit);
+        }
+    }
+
+    public int getResourceCount(String type)
+    {
+        if (resources.containsKey(type))
+        {
+            return resources.get(type);
+        }
+        else
+        {
+            return 0;
         }
     }
 }

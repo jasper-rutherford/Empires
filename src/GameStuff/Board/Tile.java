@@ -1,6 +1,7 @@
 package GameStuff.Board;
 
 import Framework.Handler;
+import GameStuff.Buildings.Building;
 import GameStuff.Units.Unit;
 
 import java.awt.*;
@@ -37,6 +38,8 @@ public class Tile
     private int maxResourceCount;
     private int resourceCount;
 
+    private boolean hasBuilding;
+    private Building building;
 
     /**
      * Constructor for the Stuff.Tile class.
@@ -95,17 +98,21 @@ public class Tile
         else
         {
             resourceType = null;
+
+            //this is 1 only to avoid dividing by zero
             maxResourceCount = 1;
-            resourceCount = 1;
-        }
-
-
-        if (resourceType == null)
-        {
             resourceCount = 0;
         }
 
+
+//        if (resourceType == null)
+//        {
+//            resourceCount = 0;
+//        }
+
         resourceIcon = board.getTexture(resourceType);
+
+        hasBuilding = false;
     }
 
     /**
@@ -136,6 +143,12 @@ public class Tile
         //render resource icon
         int width = h.getGame().getBoard().getSideLength() / 2 * resourceCount / maxResourceCount;
         g.drawImage(resourceIcon, getXCoord() - width, getYCoord() - width, 2 * width, 2 * width, null);
+
+        //render the building if there is one
+        if (hasBuilding)
+        {
+            building.render(g);
+        }
 
         //render units
         for (int lcv = units.size() - 1; lcv >= 0; lcv--)
@@ -503,21 +516,35 @@ public class Tile
      */
     public int harvestResources(int strength)
     {
+        int out;
+
         if (resourceCount >= strength)
         {
             resourceCount -= strength;
-            return strength;
+            out = strength;
         }
         else
         {
-            int out = resourceCount;
+            out = resourceCount;
             resourceCount = 0;
-            return out;
         }
+
+        if (resourceCount <= 0)
+        {
+            resourceType = null;
+        }
+
+        return out;
     }
 
     public String getResourceType()
     {
         return resourceType;
+    }
+
+    public void setBuilding(Building building)
+    {
+        this.building = building;
+        hasBuilding = true;
     }
 }
