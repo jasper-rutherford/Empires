@@ -338,7 +338,13 @@ public class BoardManager
         }
     }
 
-    //ensure that they arent the same tile, this doesnt handle that
+    /**
+     * Generates a path that the selectedUnit can take to get from fromTile to toTile
+     * @param fromTile The Tile where the generated path stems from
+     * @param toTile The Tile where the generated path will lead to
+     * @param selectedUnit The Unit that the path will plan around (every step of the path will be a valid step for this unit)
+     * @return a PathNode that the selectedUnit can take to get from fromTile to toTile
+     */
     public PathNode generatePath(Tile fromTile, Tile toTile, Unit selectedUnit)
     {
         /*
