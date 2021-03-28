@@ -8,9 +8,9 @@ public class SpawnerBD extends Building
 {
     Handler h;
 
-    public SpawnerBD(Handler h, Tile locTile)
+    public SpawnerBD(Handler h, Tile locTile, int playerNumber)
     {
-        super(h, locTile);
+        super(h, locTile, playerNumber);
 
         readSprite("/box.png");
 

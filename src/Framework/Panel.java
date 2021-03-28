@@ -1,5 +1,7 @@
 package Framework;
 
+import GameStuff.Board.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,6 +31,7 @@ public class Panel extends JPanel
 
 
 //        drawCrosshair(g);
+        drawIDL(g);
     }
 
     public Handler getHandler()
@@ -41,5 +44,15 @@ public class Panel extends JPanel
         g.setColor(Color.red);
         g.drawLine(h.getScreenWidth() / 2, h.getScreenHeight(), h.getScreenWidth() / 2, 0);
         g.drawLine(h.getScreenWidth(), h.getScreenHeight() / 2, 0, h.getScreenHeight() / 2);
+    }
+
+    //draws the international date line (where the map loops around)
+    public void drawIDL(Graphics g)
+    {
+        if (h.getGame().hasBoard())
+        {
+            Tile firstTile = h.getGame().getBoard().getTileAtIndex(0, 0);
+            g.drawLine(firstTile.getXCoord(), 0, firstTile.getXCoord(), h.getScreenHeight());
+        }
     }
 }

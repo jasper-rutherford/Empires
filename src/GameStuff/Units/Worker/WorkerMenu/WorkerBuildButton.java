@@ -61,7 +61,15 @@ public class WorkerBuildButton extends Button
             h.getGame().getCurrentPlayer().addTiredUnit(worker);
 
             //build the building
-            worker.getLocTile().setBuilding(new SpawnerBD(h, worker.getLocTile()));
+            Building building = new SpawnerBD(h, worker.getLocTile(), worker.getPlayerNumber());
+            worker.getLocTile().setBuilding(building);
+
+            worker.getLocTile().removeUnit(worker);
+            building.addUnit(worker);
+
+            worker.getLocTile().deselect();
+            h.getGame().getCurrentPlayer().setSelectedTile(null);
+
         }
     }
 }

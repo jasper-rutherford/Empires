@@ -68,7 +68,7 @@ public class Unit
 
     public boolean canStep(Tile aTile)
     {
-        return aTile.firstUnit() == null || aTile.firstUnit().getPlayerNumber() == playerNumber;
+        return aTile != null && (aTile.firstUnit() == null || aTile.firstUnit().getPlayerNumber() == playerNumber);
     }
 
     public void refillMoves()

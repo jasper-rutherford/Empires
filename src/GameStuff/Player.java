@@ -177,13 +177,7 @@ public class Player
 
     public int getResourceCount(String type)
     {
-        if (resources.containsKey(type))
-        {
-            return resources.get(type);
-        }
-        else
-        {
-            return 0;
-        }
+        //returns the amount of that type or zero if its not set
+        return resources.getOrDefault(type, 0);
     }
 }

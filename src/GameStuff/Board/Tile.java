@@ -41,6 +41,8 @@ public class Tile
     private boolean hasBuilding;
     private Building building;
 
+    private Tile[] adjTiles;
+
     /**
      * Constructor for the Stuff.Tile class.
      *
@@ -104,15 +106,11 @@ public class Tile
             resourceCount = 0;
         }
 
-
-//        if (resourceType == null)
-//        {
-//            resourceCount = 0;
-//        }
-
         resourceIcon = board.getTexture(resourceType);
 
         hasBuilding = false;
+
+        adjTiles = new Tile[6];
     }
 
     /**
@@ -379,41 +377,42 @@ public class Tile
      */
     public Tile adjTile(int dir)
     {
-        dir %= 6;
-
-        //half of the sidelength, used for calculating the y points
-        double l = board.getSideLength() / 2.0;
-
-        //distance from the center of a tile to the side, used for calculating x points
-        int d = (int) (Math.sqrt(3) * l);
-
-        int xCoord = getXCoord();
-        int yCoord = getYCoord();
-
-        xCoord -= (int) Math.pow(-1, dir / 3) * (((dir + 1) % 3) / 2 + 1) * d;
-        yCoord += ((int) Math.pow(-1, (((dir + 1) % 6) / 3))) * (((((dir + 1) % 3) / 2) - 1) * -1) * 3 * l;
-
-
-        //loop the screen
-        int boardWidth = board.getNumTilesWide() * d * 2;
-
-        if (xCoord < -(2 * d))
-        {
-            xCoord += boardWidth;
-        }
-        else if (xCoord > h.getScreenWidth() + (2 * d))
-        {
-            xCoord -= boardWidth;
-        }
-
-        return board.getTileAt(xCoord, yCoord);
+        return adjTiles[dir];
+//        dir %= 6;
+//
+//        //half of the sidelength, used for calculating the y points
+//        double l = board.getSideLength() / 2.0;
+//
+//        //distance from the center of a tile to the side, used for calculating x points
+//        int d = (int) (Math.sqrt(3) * l);
+//
+//        int xCoord = getXCoord();
+//        int yCoord = getYCoord();
+//
+//        xCoord -= (int) Math.pow(-1, dir / 3) * (((dir + 1) % 3) / 2 + 1) * d;
+//        yCoord += ((int) Math.pow(-1, (((dir + 1) % 6) / 3))) * (((((dir + 1) % 3) / 2) - 1) * -1) * 3 * l;
+//
+//
+//        //loop the screen
+//        int boardWidth = board.getNumTilesWide() * d * 2;
+//
+//        if (xCoord < -(2 * d))
+//        {
+//            xCoord += boardWidth;
+//        }
+//        else if (xCoord > h.getScreenWidth() + (2 * d))
+//        {
+//            xCoord -= boardWidth;
+//        }
+//
+//        return board.getTileAt(xCoord, yCoord);
     }
 
     public boolean isAdjacent(Tile aTile)
     {
-        for (int lcv = 0; lcv < 6; lcv++)
+        for (Tile adjTile : adjTiles)
         {
-            if (adjTile(lcv).equals(aTile))
+            if (adjTile != null && adjTile.equals(aTile))
             {
                 return true;
             }
@@ -546,5 +545,56 @@ public class Tile
     {
         this.building = building;
         hasBuilding = true;
+    }
+
+    public Building getBuilding()
+    {
+        return building;
+    }
+
+    public boolean hasBuilding()
+    {
+        return hasBuilding;
+    }
+
+    /**
+     * Checks for equality based on x/y index
+     *
+     * @param aTile the tile to check for equality
+     * @return whether these tiles are the same
+     */
+    public boolean equals(Tile aTile)
+    {
+        return xIndex == aTile.xIndex && yIndex == aTile.yIndex; //I can't really imagine this not working. /shrug
+    }
+
+    public void setAdjTiles(Tile[][] board, int width, int height)
+    {
+        //offsets are different for even/odd, so <whatever>Offset[0] is even, and <whatever>Offset[1] is odd
+        int[][] xOffset = {{0, -1, 0, 1, 1, 1}, {-1, -1, -1, 0, 1, 0}};
+        int[][] yOffset = {{-1, 0, 1, 1, 0, -1}, {-1, 0, 1, 1, 0, -1}};
+
+        int parity = yIndex % 2;
+        for (int lcv = 0; lcv < 6; lcv++)
+        {
+            int x = xIndex + xOffset[parity][lcv];
+            int y = yIndex + yOffset[parity][lcv];
+
+            //y is out of bounds (board does not loop on y axis)
+            if (y < 0 || y >= height)
+            {
+                adjTiles[lcv] = null;
+            }
+            //y is in bounds
+            else
+            {
+                adjTiles[lcv] = board[(x + width) % width][y]; // ensures that board loops on x axis
+            }
+        }
+    }
+
+    public Tile[] getAdjTiles()
+    {
+        return adjTiles;
     }
 }

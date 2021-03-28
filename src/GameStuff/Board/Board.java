@@ -69,6 +69,7 @@ public class Board
         tiles = new Tile[width][height];
 
         generateTiles();
+        setAdjTiles();
     }
 
     /**
@@ -120,6 +121,18 @@ public class Board
         }
 
         this.setAnchorTile(tiles[numTilesWide / 2][numTilesHigh / 2]);
+    }
+
+    public void setAdjTiles()
+    {
+        //initialize all the tiles
+        for (int x = 0; x < numTilesWide; x++)
+        {
+            for (int y = 0; y < numTilesHigh; y++)
+            {
+                tiles[x][y].setAdjTiles(tiles, numTilesWide, numTilesHigh);
+            }
+        }
     }
 
     /**

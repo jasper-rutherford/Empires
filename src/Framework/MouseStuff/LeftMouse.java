@@ -42,7 +42,7 @@ public class LeftMouse
         //try to click any buttons on that location (via the menuManager and the generic buttonManager)
         if (!h.getMenuManager().activateButtons(mouse.getCoords()))
         {
-            //if there were no buttons to press and there is a board, select the unit on the board at that location
+            //if there were no buttons to press and there is a board, attempt to select the tile on the board at the mouse's location
             if (h.getGame().hasBoard())
             {
                 h.getGame().getBoardManager().selectMouseTile();
