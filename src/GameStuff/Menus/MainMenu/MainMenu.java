@@ -58,19 +58,19 @@ public class MainMenu extends Menu
 
         //create/add the four buttons
         Rectangle single = new Rectangle(x, height + 2 * y, bWidth, bHeight);
-        Button singleplayerBT = new SingleplayerBT(h, single, true, this);
+        Button singleplayerBT = new SingleplayerBT(h, single, isActive, this);
         addButton(singleplayerBT);
 
         Rectangle multi = new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight);
-        Button multiplayerBT = new MultiplayerBT(h, multi, true);
+        Button multiplayerBT = new MultiplayerBT(h, multi, isActive);
         addButton(multiplayerBT);
 
         Rectangle settings = new Rectangle(x, 3 * height / 2 + 3 * y, bWidth, bHeight);
-        Button settingsBT = new SettingsBT(h, settings, true);
+        Button settingsBT = new SettingsBT(h, settings, isActive);
         addButton(settingsBT);
 
         Rectangle exit = new Rectangle(x + (width + y) / 2, 3 * height / 2 + 3 * y, bWidth, bHeight);
-        Button exitBT = new ExitBT(h, exit, true);
+        Button exitBT = new ExitBT(h, exit, isActive);
         addButton(exitBT);
     }
 
