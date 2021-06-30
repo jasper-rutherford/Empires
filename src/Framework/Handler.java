@@ -1,7 +1,8 @@
 package Framework;
 
 import Framework.MouseStuff.Mouse;
-import GameStuff.Menus.MenuManager;
+import GameStuff.Menus.MainMenu.MainMenu;
+import GameStuff.Menus.Menu;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class Handler
     private Panel screen;
     private Frame frame;
     private Game game;
+    private MenuManager menuManager;
 
     private boolean restart;
 
@@ -73,6 +75,14 @@ public class Handler
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
 
+        //create menumanager
+        menuManager = new MenuManager(this);
+
+        //creates/adds the main menu to the list
+        Menu mainMenu = new MainMenu(this, true);
+        menuManager.add(mainMenu);
+
+        //TODO: move this
         game = new Game(this);
 
         restart = false;
@@ -111,11 +121,6 @@ public class Handler
         return mouse;
     }
 
-//    public Menu getButtonManager()
-//    {
-//        return game.getGeneralMenu();
-//    }
-
     public Game getGame()
     {
         return game;
@@ -134,6 +139,6 @@ public class Handler
 
     public MenuManager getMenuManager()
     {
-        return game.getMenuManager();
+        return menuManager;
     }
 }

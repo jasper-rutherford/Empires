@@ -26,7 +26,6 @@ public class MainMenu extends Menu
 
         this.h = h;
 
-
         //create logoSpace
         int width = h.getScreenWidth() * 3 / 5;
         int height = width / 4;
@@ -62,7 +61,7 @@ public class MainMenu extends Menu
         addButton(singleplayerBT);
 
         Rectangle multi = new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight);
-        Button multiplayerBT = new MultiplayerBT(h, multi, isActive);
+        Button multiplayerBT = new MultiplayerBT(h, multi, isActive, this);
         addButton(multiplayerBT);
 
         Rectangle settings = new Rectangle(x, 3 * height / 2 + 3 * y, bWidth, bHeight);

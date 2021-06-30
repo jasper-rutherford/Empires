@@ -2,6 +2,8 @@ package GameStuff.Menus.MainMenu;
 
 import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
+import GameStuff.Menus.Menu;
+import GameStuff.Menus.MultiplayerMenu.MultiplayerMenu;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,15 +11,18 @@ import java.io.IOException;
 
 public class MultiplayerBT extends Button
 {
-    public MultiplayerBT(Handler h, Rectangle space, boolean enabled)
+    private Menu mainMenu;
+    private Menu multiplayerMenu;
+
+    public MultiplayerBT(Handler h, Rectangle space, boolean enabled, Menu mainMenu)
     {
+        //send stuff to super
         super(h, space, enabled);
 
-//        int x = 100;
-//        int y = 200;
-//        int width = 208;
-//        int height = 28;
-//        setSpace(new Rectangle(x, y, width, height));
+        //set up menus that this button cares about
+        this.mainMenu = mainMenu;
+        multiplayerMenu = new MultiplayerMenu(h, false, mainMenu);
+        h.getMenuManager().add(multiplayerMenu); //add the multiplayer menu to the menu manager
 
         //read in texture
         try
@@ -38,6 +43,10 @@ public class MultiplayerBT extends Button
 
     public void activate()
     {
-        getHandler().println("multi :D");
+        //deactivate the main menu
+        mainMenu.deactivate();
+
+        //activate the multiplayer menu
+        multiplayerMenu.activate();
     }
 }

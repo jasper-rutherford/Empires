@@ -5,7 +5,6 @@ import GameStuff.Board.Board;
 import GameStuff.Board.BoardManager;
 import GameStuff.Board.Tile;
 import GameStuff.Menus.Menu;
-import GameStuff.Menus.MenuManager;
 import GameStuff.Units.Unit;
 
 import java.awt.*;
@@ -27,7 +26,7 @@ public class Game
 
     private int turnCount;
 
-    private Menu generalMenu;
+    private Menu generalMenu; //exists to put random buttons on (like the end turn button)
     private MenuManager menuManager;
 
     public Game(Handler h)
@@ -36,7 +35,7 @@ public class Game
 
         //create general button manager and add misc buttons
         generalMenu = new Menu(h, false);
-        menuManager = new MenuManager(h);
+        menuManager = h.getMenuManager();
 
         menuManager.add(generalMenu);
 

@@ -1,4 +1,4 @@
-package GameStuff.Menus;
+package Framework;
 
 import Framework.Handler;
 import GameStuff.Menus.MainMenu.MainMenu;
@@ -20,10 +20,6 @@ public class MenuManager
     {
         this.h = h;
         menus = new ArrayList<>();
-
-        //creates/adds the main menu to the list
-        Menu mainMenu = new MainMenu(h, true);
-        menus.add(mainMenu);
     }
 
     //renders all active menus
