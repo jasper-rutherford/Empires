@@ -19,12 +19,14 @@ public class Menu
     public Menu(Handler h, boolean isActive)
     {
         this.h = h;
-        this.isActive = isActive;
+
         buttons = new ArrayList<>();
+
+        this.isActive = isActive;
     }
 
     //activates the menu
-    public void enable()
+    public void activate()
     {
         for (Button button : buttons)
         {
@@ -35,7 +37,7 @@ public class Menu
     }
 
     //deactivates the menu
-    public void disable()
+    public void deactivate()
     {
         for (Button button : buttons)
         {

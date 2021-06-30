@@ -11,18 +11,18 @@ import java.io.IOException;
 
 public class MultiplayerBT extends Button
 {
-    private Handler h;
-
     private Menu mainMenu;
+    private Menu multiplayerMenu;
 
     public MultiplayerBT(Handler h, Rectangle space, boolean enabled, Menu mainMenu)
     {
         //send stuff to super
         super(h, space, enabled);
 
-        //keep necessary stuff
-        this.h = h;
+        //set up menus that this button cares about
         this.mainMenu = mainMenu;
+        multiplayerMenu = new MultiplayerMenu(h, false, mainMenu);
+        h.getMenuManager().add(multiplayerMenu); //add the multiplayer menu to the menu manager
 
         //read in texture
         try
@@ -43,10 +43,10 @@ public class MultiplayerBT extends Button
 
     public void activate()
     {
-        //remove the main menu from the menu manager
-        h.getMenuManager().remove(mainMenu);
+        //deactivate the main menu
+        mainMenu.deactivate();
 
-        //create and add a multiplayer menu to the menu manager
-        h.getMenuManager().add(new MultiplayerMenu(h, true));
+        //activate the multiplayer menu
+        multiplayerMenu.activate();
     }
 }

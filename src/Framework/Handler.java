@@ -79,7 +79,8 @@ public class Handler
         menuManager = new MenuManager(this);
 
         //creates/adds the main menu to the list
-        menuManager.add(new MainMenu(this, true));
+        Menu mainMenu = new MainMenu(this, true);
+        menuManager.add(mainMenu);
 
         //TODO: move this
         game = new Game(this);
