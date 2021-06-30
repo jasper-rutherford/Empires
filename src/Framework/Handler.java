@@ -42,7 +42,7 @@ public class Handler
 
         //initializes the frame
         frame = new Frame();
-        frame.setTitle("Test");
+        frame.setTitle("Empires");
         frame.setSize(960, 960);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

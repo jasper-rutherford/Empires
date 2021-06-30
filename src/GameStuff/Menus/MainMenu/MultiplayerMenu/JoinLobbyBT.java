@@ -1,4 +1,4 @@
-package GameStuff.Menus.MultiplayerMenu;
+package GameStuff.Menus.MainMenu.MultiplayerMenu;
 
 import Framework.Handler;
 import GameStuff.Menus.Buttons.Button;

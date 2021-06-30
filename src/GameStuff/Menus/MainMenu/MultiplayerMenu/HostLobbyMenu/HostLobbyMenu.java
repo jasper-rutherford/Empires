@@ -1,11 +1,7 @@
-package GameStuff.Menus.MultiplayerMenu.HostLobbyMenu;
+package GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu;
 
 import Framework.Handler;
-import GameStuff.Menus.Buttons.Button;
 import GameStuff.Menus.Menu;
-import GameStuff.Menus.MultiplayerMenu.BackBT;
-import GameStuff.Menus.MultiplayerMenu.HostLobbyBT;
-import GameStuff.Menus.MultiplayerMenu.JoinLobbyBT;
 
 import java.awt.*;
 

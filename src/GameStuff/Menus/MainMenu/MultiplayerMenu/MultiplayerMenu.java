@@ -1,4 +1,4 @@
-package GameStuff.Menus.MultiplayerMenu;
+package GameStuff.Menus.MainMenu.MultiplayerMenu;
 
 import Framework.Handler;
 import GameStuff.Menus.Buttons.Button;
@@ -18,7 +18,7 @@ public class MultiplayerMenu extends Menu
 
         //create/add buttons
         Rectangle space1 = new Rectangle(100, 100, 100, 100);
-        Button hostLobbyBT = new HostLobbyBT(h, space1, isActive);
+        Button hostLobbyBT = new HostLobbyBT(h, space1, isActive, this);
         addButton(hostLobbyBT);
 
         //create/add buttons

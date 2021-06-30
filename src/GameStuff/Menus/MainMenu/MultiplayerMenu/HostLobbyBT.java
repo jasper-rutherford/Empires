@@ -1,24 +1,24 @@
-package GameStuff.Menus.MultiplayerMenu;
+package GameStuff.Menus.MainMenu.MultiplayerMenu;
 
 import Framework.Handler;
 import GameStuff.Menus.Buttons.Button;
 import GameStuff.Menus.Menu;
-import GameStuff.Menus.MultiplayerMenu.HostLobbyMenu.HostLobbyMenu;
+import GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu.HostLobbyMenu;
 
 import java.awt.*;
 
 
 public class HostLobbyBT extends Button
 {
-    private Menu mainMenu;
+    private Menu multiplayerMenu;
     private Menu hostLobbyMenu;
 
-    public HostLobbyBT(Handler h, Rectangle space, boolean isActive, Menu mainMenu)
+    public HostLobbyBT(Handler h, Rectangle space, boolean isActive, Menu multiplayerMenu)
     {
         super(h, space, isActive);
 
         //set up the menus
-        this.mainMenu = mainMenu;
+        this.multiplayerMenu = multiplayerMenu;
         hostLobbyMenu = new HostLobbyMenu(h, false);
         h.getMenuManager().add(hostLobbyMenu); //hostLobbyMenu is new and must be added to the manager
 
@@ -37,10 +37,10 @@ public class HostLobbyBT extends Button
 
     public void activate()
     {
-        //deactivate current menu (Main Menu)
-        mainMenu.deactivate();
+        //deactivate current menu (multiplayer Menu)
+        multiplayerMenu.deactivate();
 
         //activate next Menu (HostLobbyMenu)
-        hostLobbyMenu.deactivate();
+        hostLobbyMenu.activate();
     }
 }

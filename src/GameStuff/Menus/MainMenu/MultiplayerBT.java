@@ -3,7 +3,7 @@ package GameStuff.Menus.MainMenu;
 import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
 import GameStuff.Menus.Menu;
-import GameStuff.Menus.MultiplayerMenu.MultiplayerMenu;
+import GameStuff.Menus.MainMenu.MultiplayerMenu.MultiplayerMenu;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
