@@ -2,7 +2,9 @@ package GameStuff.Menus.MainMenu;
 
 import GameStuff.Menus.Buttons.Button;
 import Framework.Handler;
+import GameStuff.Menus.MainMenu.MultiplayerMenu.MultiplayerMenu;
 import GameStuff.Menus.Menu;
+import GameStuff.Menus.MenuButton;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,9 +22,9 @@ public class MainMenu extends Menu
 
     private Rectangle logoSpace;
 
-    public MainMenu(Handler h, boolean isActive)
+    public MainMenu(Handler h, boolean isEnabled)
     {
-        super(h, isActive);
+        super(h, isEnabled);
 
         this.h = h;
 
@@ -55,21 +57,34 @@ public class MainMenu extends Menu
         int bHeight = height / 2;
         int bWidth = (width - y) / 2;
 
-        //create/add the four buttons
+        //*****create/add the four buttons*******//
+
+        //Singleplayer Button TODO
         Rectangle single = new Rectangle(x, height + 2 * y, bWidth, bHeight);
-        Button singleplayerBT = new SingleplayerBT(h, single, isActive, this);
+        Button singleplayerBT = new SingleplayerBT(h, single, isEnabled, this);
         addButton(singleplayerBT);
 
-        Rectangle multi = new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight);
-        Button multiplayerBT = new MultiplayerBT(h, multi, isActive, this);
+
+        //Multiplayer Button
+        Button multiplayerBT = new MenuButton(
+                h,
+                new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight),
+                isEnabled,
+                this,
+                MultiplayerMenu.create(h, false, this),
+                new Color(23, 143, 176),
+                new Color(8, 49, 174),
+                "/menus/mainmenu/multiplayer.png");
         addButton(multiplayerBT);
 
+        //Settings Button TODO
         Rectangle settings = new Rectangle(x, 3 * height / 2 + 3 * y, bWidth, bHeight);
-        Button settingsBT = new SettingsBT(h, settings, isActive);
+        Button settingsBT = new SettingsBT(h, settings, isEnabled);
         addButton(settingsBT);
 
+        //Exit Button
         Rectangle exit = new Rectangle(x + (width + y) / 2, 3 * height / 2 + 3 * y, bWidth, bHeight);
-        Button exitBT = new ExitBT(h, exit, isActive);
+        Button exitBT = new ExitBT(h, exit, isEnabled);
         addButton(exitBT);
     }
 

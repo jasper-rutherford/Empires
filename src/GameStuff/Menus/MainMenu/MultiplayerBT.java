@@ -14,6 +14,7 @@ public class MultiplayerBT extends Button
     private Menu mainMenu;
     private Menu multiplayerMenu;
 
+    //deprecated
     public MultiplayerBT(Handler h, Rectangle space, boolean enabled, Menu mainMenu)
     {
         //send stuff to super
@@ -24,29 +25,19 @@ public class MultiplayerBT extends Button
         multiplayerMenu = new MultiplayerMenu(h, false, mainMenu);
         h.getMenuManager().add(multiplayerMenu); //add the multiplayer menu to the menu manager
 
-        //read in texture
-        try
-        {
-            setImage(ImageIO.read(getClass().getResourceAsStream("/menus/mainmenu/multiplayer.png")));
-        }
-        catch (IOException e)
-        {
-            h.println("vvv Multiplayer Button failed to load image vvv");
-            e.printStackTrace();
-            h.println("^^^ Multiplayer Button failed to load image ^^^");
-        }
+//            setImage();
 
         //set the color
-        setColor(new Color(23, 143, 176));
-        setBorderColor(new Color(8, 49, 174));
+//        setColor();
+//        setBorderColor();
     }
 
     public void activate()
     {
         //deactivate the main menu
-        mainMenu.deactivate();
+        mainMenu.disable();
 
         //activate the multiplayer menu
-        multiplayerMenu.activate();
+        multiplayerMenu.enable();
     }
 }

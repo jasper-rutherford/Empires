@@ -31,4 +31,11 @@ public class MultiplayerMenu extends Menu
         Button backBT = new BackBT(h, space3, isActive, mainMenu, this);
         addButton(backBT);
     }
+
+    public static MultiplayerMenu create(Handler h, boolean isEnabled, Menu mainMenu)
+    {
+        MultiplayerMenu menu = new MultiplayerMenu(h, isEnabled, mainMenu);
+        h.getMenuManager().add(menu);
+        return menu;
+    }
 }

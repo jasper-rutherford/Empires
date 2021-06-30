@@ -36,9 +36,9 @@ public class BackBT extends Button
     public void activate()
     {
         //disable current menu (multiplayer menu)
-        multiplayerMenu.deactivate();
+        multiplayerMenu.disable();
 
         //enable next menu (main menu)
-        mainMenu.activate();
+        mainMenu.enable();
     }
 }

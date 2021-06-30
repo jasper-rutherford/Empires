@@ -160,7 +160,7 @@ public class Game
         hasBoard = true;
 
         generalMenu.addButton(new EndTurnButton(h, new Color(99, 28, 215))); //end turn button
-        generalMenu.activate();
+        generalMenu.enable();
 
         initializePlayers(numPlayers);
     }

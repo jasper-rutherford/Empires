@@ -19,7 +19,7 @@ public class HostLobbyBT extends Button
 
         //set up the menus
         this.multiplayerMenu = multiplayerMenu;
-        hostLobbyMenu = new HostLobbyMenu(h, false);
+        hostLobbyMenu = new HostLobbyMenu(h, false, multiplayerMenu);
         h.getMenuManager().add(hostLobbyMenu); //hostLobbyMenu is new and must be added to the manager
 
         //set the color
@@ -38,9 +38,9 @@ public class HostLobbyBT extends Button
     public void activate()
     {
         //deactivate current menu (multiplayer Menu)
-        multiplayerMenu.deactivate();
+        multiplayerMenu.disable();
 
         //activate next Menu (HostLobbyMenu)
-        hostLobbyMenu.activate();
+        hostLobbyMenu.enable();
     }
 }

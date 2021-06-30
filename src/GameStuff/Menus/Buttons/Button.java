@@ -2,8 +2,10 @@ package GameStuff.Menus.Buttons;
 
 import Framework.Handler;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 //The generic Button
 public class Button
@@ -113,10 +115,22 @@ public class Button
         hasBorderColor = true;
     }
 
-    public void setImage(BufferedImage image)
+    public void setImage(String path)
     {
-        this.image = image;
-        hasImage = true;
+        //read in texture
+        try
+        {
+            this.image = ImageIO.read(getClass().getResourceAsStream(path));
+            hasImage = true;
+        }
+        catch (IOException e)
+        {
+            h.println("vvv Button failed to load image: [" + path + "] vvv");
+            e.printStackTrace();
+            h.println("^^^ Button failed to load image: [" + path + "] ^^^");
+
+        }
+
     }
 
     public void setSpace(Rectangle rect)

@@ -25,8 +25,8 @@ public class Menu
         this.isActive = isActive;
     }
 
-    //activates the menu
-    public void activate()
+    //enables the menu
+    public void enable()
     {
         for (Button button : buttons)
         {
@@ -36,8 +36,8 @@ public class Menu
         isActive = true;
     }
 
-    //deactivates the menu
-    public void deactivate()
+    //disables the menu
+    public void disable()
     {
         for (Button button : buttons)
         {
