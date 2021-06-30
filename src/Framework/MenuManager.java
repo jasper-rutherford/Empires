@@ -36,6 +36,7 @@ public class MenuManager
 
     /**
      * Checks all active menus for enabled buttons, and activates every enabled button that contains point p
+     *
      * @param p the point to check
      * @return whether or not a button was activated
      */
@@ -61,5 +62,11 @@ public class MenuManager
     public void add(Menu menu)
     {
         menus.add(menu);
+    }
+
+    //removes the given menu from the list
+    public void remove(Menu menu)
+    {
+        menus.remove(menu);
     }
 }

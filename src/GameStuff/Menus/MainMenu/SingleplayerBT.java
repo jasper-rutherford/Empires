@@ -45,6 +45,6 @@ public class SingleplayerBT extends Button
     public void activate()
     {
         getHandler().getGame().makeBoard(3);
-        mainMenu.deactivate();
+        mainMenu.disable();
     }
 }

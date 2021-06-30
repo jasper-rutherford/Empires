@@ -4,7 +4,6 @@ import Framework.Handler;
 import GameStuff.Board.Tile;
 import GameStuff.Menus.Menu;
 import GameStuff.Units.Unit;
-import GameStuff.Units.Worker.WorkerMenu.WorkerHarvestButton;
 import GameStuff.Units.Worker.WorkerMenu.WorkerMenu;
 
 import java.awt.*;
@@ -49,12 +48,12 @@ public class Worker extends Unit
 
     public void select()
     {
-        workerMenu.activate();
+        workerMenu.enable();
     }
 
     public void deselect()
     {
-        workerMenu.deactivate();
+        workerMenu.disable();
     }
 
     public void render(Graphics g)

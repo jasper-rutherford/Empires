@@ -2,6 +2,7 @@ package GameStuff.Menus.MainMenu.MultiplayerMenu;
 
 import Framework.Handler;
 import GameStuff.Menus.Buttons.Button;
+import GameStuff.Menus.MainMenu.MainMenu;
 import GameStuff.Menus.Menu;
 
 import java.awt.*;
@@ -9,15 +10,13 @@ import java.awt.*;
 
 public class BackBT extends Button
 {
-    private Menu mainMenu;
+    private Handler h;
     private Menu multiplayerMenu;
 
-    public BackBT(Handler h, Rectangle space, boolean isActive, Menu mainMenu, Menu multiplayerMenu)
+    public BackBT(Handler h, Rectangle space, boolean isActive, Menu multiplayerMenu)
     {
         super(h, space, isActive);
-
-        //pass in the menus
-        this.mainMenu = mainMenu;
+        this.h = h;
         this.multiplayerMenu = multiplayerMenu;
 
         //set the color
@@ -36,9 +35,9 @@ public class BackBT extends Button
     public void activate()
     {
         //disable current menu (multiplayer menu)
-        multiplayerMenu.deactivate();
+        h.getMenuManager().remove(multiplayerMenu);
 
         //enable next menu (main menu)
-        mainMenu.activate();
+        h.getMenuManager().add(new MainMenu(h, true));
     }
 }

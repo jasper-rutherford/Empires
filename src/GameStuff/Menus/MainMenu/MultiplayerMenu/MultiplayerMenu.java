@@ -10,7 +10,7 @@ public class MultiplayerMenu extends Menu
 {
     private Handler h;
 
-    public MultiplayerMenu(Handler h, boolean isActive, Menu mainMenu)
+    public MultiplayerMenu(Handler h, boolean isActive)
     {
         //initial menu stuff
         super(h, isActive);
@@ -28,7 +28,7 @@ public class MultiplayerMenu extends Menu
 
         //create/add buttons
         Rectangle space3 = new Rectangle(500, 100, 100, 100);
-        Button backBT = new BackBT(h, space3, isActive, mainMenu, this);
+        Button backBT = new BackBT(h, space3, isActive, this);
         addButton(backBT);
     }
 }

@@ -10,17 +10,14 @@ import java.awt.*;
 
 public class HostLobbyBT extends Button
 {
+    private Handler h;
     private Menu multiplayerMenu;
-    private Menu hostLobbyMenu;
 
     public HostLobbyBT(Handler h, Rectangle space, boolean isActive, Menu multiplayerMenu)
     {
         super(h, space, isActive);
-
-        //set up the menus
+        this.h = h;
         this.multiplayerMenu = multiplayerMenu;
-        hostLobbyMenu = new HostLobbyMenu(h, false);
-        h.getMenuManager().add(hostLobbyMenu); //hostLobbyMenu is new and must be added to the manager
 
         //set the color
         setColor(new Color(176, 41, 23));
@@ -38,9 +35,9 @@ public class HostLobbyBT extends Button
     public void activate()
     {
         //deactivate current menu (multiplayer Menu)
-        multiplayerMenu.deactivate();
+        h.getMenuManager().remove(multiplayerMenu);
 
         //activate next Menu (HostLobbyMenu)
-        hostLobbyMenu.activate();
+        h.getMenuManager().add(new HostLobbyMenu(h, true));
     }
 }
