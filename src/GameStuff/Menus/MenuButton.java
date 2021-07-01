@@ -10,11 +10,10 @@ import java.awt.*;
  */
 public class MenuButton extends Button
 {
-    private Handler h;
     private Menu fromMenu;
     private Menu toMenu;
 
-    public MenuButton(Handler h, Rectangle space, boolean isActive, Menu fromMenu, Menu toMenu, Color color, Color borderColor, String path)
+    public MenuButton(Handler h, Rectangle space, boolean isActive, Menu fromMenu, Menu toMenu, Color color, Color borderColor, String imagePath, String text)
     {
         super(h, space, isActive);
         this.fromMenu = fromMenu;
@@ -28,9 +27,13 @@ public class MenuButton extends Button
         {
             setBorderColor(borderColor);
         }
-        if (path != null)
+        if (imagePath != null)
         {
-            setImage(path);
+            setImage(imagePath);
+        }
+        if (text != null)
+        {
+            setText(text);
         }
     }
 

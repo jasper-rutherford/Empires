@@ -13,9 +13,6 @@ import java.io.IOException;
 
 public class MainMenu extends Menu
 {
-    //handler
-    private Handler h;
-
     private boolean hasLogo;
 
     private BufferedImage logo;
@@ -25,8 +22,6 @@ public class MainMenu extends Menu
     public MainMenu(Handler h, boolean isEnabled)
     {
         super(h, isEnabled);
-
-        this.h = h;
 
         //create logoSpace
         int width = h.getScreenWidth() * 3 / 5;
@@ -71,10 +66,11 @@ public class MainMenu extends Menu
                 new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight),
                 isEnabled,
                 this,
-                MultiplayerMenu.create(h, false, this),
+                new MultiplayerMenu(h, false, this),
                 new Color(23, 143, 176),
                 new Color(8, 49, 174),
-                "/menus/mainmenu/multiplayer.png");
+                "/menus/mainmenu/multiplayer.png",
+                null);
         addButton(multiplayerBT);
 
         //Settings Button TODO

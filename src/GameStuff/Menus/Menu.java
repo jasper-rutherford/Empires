@@ -9,8 +9,6 @@ import java.util.ArrayList;
 //generic menu class
 public class Menu
 {
-    private Handler h;
-
     private ArrayList<Button> buttons;
 
     //represents if the menu is active
@@ -18,11 +16,11 @@ public class Menu
 
     public Menu(Handler h, boolean isActive)
     {
-        this.h = h;
-
         buttons = new ArrayList<>();
 
         this.isActive = isActive;
+
+        h.getMenuManager().add(this);
     }
 
     //enables the menu

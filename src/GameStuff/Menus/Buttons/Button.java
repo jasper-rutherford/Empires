@@ -24,16 +24,20 @@ public class Button
     private boolean enabled;
 
     //color stuff
-    private boolean hasColor;
     private Color color;
+    private boolean hasColor;
 
     //bordercolor stuff
-    private boolean hasBorderColor;
     private Color borderColor;
+    private boolean hasBorderColor;
 
     //image stuff
-    private boolean hasImage;
     private BufferedImage image;
+    private boolean hasImage;
+
+    //text stuff
+    private String text;
+    private boolean hasText;
 
     public Button(Handler h, Rectangle rect, boolean enabled)
     {
@@ -83,6 +87,13 @@ public class Button
         {
             g.drawImage(image, x, y, width, height, null);
         }
+
+        //draw text if text has been assigned
+        if (hasText)
+        {
+            g.setColor(Color.black);
+            g.drawString(text, space.x + space.width / 10, space.y + space.height / 2);
+        }
     }
 
     public boolean isEnabled()
@@ -128,7 +139,6 @@ public class Button
             h.println("vvv Button failed to load image: [" + path + "] vvv");
             e.printStackTrace();
             h.println("^^^ Button failed to load image: [" + path + "] ^^^");
-
         }
 
     }
@@ -140,6 +150,12 @@ public class Button
         y = rect.y;
         width = rect.width;
         height = rect.height;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
+        hasText = true;
     }
 
     public Handler getHandler()
