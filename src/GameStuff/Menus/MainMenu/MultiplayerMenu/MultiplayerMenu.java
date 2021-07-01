@@ -16,7 +16,7 @@ public class MultiplayerMenu extends Menu
         super(h, isEnabled);
 
         //Host Lobby Button
-        Button hostLobbyBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(100, 100, 100, 100),
                 false,
@@ -26,10 +26,9 @@ public class MultiplayerMenu extends Menu
                 new Color(0, 0, 0),
                 null,
                 "Host");
-        addButton(hostLobbyBT);
 
         //Join Lobby Button
-        Button joinLobbyBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(300, 100, 100, 100),
                 false,
@@ -39,10 +38,9 @@ public class MultiplayerMenu extends Menu
                 new Color(0, 0, 0),
                 null,
                 "Join");
-        addButton(joinLobbyBT);
 
         //Back Button
-        Button backBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(500, 100, 100, 100),
                 false,
@@ -52,6 +50,5 @@ public class MultiplayerMenu extends Menu
                 new Color(1, 2, 9),
                 null,
                 "Back");
-        addButton(backBT);
     }
 }

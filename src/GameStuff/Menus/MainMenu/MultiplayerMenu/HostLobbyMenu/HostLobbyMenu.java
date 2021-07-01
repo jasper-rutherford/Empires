@@ -2,6 +2,7 @@ package GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu;
 
 import Framework.Handler;
 import GameStuff.Menus.Buttons.Button;
+import GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu.OptionsMenu.OptionsMenu;
 import GameStuff.Menus.Menu;
 import GameStuff.Menus.MenuButton;
 
@@ -19,7 +20,7 @@ public class HostLobbyMenu extends Menu
         super(h, isEnabled);
 
         //Code Display
-        Button codeBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(100, 100, 100, 100),
                 false,
@@ -29,10 +30,9 @@ public class HostLobbyMenu extends Menu
                 new Color(0, 0, 0),
                 null,
                 generateCode());
-        addButton(codeBT);
 
         //Back Button
-        Button backBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(300, 100, 100, 100),
                 false,
@@ -42,7 +42,9 @@ public class HostLobbyMenu extends Menu
                 new Color(0, 0, 0),
                 null,
                 "Back");
-        addButton(backBT);
+
+        //Options Menu
+        addMenu(new OptionsMenu(h, false));
     }
 
     /**

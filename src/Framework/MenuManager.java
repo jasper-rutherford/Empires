@@ -1,7 +1,6 @@
 package Framework;
 
-import Framework.Handler;
-import GameStuff.Menus.MainMenu.MainMenu;
+import GameStuff.Menus.Buttons.Button;
 import GameStuff.Menus.Menu;
 
 import java.awt.*;
@@ -27,7 +26,7 @@ public class MenuManager
     {
         for (Menu menu : menus)
         {
-            if (menu.isActive())
+            if (menu.isEnabled())
             {
                 menu.render(g);
             }
@@ -35,7 +34,8 @@ public class MenuManager
     }
 
     /**
-     * Checks all active menus for enabled buttons, and activates every enabled button that contains point p
+     * Activates the first button (from the top layer of menus to the bottom) that contains the point p
+     *
      * @param p the point to check
      * @return whether or not a button was activated
      */
@@ -43,17 +43,31 @@ public class MenuManager
     {
         boolean buttonActivated = false;
 
-        //checks every menu
-        for (Menu menu : menus)
+        //traverses the list in reverse order - ensures that a button from the topmost menu is activated
+        for (int lcv = menus.size() - 1; lcv >= 0; lcv--)
         {
-            //tries to activate buttons only in activated menus
-            if (menu.isActive() && menu.activateButtons(p))
+            Menu menu = menus.get(lcv);
+
+            //if the given menu is currently enabled
+            if (menu.isEnabled())
             {
-                //if a button is activated then this is set accordingly
-                buttonActivated = true;
+                //checks for a button on the menu that contains point p
+                for (Button button : menu.getButtons())
+                {
+                    //if such a button is found it is activated and we stop looking for buttons
+                    //checks if the button is enabled because i feel that not doing that could cause problems later
+                    if (button.isEnabled() && button.contains(p))
+                    {
+                        button.activate();
+                        buttonActivated = true;
+                        lcv = -1;
+                        break;
+                    }
+                }
             }
         }
 
+        //return whether a button was activated
         return buttonActivated;
     }
 

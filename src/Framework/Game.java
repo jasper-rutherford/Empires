@@ -36,8 +36,8 @@ public class Game
         //create general button manager and add misc buttons
         generalMenu = new Menu(h, false);
         menuManager = h.getMenuManager();
-
-        menuManager.add(generalMenu);
+//
+//        menuManager.add(generalMenu);
 
         hasBoard = false;
 
@@ -79,7 +79,7 @@ public class Game
             currentPlayer.render(g);
         }
 
-        generalMenu.render(g);
+//        generalMenu.render(g);
         menuManager.render(g);
     }
 

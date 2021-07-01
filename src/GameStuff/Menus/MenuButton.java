@@ -45,4 +45,10 @@ public class MenuButton extends Button
         //enable the to menu
         toMenu.enable();
     }
+
+    //creates a menu button and adds it to its from menu
+    public static void create(Handler h, Rectangle space, boolean isEnabled, Menu fromMenu, Menu toMenu, Color color, Color borderColor, String imagePath, String text)
+    {
+        fromMenu.addButton(new MenuButton(h, space, isEnabled, fromMenu, toMenu, color, borderColor, imagePath, text));
+    }
 }

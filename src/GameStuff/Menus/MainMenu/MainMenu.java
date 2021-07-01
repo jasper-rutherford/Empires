@@ -61,7 +61,7 @@ public class MainMenu extends Menu
 
 
         //Multiplayer Button
-        Button multiplayerBT = new MenuButton(
+        MenuButton.create(
                 h,
                 new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight),
                 isEnabled,
@@ -71,7 +71,6 @@ public class MainMenu extends Menu
                 new Color(8, 49, 174),
                 "/menus/mainmenu/multiplayer.png",
                 null);
-        addButton(multiplayerBT);
 
         //Settings Button TODO
         Rectangle settings = new Rectangle(x, 3 * height / 2 + 3 * y, bWidth, bHeight);
