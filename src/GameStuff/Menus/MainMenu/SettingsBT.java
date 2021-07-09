@@ -11,7 +11,7 @@ public class SettingsBT extends Button
 {
     public SettingsBT(Handler h, Rectangle space, boolean enabled)
     {
-        super(h, space, enabled);
+        super(h, enabled, true, space);
         setColor(new Color(23, 143, 176));
         setBorderColor(new Color(8, 49, 174));
         setImage("/menus/mainmenu/settings.png");

@@ -16,7 +16,7 @@ public class SingleplayerBT extends Button
     //aka TODO: kill this/create an actual singleplayer menu
     public SingleplayerBT(Handler h, Rectangle space, boolean enabled, GameStuff.Menus.Menu mainMenu)
     {
-        super(h, space, enabled);
+        super(h, enabled, true, space);
         setColor(new Color(23, 143, 176));
         setBorderColor(new Color(8, 49, 174));
         setImage("/menus/mainmenu/singleplayer.png");

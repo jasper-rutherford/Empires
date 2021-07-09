@@ -16,7 +16,7 @@ public class WorkerBuildButton extends Button
 
     public WorkerBuildButton(Handler h, Worker worker)
     {
-        super(h, new Rectangle(-1, -1, -1, -1), true);
+        super(h, true, true, new Rectangle(-1, -1, -1, -1));
 
         int x = 10;
         int y = h.getScreenHeight() - 390;

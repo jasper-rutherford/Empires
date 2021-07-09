@@ -13,13 +13,14 @@ public class MultiplayerMenu extends Menu
     public MultiplayerMenu(Handler h, boolean isEnabled, Menu mainMenu)
     {
         //initial menu stuff
-        super(h, isEnabled);
+        super(h, isEnabled, true);
 
         //Host Lobby Button
         MenuButton.create(
                 h,
-                new Rectangle(100, 100, 100, 100),
                 false,
+                true,
+                new Rectangle(100, 100, 100, 100),
                 this,
                 new HostLobbyMenu(h, false, this),
                 new Color(176, 41, 23),
@@ -30,8 +31,9 @@ public class MultiplayerMenu extends Menu
         //Join Lobby Button
         MenuButton.create(
                 h,
-                new Rectangle(300, 100, 100, 100),
                 false,
+                true,
+                new Rectangle(300, 100, 100, 100),
                 this,
                 this,
                 new Color(23, 143, 176),
@@ -42,8 +44,9 @@ public class MultiplayerMenu extends Menu
         //Back Button
         MenuButton.create(
                 h,
-                new Rectangle(500, 100, 100, 100),
                 false,
+                true,
+                new Rectangle(500, 100, 100, 100),
                 this,
                 mainMenu,
                 new Color(69, 176, 23),

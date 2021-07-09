@@ -17,7 +17,10 @@ public class Menu
 
     private Button foundButton;
 
-    public Menu(Handler h, boolean isActive)
+    //Whether or not the menu should be enabled when its supermenu is enabled
+    private boolean defaults;
+
+    public Menu(Handler h, boolean isActive, boolean defaults)
     {
         buttons = new ArrayList<>();
         menus = new ArrayList<>();
@@ -26,6 +29,8 @@ public class Menu
         foundButton = null;
 
         h.getMenuManager().add(this);
+
+        this.defaults = defaults;
     }
 
     //enables the menu
@@ -34,13 +39,19 @@ public class Menu
         //enable buttons
         for (Button button : buttons)
         {
-            button.enable();
+            if (button.isDefault())
+            {
+                button.enable();
+            }
         }
 
         //enable menus
         for (Menu menu : menus)
         {
-            menu.enable();
+            if (menu.isDefault())
+            {
+                menu.enable();
+            }
         }
 
         isEnabled = true;
@@ -93,34 +104,6 @@ public class Menu
         }
     }
 
-    /**
-     * tells the button manager to activate buttons relative to point p (if a button contains the point it activates)
-     *
-//     * @param p the point to check
-//     */
-//    public boolean activateButtons(Point p)
-//    {
-//        boolean buttonFound = false;
-//        Button clicked;
-//
-//        //finds a button that
-//        for (Button button : buttons)
-//        {
-//            if (button.isEnabled() && button.contains(p))
-//            {
-//                clicked = button;
-//                buttonFound = true;
-//            }
-//        }
-//
-//        if (buttonActivated)
-//        {
-//            clicked.activate();
-//        }
-//
-//        return buttonActivated;
-//    }
-
     public void addMenu(Menu menu)
     {
         menus.add(menu);
@@ -151,5 +134,11 @@ public class Menu
     public ArrayList<Button> getButtons()
     {
         return buttons;
+    }
+
+    //gets the value of defaults
+    public boolean isDefault()
+    {
+        return  defaults;
     }
 }

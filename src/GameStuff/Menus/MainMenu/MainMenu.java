@@ -21,7 +21,7 @@ public class MainMenu extends Menu
 
     public MainMenu(Handler h, boolean isEnabled)
     {
-        super(h, isEnabled);
+        super(h, isEnabled, true);
 
         //create logoSpace
         int width = h.getScreenWidth() * 3 / 5;
@@ -63,8 +63,9 @@ public class MainMenu extends Menu
         //Multiplayer Button
         MenuButton.create(
                 h,
-                new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight),
                 isEnabled,
+                true,
+                new Rectangle(x + (y + width) / 2, height + 2 * y, bWidth, bHeight),
                 this,
                 new MultiplayerMenu(h, false, this),
                 new Color(23, 143, 176),

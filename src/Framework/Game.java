@@ -34,7 +34,7 @@ public class Game
         this.h = h;
 
         //create general button manager and add misc buttons
-        generalMenu = new Menu(h, false);
+        generalMenu = new Menu(h, false, true);
         menuManager = h.getMenuManager();
 //
 //        menuManager.add(generalMenu);

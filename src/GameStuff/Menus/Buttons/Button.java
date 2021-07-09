@@ -39,7 +39,10 @@ public class Button
     private String text;
     private boolean hasText;
 
-    public Button(Handler h, Rectangle rect, boolean enabled)
+    //Whether or not the button should be enabled when its menu is enabled
+    private boolean defaults;
+
+    public Button(Handler h, boolean enabled, boolean defaults, Rectangle rect)
     {
         this.h = h;
         setSpace(rect);
@@ -49,6 +52,9 @@ public class Button
         hasColor = false;
         hasBorderColor = false;
         hasImage = false;
+
+        //defaults is set to true by default (duh)
+        this.defaults = defaults;
     }
 
     public void enable()
@@ -161,5 +167,11 @@ public class Button
     public Handler getHandler()
     {
         return h;
+    }
+
+    //gets the value of defaults
+    public boolean isDefault()
+    {
+        return  defaults;
     }
 }

@@ -1,7 +1,6 @@
 package GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu.PlayersMenu;
 
 import Framework.Handler;
-import GameStuff.Menus.MainMenu.MultiplayerMenu.HostLobbyMenu.OptionsMenu.OptionsMenu;
 import GameStuff.Menus.Menu;
 import GameStuff.Menus.MenuButton;
 
@@ -9,21 +8,25 @@ import java.awt.*;
 
 public class PlayersMenu extends Menu
 {
-    public PlayersMenu(Handler h, boolean isEnabled, OptionsMenu optionsMenu)
-    {
-        super(h, isEnabled);
+    private MenuButton optionsButton;
 
-        //Options Button
-        MenuButton.create(
+    public PlayersMenu(Handler h, boolean isEnabled, boolean defaults)
+    {
+        super(h, isEnabled, defaults);
+
+        //Options Button (it gets properly linked up in the hostlobby menu)
+        optionsButton = new MenuButton(
                 h,
-                new Rectangle(400, 200, 50, 50),
                 isEnabled,
-                this,
-                optionsMenu,
+                true,
+                new Rectangle(400, 200, 50, 50),
+                null,
+                null,
                 new Color(171, 22, 163),
                 new Color(1, 1, 1),
                 null,
                 "Options");
+        addButton(optionsButton);
     }
 
     //TODO
@@ -36,5 +39,10 @@ public class PlayersMenu extends Menu
         g.drawString("[players]", 125, 325);
 
         super.render(g);
+    }
+
+    public MenuButton getOptionsButton()
+    {
+        return optionsButton;
     }
 }

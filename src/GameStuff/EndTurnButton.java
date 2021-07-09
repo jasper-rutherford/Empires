@@ -13,7 +13,7 @@ public class EndTurnButton extends Button
 
     public EndTurnButton(Handler h, Color color)
     {
-        super(h, new Rectangle(-1, -1, -1, -1), true);
+        super(h, true, true, new Rectangle(-1, -1, -1, -1));
 
         this.h = h;
 

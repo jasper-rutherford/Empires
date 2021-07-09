@@ -12,7 +12,7 @@ public class WorkerMenu extends Menu
 
     public WorkerMenu(Handler h, boolean isActive, Worker worker)
     {
-        super(h, isActive);
+        super(h, isActive, true);
 
         this.h = h;
 
